@@ -88,16 +88,55 @@
                         <div class="tab-pane container active" id="home">
                             <form class="col-md-10">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-10">
                                         <label for="nome">Nome:</label>
                                         <br>
                                         <input type="text" name="nome" class="form-control">
                                     </div>
+                                    <div class="col-md-6">
+                                        <label for="email">Email:</label>
+                                        <br>
+                                        <input type="text" name="email" class="form-control">
+                                        <label for="telefone">Telefone:</label>
+                                        <br>
+                                        <input type="text" name="telefone" class="form-control">
+                                        <label for="rg">RG:</label>
+                                        <br>
+                                        <input type="text" name="rg" class="form-control">
+                                        <label for="cpf">CPF:</label>
+                                        <br>
+                                        <input type="text" name="cpf" class="form-control">
+                                        <label for="sexo">Sexo:</label>
+                                        <br>
+                                        <select name="sexo">
+                                            <option value="M">Masculino</option>
+                                            <option value="F">Feminino</option>
+                                        </select>
+                                        <br>
+                                        <label for="datanascimento">Data de nascimento:</label>
+                                        <br>
+                                        <input type="date" name="datanascimento">
+                                    </div>
                                 </div>
-
+                                <br>
+                                <a class="font-weight-bold pull-right" href="#">Salvar alterações</a>
                             </form>
                         </div>
-                        <div class="tab-pane container fade" id="menu1">Alterar senha</div>
+                        <div class="tab-pane container fade" id="menu1">
+                            <div class="col-md-6">
+                                <label for="senhaatual">Senha atual:</label>
+                                <br>
+                                <input type="password" name="senhaatual" class="form-control">
+                                <label for="novasenha">Nova senha:</label>
+                                <br>
+                                <input type="password" name="novasenha" class="form-control">
+                                <label for="confirmarsenha">Confirmar senha:</label>
+                                <br>
+                                <input type="password" name="confirmarsenha" class="form-control">
+                            </div>
+                            <br>
+                            <a class="font-weight-bold pull-right" href="#">Salvar alterações</a>
+                        </div>
                         <div class="tab-pane container fade" id="menu2">Alterar endereço</div>
                         <div class="tab-pane container fade" id="menu3">Cartões cadastrados</div>
                     </div>
