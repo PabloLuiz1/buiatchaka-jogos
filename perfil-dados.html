@@ -137,8 +137,100 @@
                             <br>
                             <a class="font-weight-bold pull-right" href="#">Salvar alterações</a>
                         </div>
-                        <div class="tab-pane container fade" id="menu2">Alterar endereço</div>
-                        <div class="tab-pane container fade" id="menu3">Cartões cadastrados</div>
+                        <div class="tab-pane container fade" id="menu2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="enderecos">Endereços: </label>
+                                    <br>
+                                    <select name="enderecos" class="form-control">
+                                        <option>Entrega: Rua Brasil, 20. CEP: 01234-567 - São Paulo</option>
+                                        <option>Cobrança: Rua Brasil, 20. CEP: 01234-567 - São Paulo</option>
+                                        <option>Novo endereço</option>
+                                    </select>
+                                    <br>
+                                    <label for="cep">CEP: </label>
+                                    <input type="text" name="cep" class="form-control">
+                                    <br>
+                                    <label for="rua">Rua: </label>
+                                    <input type="text" name="rua" class="form-control">
+                                    <br>
+                                    <label for="numero">Número: </label>
+                                    <input type="text" name="numero" class="form-control">
+                                    <br>
+                                    <label for="estado">Estado: </label>
+                                    <select class="form-control" name="estado">
+                                        <option>Selecione</option>
+                                        <option>SP</option>
+                                        <option>RJ</option>
+                                        <option>MG</option>
+                                        <option>...</option>
+                                    </select>
+                                    <br>
+                                    <label for="cidade">Cidade: </label>
+                                    <input type="text" name="cidade" class="form-control">
+                                    <br>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tipoendereco">Tipo do endereço:</label>
+                                    <select class="form-control" name="tipoendereco">
+                                        <option>Entrega</option>
+                                        <option>Cobrança</option>
+                                        <option>Ambos</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <a class="font-weight-bold pull-left" href="#">Excluir endereço</a>
+                            <a class="font-weight-bold pull-right" href="#">Salvar alterações</a>
+                        </div>
+                        <div class="tab-pane container fade" id="menu3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="cartoes">Cartões cadastrados: </label>
+                                    <select class="form-control" name="cartoes">
+                                        <option>Novo cartão</option>
+                                        <option>Principal: MasterCard Final 1234</option>
+                                        <option>Visa Final 5678</option>
+                                    </select>
+                                    <br>
+                                    <label for="numeroCartao">Número do cartão: </label>
+                                    <input type="text" name="numeroCartao" class="form-control">
+                                    <br>
+                                    <label for="nomeTitular">Nome do titular (como escrito no cartão):</label>
+                                    <input type="text" name="nomeTitular" class="form-control">
+                                    <br>
+                                    <label for="dataVencimento">Data de vencimento (Mês/Ano):</label>
+                                    <br>
+                                    <select class="col-md-2">
+                                        <option>01</option>
+                                        <option>02</option>
+                                        <option>03</option>
+                                        <option>04</option>
+                                        <option>05</option>
+                                        <option>...</option>
+                                    </select>
+                                    /
+                                    <select class="col-md-2">
+                                        <option>21</option>
+                                        <option>22</option>
+                                        <option>23</option>
+                                        <option>24</option>
+                                        <option>25</option>
+                                        <option>...</option>
+                                    </select>
+                                    <br>
+                                    <br>
+                                    <label for="cvv">Código de segurança: </label>
+                                    <input type="text" name="cvv" class="form-control col-md-4">
+                                    <br>
+                                    <label for="cpfTitular">CPF do titular: </label>
+                                    <input type="text" name="cpfTitular" class="form-control">
+                                </div>
+                            </div>
+                            <br>
+                            <a class="font-weight-bold pull-left" href="#">Excluir cartão</a>
+                            <a class="font-weight-bold pull-right" href="#">Salvar alterações</a>
+                        </div>
                     </div>
                 </div>
             </div>
