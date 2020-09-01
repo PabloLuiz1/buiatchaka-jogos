@@ -47,49 +47,55 @@
             </div>
         </header>
         <div class="container">
-            <div class="row mt-2">
-                <div class="col-md-2 p-0 bg-light">
-                    <h6>Fulano Cicrano Beltrano</h6>
-                    <h6>fulano@gmail.com</h6>
-                    <nav class="navbar bg-light">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="perfil-dados.html">Perfil</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="perfil.html">Pedidos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Cupons</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-md-10">
-                    <table class="table table-bordered">
-                        <thead class="font-weight-bold bg-light">
-                            <tr>
-                                <th>Número do pedido</th>
-                                <th>Cupom</th>
-                                <th>Data de validade</th>
-                                <th>Valor</th>
-                                <th>Status</th>
-                                <th>Origem</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>123</td>
-                                <td>LOREMPSIU123</td>
-                                <td>31/12/2020</td>
-                                <td>R$ 249,90</td>
-                                <td>Disponível</td>
-                                <td>Troca/devolução</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <h4>Solicitar troca - Pedido #123</h4>
+            <table class="table">
+                <thead class="thead-light font-weight-bold">
+                    <tr>
+                        <th colspan="3"> Escolha um ou mais produtos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="checkbox">
+                            <img class="img-thumbnail" src="Produto 1" alt="Produto 1" width="200"
+                                height="200">
+                            Produto 1
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Quantidade</span>
+                            <br>
+                            <select>
+                                <option>1</option>
+                                <option>2</option>
+                            </select>
+                        </td>
+                        <td>
+                            <span class="font-weight-bold">Total</span>
+                            <br>
+                            R$ 249,90
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col">
+                    <form>
+                        <label for="motivo">Motivo da troca: </label>
+                        <select class="form-control" name="motivo">
+                            <option>Selecione</option>
+                            <option>Arrependimento</option>
+                            <option>Defeito</option>
+                        </select>
+                        <br>
+                        <label for="detalhes">Detalhes: </label>
+                        <textarea class="form-control"></textarea>
+                    </form>
                 </div>
             </div>
+            <br>
+            <a href="perfil.html" class="font-weight-bold">Voltar </a>
+            <a href="request-change.html" class="font-weight-bold pull-right">Continuar </a>
         </div>
         <footer>
             Footer

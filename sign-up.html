@@ -47,41 +47,63 @@
             </div>
         </header>
         <div class="container">
-            <div class="row">
-                <div class="col border-right mb-4">
-                    <h3>Já tem conta?</h3>
+            <h3>Cadastre-se</h3>
+            <div class="row mt-2">
+                
+                <div class="col mb-4">
                     <form method="POST" class="col-md-10">
-                        <label for="email">E-mail: </label>
-                        <input class="form-control" type="email" name="email" id="email">
-                        <label for="senha">Senha: </label>
-                        <input class="form-control" type="password" name="senha" id="senha">
-                        <a href="forgot-password.html">Esqueci a senha/e-mail</a>
+                        <label for="nome">Nome completo:</label>
+                        <input type="text" class="form-control" name="nome">
                         <br>
-                        <a href="perfil.html" class="font-weight-bold pull-right mt-2">Logar</a>
-                    </form>
-                </div>
-                <div class="col border-left mb-4">
-                    <h3>Não tem uma conta ainda?</h3>
-                    <form method="POST" class="col-md-10">
                         <label for="email">E-mail: </label>
                         <input class="form-control" type="email" name="email" id="email">
-                        <!--<label for="senha">Crie sua senha: </label>
-                        <input class="form-control" type="password" name="senha" id="senha">
-                        <label for="confirmasenha">Confirme sua senha: </label>
-                        <input class="form-control" type="password" name="confirmasenha" id="confirmasenha">
+                        <br>
                         <label for="cpf">CPF: </label>
                         <input class="form-control" type="text" name="cpf" id="cpf">
-                        <label for="cep">CEP: </label>
-                        <input class="form-control" type="text" name="cep" id="cep">-->
-                        <a href="sign-up.html" class="font-weight-bold pull-right mt-3">Continuar</a>
-                    </form>
+                        <br>
+                        <label for="senha">Crie sua senha: </label>
+                        <input class="form-control" type="password" name="senha" id="senha">
+                        <br>
+                        <label for="confirmasenha">Confirme sua senha: </label>
+                        <input class="form-control" type="password" name="confirmasenha" id="confirmasenha">
+                        <br>
+                </div>
+                <div class="col mb-4">
+                    <label for="cep">CEP: </label>
+                    <input class="form-control" type="text" name="cep" id="cep">
+                    <br>
+                    <label for="rua">Rua: </label>
+                    <input class="form-control" type="text" name="rua" id="rua">
+                    <br>
+                    <label for="complemento">Complemento: </label>
+                    <input class="form-control" type="text" name="complemento" id="complemento">
+                    <br>
+                    <label for="numero">Número: </label>
+                    <input class="form-control" type="text" name="numero" id="numero">
+                    <br>
+                    <label for="bairro">Bairro: </label>
+                    <input class="form-control" type="text" name="bairro" id="bairro">
+                    <br>
+                    <label for="cidade">Cidade: </label>
+                    <input class="form-control" type="text" name="cidade" id="cidade">
+                    <br>
+                    <label for="estado">Estado: </label>
+                    <select class="form-control" name="estado" id="estado">
+                        <option>Selecione</option>
+                        <option>SP</option>
+                        <option>RJ</option>
+                        <option>MG</option>
+                        <option>...</option>
+                    </select>
+                    <br>
+                    <a class="pull-right font-weight-bold" href="perfil-dados.html">Cadastrar-se</a>
                 </div>
             </div>
-            </div>
-            <footer>
-                Footer
-            </footer>
         </div>
+        <footer>
+            Footer
+        </footer>
+    </div>
 </body>
 <script src="js/jquery.min.js"></script>
 <script src="js/popper.min.js"></script>
