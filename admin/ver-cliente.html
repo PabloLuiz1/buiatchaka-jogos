@@ -1,0 +1,237 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <title> BuiaTchaKa Games </title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid p-0">
+        <header>
+            <div class="container-fluid p-1 border border-dark">
+                BuiaTchaKa Games | Dashboard
+                <br>
+            </div>
+            <div class="container-fluid bg-light">
+            </div>
+        </header>
+        <div class="container-fluid pl-0">
+            <div class="row mt-4">
+                <div class="col-md-2">
+                    <div class="p-0 bg-light">
+                        <h6>Fulano Cicrano Beltrano</h6>
+                        <h6>fulano@gmail.com</h6>
+                        <nav class="navbar bg-light">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Início</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="perfil.html">Perfil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="produtos.html">Produtos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="estoque.html">Estoque</a>
+                                </li>
+                                <li class="nav-item font-weight-bold">
+                                    <a class="nav-link" href="#">Clientes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="pedidos.html">Pedidos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="trocas.html">Trocas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="cupons.html">Cupons</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="usuarios.html">Usuários</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="logs.html">Logs</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h4>Dados do cliente #123 - Fulano Cicrano Beltrano <a class="font-weight-bold" href="#">Inativar</a></h4>
+                    <!-- Nav pills -->
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="pill" href="#home">Dados pessoais</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#cartoes">Cartões</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#enderecos">Endereços</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="pill" href="#atividade">Atividade</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane container active" id="home">
+                            <form class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="nome">Nome:</label>
+                                        <br>
+                                        <input type="text" name="nome" class="form-control" disabled value="teste">
+                                        <label for="email">Email:</label>
+                                        <br>
+                                        <input type="text" name="email" class="form-control" disabled>
+                                        <label for="telefone">Telefone:</label>
+                                        <br>
+                                        <input type="text" name="telefone" class="form-control" disabled>
+                                        <label for="rg">RG:</label>
+                                        <br>
+                                        <input type="text" name="rg" class="form-control" disabled>
+                                        <label for="cpf">CPF:</label>
+                                        <br>
+                                        <input type="text" name="cpf" class="form-control" disabled>
+                                        <label for="sexo">Sexo:</label>
+                                        <br>
+                                        <select name="sexo" disabled>
+                                            <option value="M">Masculino</option>
+                                            <option value="F">Feminino</option>
+                                        </select>
+                                        <br>
+                                        <label for="datanascimento">Data de nascimento:</label>
+                                        <br>
+                                        <input type="date" name="datanascimento" disabled>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane container fade" id="enderecos">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="enderecos">Endereços: </label>
+                                    <br>
+                                    <select name="enderecos" class="form-control">
+                                        <option>Entrega: Rua Brasil, 20. CEP: 01234-567 - São Paulo</option>
+                                        <option>Cobrança: Rua Brasil, 20. CEP: 01234-567 - São Paulo</option>
+                                        <option>Novo endereço</option>
+                                    </select>
+                                    <br>
+                                    <label for="cep">CEP: </label>
+                                    <input type="text" name="cep" class="form-control">
+                                    <br>
+                                    <label for="rua">Rua: </label>
+                                    <input type="text" name="rua" class="form-control">
+                                    <br>
+                                    <label for="numero">Número: </label>
+                                    <input type="text" name="numero" class="form-control">
+                                    <br>
+                                    <label for="estado">Estado: </label>
+                                    <select class="form-control" name="estado">
+                                        <option>Selecione</option>
+                                        <option>SP</option>
+                                        <option>RJ</option>
+                                        <option>MG</option>
+                                        <option>...</option>
+                                    </select>
+                                    <br>
+                                    <label for="cidade">Cidade: </label>
+                                    <input type="text" name="cidade" class="form-control">
+                                    <br>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tipoendereco">Tipo do endereço:</label>
+                                    <select class="form-control" name="tipoendereco">
+                                        <option>Entrega</option>
+                                        <option>Cobrança</option>
+                                        <option>Ambos</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane container fade" id="cartoes">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="cartoes">Cartões cadastrados: </label>
+                                    <select class="form-control" name="cartoes">
+                                        <option>Novo cartão</option>
+                                        <option>Principal: MasterCard Final 1234</option>
+                                        <option>Visa Final 5678</option>
+                                    </select>
+                                    <br>
+                                    <label for="numeroCartao">Número do cartão: </label>
+                                    <input type="text" name="numeroCartao" class="form-control">
+                                    <br>
+                                    <label for="nomeTitular">Nome do titular (como escrito no cartão):</label>
+                                    <input type="text" name="nomeTitular" class="form-control">
+                                    <br>
+                                    <label for="dataVencimento">Data de vencimento (Mês/Ano):</label>
+                                    <br>
+                                    <select class="col-md-2">
+                                        <option>01</option>
+                                        <option>02</option>
+                                        <option>03</option>
+                                        <option>04</option>
+                                        <option>05</option>
+                                        <option>...</option>
+                                    </select>
+                                    /
+                                    <select class="col-md-2">
+                                        <option>21</option>
+                                        <option>22</option>
+                                        <option>23</option>
+                                        <option>24</option>
+                                        <option>25</option>
+                                        <option>...</option>
+                                    </select>
+                                    <br>
+                                    <br>
+                                    <label for="cvv">Código de segurança: </label>
+                                    <input type="text" name="cvv" class="form-control col-md-4">
+                                    <br>
+                                    <label for="cpfTitular">CPF do titular: </label>
+                                    <input type="text" name="cpfTitular" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane container fade" id="atividade">
+                            <div class="col-md-6">
+                                Log de atividades
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    Ações recentes
+                </div>
+            </div>
+            <footer>
+                Footer
+            </footer>
+        </div>
+</body>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#search").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#clientes tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+
+</html>
