@@ -1,13 +1,12 @@
 package br.edu.fatec.buiatchaka.fachada;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.edu.fatec.buiatchaka.dao.CartaoDAO;
-import br.edu.fatec.buiatchaka.dao.ClienteDAO;
-import br.edu.fatec.buiatchaka.dao.EnderecoDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import br.edu.fatec.buiatchaka.dao.IDao;
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.Resultado;
@@ -16,11 +15,10 @@ import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
 import br.edu.fatec.buiatchaka.dominio.cliente.Telefone;
 import br.edu.fatec.buiatchaka.negocio.IValidar;
-//import br.edu.fatec.buiatchaka.negocio.cartao.ValidarBandeira;
-//import br.edu.fatec.buiatchaka.negocio.cartao.ValidarCodigo;
-//import br.edu.fatec.buiatchaka.negocio.cartao.ValidarNomeCartao;
-//import br.edu.fatec.buiatchaka.negocio.cartao.ValidarNomeImpresso;
-//import br.edu.fatec.buiatchaka.negocio.cartao.ValidarNumeroCartao;
+import br.edu.fatec.buiatchaka.negocio.cartao.ValidarBandeira;
+import br.edu.fatec.buiatchaka.negocio.cartao.ValidarCodigo;
+import br.edu.fatec.buiatchaka.negocio.cartao.ValidarNomeImpresso;
+import br.edu.fatec.buiatchaka.negocio.cartao.ValidarNumeroCartao;
 import br.edu.fatec.buiatchaka.negocio.cliente.ValidarCpf;
 import br.edu.fatec.buiatchaka.negocio.cliente.ValidarDataNascimento;
 import br.edu.fatec.buiatchaka.negocio.cliente.ValidarEmail;
@@ -39,28 +37,37 @@ import br.edu.fatec.buiatchaka.negocio.endereco.ValidarTipoEndereco;
 import br.edu.fatec.buiatchaka.negocio.telefone.ValidarDdd;
 import br.edu.fatec.buiatchaka.negocio.telefone.ValidarNumeroTelefone;
 import br.edu.fatec.buiatchaka.negocio.telefone.ValidarTipoTelefone;
+import br.edu.fatec.buiatchaka.repository.CartaoRepository;
+import br.edu.fatec.buiatchaka.repository.ClienteRepository;
+import br.edu.fatec.buiatchaka.repository.EnderecoRepository;
+import br.edu.fatec.buiatchaka.repository.TelefoneRepository;
 
 public class Fachada implements IFachada {
-
-	private Map<String, IDao> daos;
+	@Autowired
+	private Map<String, JpaRepository<? extends EntidadeDominio, Long>> daos;
+	@Autowired
 	private Map<String, List<IValidar>> regras;
-	private StringBuilder sb = new StringBuilder();
-
+	@Autowired
+	private StringBuilder sb;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private CartaoRepository cartaoRepository;
+	@Autowired
+	private TelefoneRepository telefoneRepository;
+	
 	Resultado resultado = null;
-
 	IDao dao = null;
-
 	String nomeClasse = null;
-
 	List<IValidar> regra = null;
 
 	public Fachada() {
-		daos = new HashMap<String, IDao>();
-		regras = new HashMap<String, List<IValidar>>();
-
-		daos.put(Cliente.class.getName(), new ClienteDAO());
-		daos.put(Endereco.class.getName(), new EnderecoDAO());
-		daos.put(Cartao.class.getName(), new CartaoDAO());
+		daos.put(Cliente.class.getName(), clienteRepository);
+		daos.put(Endereco.class.getName(), enderecoRepository);
+		daos.put(Cartao.class.getName(), cartaoRepository);
+		daos.put(Cartao.class.getName(), telefoneRepository);
 
 		// Início: Regras de Cliente 
 		IValidar validacaoNomeCliente = new ValidarNome();
@@ -107,19 +114,17 @@ public class Fachada implements IFachada {
 		
 		// Fim: Regras de Endereço
 		
-//		// Início: Regras de Cartão
-//		List<IValidar> regrasCartao = new ArrayList<IValidar>();
-//		IValidar validacaoBandeira = new ValidarBandeira();
-//		IValidar validacaoCodigo = new ValidarCodigo();
-//		IValidar validacaoNomeCartao = new ValidarNomeCartao();
-//		IValidar validacaoNomeImpresso = new ValidarNomeImpresso();
-//		IValidar validacaoNumeroCartao = new ValidarNumeroCartao();
-//		
-//		regrasCartao.add(validacaoBandeira);
-//		regrasCartao.add(validacaoCodigo);
-//		regrasCartao.add(validacaoNomeCartao);
-//		regrasCartao.add(validacaoNomeImpresso);
-//		regrasCartao.add(validacaoNumeroCartao);
+		// Início: Regras de Cartão
+		List<IValidar> regrasCartao = new ArrayList<IValidar>();
+		IValidar validacaoBandeira = new ValidarBandeira();
+		IValidar validacaoCodigo = new ValidarCodigo();
+		IValidar validacaoNomeImpresso = new ValidarNomeImpresso();
+		IValidar validacaoNumeroCartao = new ValidarNumeroCartao();
+		
+		regrasCartao.add(validacaoBandeira);
+		regrasCartao.add(validacaoCodigo);
+		regrasCartao.add(validacaoNomeImpresso);
+		regrasCartao.add(validacaoNumeroCartao);
 
 		// Fim: Regras de Cartão
 		
@@ -137,7 +142,7 @@ public class Fachada implements IFachada {
 
 		regras.put(Cliente.class.getName(), regrasCliente);
 		regras.put(Endereco.class.getName(), regrasEndereco);
-//		regras.put(Cartao.class.getName(), regrasCartao);
+		regras.put(Cartao.class.getName(), regrasCartao);
 		regras.put(Telefone.class.getName(), regrasTelefone);
 	}
 
@@ -171,7 +176,7 @@ public class Fachada implements IFachada {
 		// se tem msg de erro ele não salva
 		if (sb.length() == 0 || sb.toString().trim().equals("")) {
 			try {
-				dao = daos.get(nomeClasse);
+//				dao = daos.get(nomeClasse);
 				dao.salvar(entidade);
 				System.out.println("Salvando no banco...");
 				resultado.addEntidades(entidade);
@@ -200,7 +205,7 @@ public class Fachada implements IFachada {
 		// se tem msg de erro ele não salva
 		if (sb.length() == 0 || sb.toString().trim().equals("")) {
 			try {
-				dao = daos.get(nomeClasse);
+//				dao = daos.get(nomeClasse);
 				dao.alterar(entidade);
 				System.out.println("alterando no banco....");
 			} catch (Exception e) {
@@ -223,7 +228,7 @@ public class Fachada implements IFachada {
 
 		nomeClasse = entidade.getClass().getName();
 
-		dao = daos.get(nomeClasse);
+//		dao = daos.get(nomeClasse);
 
 		try {
 			dao.excluir(entidade);
@@ -243,7 +248,7 @@ public class Fachada implements IFachada {
 
 		nomeClasse = entidade.getClass().getName();
 
-		dao = daos.get(nomeClasse);
+//		dao = daos.get(nomeClasse);
 
 		try {
 			resultado.setEntidades(dao.consultar(entidade));

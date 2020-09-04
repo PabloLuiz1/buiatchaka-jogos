@@ -18,5 +18,5 @@ public class EntidadeDominio {
 	@GeneratedValue
 	private long id;
 	private LocalDateTime dataCadastro;
-
+	private boolean ativo;
 }

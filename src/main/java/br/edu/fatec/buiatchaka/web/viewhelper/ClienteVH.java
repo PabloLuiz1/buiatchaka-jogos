@@ -42,13 +42,13 @@ public class ClienteVH implements IViewHelper {
 		Cliente cliente = new Cliente();
 		TelefoneVH telefoneVH = new TelefoneVH();
 		
-		cliente.setNome(request.getParameter("txtNome"));
-		cliente.setRg(request.getParameter("txtRg"));
-		cliente.setCpf(request.getParameter("txtCpf"));
-		cliente.setGenero(EnumGenero.valueOf(request.getParameter("cbGenero").toUpperCase()));
+		cliente.setNome(request.getParameter("nome"));
+		cliente.setRg(request.getParameter("rg"));
+		cliente.setCpf(request.getParameter("cpf"));
+		cliente.setGenero(EnumGenero.valueOf(request.getParameter("genero").toUpperCase()));
 		cliente.setDataNascimento(LocalDate.parse(request.getParameter("dataNascimento")));
-		cliente.setEmail(request.getParameter(("txtEmail")));
-		cliente.setSenha(request.getParameter("txtSenha"));
+		cliente.setEmail(request.getParameter(("email")));
+		cliente.setSenha(request.getParameter("senha"));
 		
 		cliente.setTelefone((Telefone) telefoneVH.getEntidade(request));
 		
@@ -59,7 +59,7 @@ public class ClienteVH implements IViewHelper {
 	public void setView(Resultado resultado, HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		RequestDispatcher d = null;
-		String operacao = request.getParameter("btnOperacao");
+		String operacao = request.getParameter("operacao");
 
 		if (resultado.getMsg() != null && !resultado.getMsg().trim().equals("")) {
 			System.out.println("adicionando resultado na request");

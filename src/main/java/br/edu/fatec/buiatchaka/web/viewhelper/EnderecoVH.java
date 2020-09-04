@@ -13,8 +13,6 @@ import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.Resultado;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
 import br.edu.fatec.buiatchaka.dominio.enums.EnumTipoEndereco;
-import br.edu.fatec.buiatchaka.dominio.enums.EnumTipoLogradouro;
-import br.edu.fatec.buiatchaka.dominio.enums.EnumTipoResidencia;
 
 public class EnderecoVH implements IViewHelper {
 

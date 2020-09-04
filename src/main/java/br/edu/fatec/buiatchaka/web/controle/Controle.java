@@ -22,8 +22,7 @@ import br.edu.fatec.buiatchaka.web.viewhelper.ClienteVH;
 import br.edu.fatec.buiatchaka.web.viewhelper.EnderecoVH;
 import br.edu.fatec.buiatchaka.web.viewhelper.IViewHelper;
 
-@WebServlet(urlPatterns = { "/ControleCliente", "/ControleCartao", "/ControleEndereco", 
-		"/ControleTelefone", "/admin/ControleCliente" })
+@WebServlet(urlPatterns = { "/ControleCliente", "/admin/ControleCliente" })
 public class Controle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
