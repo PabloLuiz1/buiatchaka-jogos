@@ -3,11 +3,14 @@ package br.edu.fatec.buiatchaka.fachada;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 
+import br.edu.fatec.buiatchaka.dao.CartaoDAO;
+import br.edu.fatec.buiatchaka.dao.ClienteDAO;
+import br.edu.fatec.buiatchaka.dao.EnderecoDAO;
+import br.edu.fatec.buiatchaka.dao.IDao;
+import br.edu.fatec.buiatchaka.dao.TelefoneDAO;
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.Resultado;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
@@ -37,40 +40,38 @@ import br.edu.fatec.buiatchaka.negocio.endereco.ValidarTipoEndereco;
 import br.edu.fatec.buiatchaka.negocio.telefone.ValidarDdd;
 import br.edu.fatec.buiatchaka.negocio.telefone.ValidarNumeroTelefone;
 import br.edu.fatec.buiatchaka.repository.BandeiraRepository;
-import br.edu.fatec.buiatchaka.repository.CartaoRepository;
 import br.edu.fatec.buiatchaka.repository.ClienteRepository;
-import br.edu.fatec.buiatchaka.repository.EnderecoRepository;
-import br.edu.fatec.buiatchaka.repository.TelefoneRepository;
 
-public class Fachada implements IFachada {
+public class FachadaVelha implements IFachada {
 	@Autowired
-	private Map<String, JpaRepository<? extends EntidadeDominio, Long>> repositories;
+	ClienteRepository repository;
+	@Autowired
+	private Map<String, IDao> daos;
 	@Autowired
 	private Map<String, List<IValidar>> regras;
 	@Autowired
 	private StringBuilder sb;
 	@Autowired
-	private ClienteRepository clienteRepository;
+	private ClienteDAO clienteDAO;
 	@Autowired
-	private EnderecoRepository enderecoRepository;
+	private EnderecoDAO enderecoDAO;
 	@Autowired
-	private CartaoRepository cartaoRepository;
+	private CartaoDAO cartaoDAO;
 	@Autowired
-	private TelefoneRepository telefoneRepository;
+	private TelefoneDAO telefoneDAO;
 	@Autowired
 	private BandeiraRepository bandeiraRepository;
 
-	Cliente cliente = null;
 	Resultado resultado = null;
-	JpaRepository<? extends EntidadeDominio, Long> repository = null;
+	IDao dao = null;
 	String nomeClasse = null;
 	List<IValidar> regra = null;
 
-	public Fachada() {
-		repositories.put(Cliente.class.getName(), clienteRepository);
-		repositories.put(Endereco.class.getName(), enderecoRepository);
-		repositories.put(Cartao.class.getName(), cartaoRepository);
-		repositories.put(Cartao.class.getName(), telefoneRepository);
+	public FachadaVelha() {
+		daos.put(Cliente.class.getName(), clienteDAO);
+		daos.put(Endereco.class.getName(), enderecoDAO);
+		daos.put(Cartao.class.getName(), cartaoDAO);
+		daos.put(Cartao.class.getName(), telefoneDAO);
 
 		// Início: Regras de Cliente
 		IValidar validacaoNomeCliente = new ValidarNome();
@@ -163,34 +164,6 @@ public class Fachada implements IFachada {
 
 		executarRegras(regra, entidade);
 
-		if (sb.length() == 0 || sb.toString().trim().equals("")) {
-			if (nomeClasse.equals("Cliente")) {
-				if (!clienteRepository.save((Cliente) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
-				}
-			}
-			if (nomeClasse.equals("Cartao")) {
-				if (!cartaoRepository.save((Cartao) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
-				}
-			}
-			if (nomeClasse.equals("Endereco")) {
-				if (!enderecoRepository.save((Endereco) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
-				}
-			}
-		} else {
-			System.out.println("Erro na validação das regras");
-			resultado.addEntidades(entidade);
-			resultado.setMsg(sb.toString());
-		}
-
 		// verificar se é um cliente pq cliente tem q verificar alem dos dados dele
 		// tem q validar os dados de end, senha e usu
 //		if (nomeClasse == Cliente.class.getName()) {
@@ -236,8 +209,8 @@ public class Fachada implements IFachada {
 		if (sb.length() == 0 || sb.toString().trim().equals("")) {
 			try {
 //				dao = daos.get(nomeClasse);
-//				repository.save(entidade);
-				System.out.println("Alterando no banco....");
+				dao.alterar(entidade);
+				System.out.println("alterando no banco....");
 			} catch (Exception e) {
 				e.printStackTrace();
 				resultado.setMsg("Não foi possível Salvar...");
@@ -258,32 +231,14 @@ public class Fachada implements IFachada {
 
 		nomeClasse = entidade.getClass().getName();
 
-		if (sb.length() == 0 || sb.toString().trim().equals("")) {
-			if (nomeClasse.equals("Cliente")) {
-				if (!clienteRepository.save((Cliente) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
-				}
-			}
-			if (nomeClasse.equals("Cartao")) {
-				if (!cartaoRepository.save((Cartao) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
-				}
-			}
-			if (nomeClasse.equals("Endereco")) {
-				if (!enderecoRepository.save((Endereco) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
-				}
-			}
-		} else {
-			System.out.println("Erro na validação das regras");
-			resultado.addEntidades(entidade);
-			resultado.setMsg(sb.toString());
+//		dao = daos.get(nomeClasse);
+
+		try {
+			dao.excluir(entidade);
+			System.out.println("excluindo do banco");
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setMsg("Não foi possível realizar a consulta...");
 		}
 
 		return resultado;
@@ -291,34 +246,16 @@ public class Fachada implements IFachada {
 
 	@Override
 	public Resultado consultar(EntidadeDominio entidade) {
-		List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 		sb.setLength(0);
 		resultado = new Resultado();
 
 		nomeClasse = entidade.getClass().getName();
 
 //		dao = daos.get(nomeClasse);
-		if (nomeClasse.equals("Cliente")) {
-			Optional<Cliente> cliente = clienteRepository.findById(entidade.getId());
-			if (!cliente.equals(null)) {
-				entidades.add(entidade);
-			}
-		}
-		if (nomeClasse.equals("Cartao")) {
-			Optional<Cartao> cartao = cartaoRepository.findById(entidade.getId());
-			if (!cartao.equals(null)) {
-				entidades.add(entidade);
-			}
-		}
-		if (nomeClasse.equals("Endereco")) {
-			Optional<Endereco> endereco = enderecoRepository.findById(entidade.getId());
-			if (!endereco.equals(null)) {
-				entidades.add(entidade);
-			}
-		}
+
 		try {
-			resultado.setEntidades(entidades);
-			System.out.println("Consultando no banco");
+			resultado.setEntidades(dao.listar(entidade));
+			System.out.println("consultando no banco");
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultado.setMsg("Não foi possível realizar a consulta...");

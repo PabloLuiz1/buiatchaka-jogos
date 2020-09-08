@@ -1,7 +1,8 @@
 package br.edu.fatec.buiatchaka.dominio;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -17,6 +18,8 @@ public class EntidadeDominio {
 	@Id
 	@GeneratedValue
 	private long id;
-	private LocalDateTime dataCadastro;
+	@Column(nullable = false)
+	private LocalDate dataCadastro;
+	@Column(nullable = false, columnDefinition = "boolean default true")
 	private boolean ativo;
 }

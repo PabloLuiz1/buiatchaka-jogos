@@ -2,7 +2,6 @@ package br.edu.fatec.buiatchaka.negocio.telefone;
 
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.cliente.Telefone;
-import br.edu.fatec.buiatchaka.dominio.enums.EnumTipoTelefone;
 import br.edu.fatec.buiatchaka.negocio.AbstractValidator;
 import br.edu.fatec.buiatchaka.web.util.ValidadoraDeCampos;
 

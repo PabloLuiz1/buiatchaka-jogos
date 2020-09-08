@@ -1,10 +1,11 @@
 package br.edu.fatec.buiatchaka.dominio.cliente;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
-import br.edu.fatec.buiatchaka.dominio.enums.EnumTipoTelefone;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,11 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
+@Table(name = "telefone", schema = "public")
 public class Telefone extends EntidadeDominio {
-	private EnumTipoTelefone tipo;
+	@Column(nullable = false)
 	private String ddd;
+	@Column(nullable = false)
 	private String numero;
 	@ManyToOne
 	private Cliente cliente;

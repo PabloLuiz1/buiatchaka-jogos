@@ -12,15 +12,15 @@ import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
 import br.edu.fatec.buiatchaka.dominio.enums.EnumGenero;
+import br.edu.fatec.buiatchaka.dominio.enums.EnumTipoEndereco;
 import br.edu.fatec.buiatchaka.web.util.Conexao;
 
 public class EnderecoDAO implements IDao {
 
 	private Connection connection = null;
-
+	private PreparedStatement pst = null;
 	@Override
 	public void salvar(EntidadeDominio entidade) {
-		PreparedStatement pst = null;
 		Endereco endereco = (Endereco) entidade;
 
 		try {
@@ -29,26 +29,22 @@ public class EnderecoDAO implements IDao {
 
 			StringBuilder sql = new StringBuilder();
 			sql.append(
-					"INSERT INTO tb_enderecos_cliente (end_cli_id, end_nome, end_logradouro,"
-					+ "end_cep, end_numero, end_bairro, end_cidade, end_estado, end_complemento,"
-					+ "end_tipo, end_tipo_logradouro, end_observacoes, end_pais, end_tipo_residencia)");
-			sql.append("VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					"INSERT INTO endereco (nome, cep, logradouro, numero, complemento, bairro, cidade, estado, tipo_endereco, cliente_id)");
+			sql.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			
-			pst.setLong(1, endereco.getId());
-			pst.setString(2, endereco.getNome());
+			pst.setString(1, endereco.getNome());
+			pst.setString(2, endereco.getCep());
 			pst.setString(3, endereco.getLogradouro());
-			pst.setString(4, endereco.getCep());
-			pst.setString(5, endereco.getNumero());
+			pst.setString(4, endereco.getNumero());
+			pst.setString(5, endereco.getComplemento());
 			pst.setString(6, endereco.getBairro());
 			pst.setString(7, endereco.getCidade());
 			pst.setString(8, endereco.getEstado());
-			pst.setString(9, endereco.getComplemento());
-			pst.setString(10, endereco.getTipoEndereco().toString());
-			pst.setString(12, endereco.getObservacoes().toString());
-			pst.setString(13, endereco.getPais());
-
+			pst.setString(9, endereco.getTipoEndereco().toString());
+			pst.setLong(10, endereco.getCliente().getId());
+			
 			pst.executeUpdate();
 
 			connection.commit();
@@ -72,32 +68,27 @@ public class EnderecoDAO implements IDao {
 
 	@Override
 	public void alterar(EntidadeDominio entidade) {
-		PreparedStatement pst = null;
 		Endereco endereco = (Endereco) entidade;
 
 		try {
 			connection = Conexao.conectar();
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE tb_enderecos_cliente SET end_nome=?, end_cep=?, end_logradouro=?, end_bairro=?, ");
-			sql.append("end_complemento=?, end_numero=?, end_tiporesidencia=?, end_tipologradouro=?, ");
-			sql.append("end_entrega=?, end_cobranca=?,end_cidade=?, end_estado=?, end_pais=? WHERE end_status = ? AND end_id = ? ");
-
+			sql.append("UPDATE endereco SET nome = ?, cep = ?, logradouro = ?, numero = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, "
+					+ "tipo_endereco = ?"
+					+ " WHERE ativo = ? AND id = ? ");
 			pst = connection.prepareStatement(sql.toString());
-
-			pst.setString(2, endereco.getNome());
+			pst.setString(1, endereco.getNome());
+			pst.setString(2, endereco.getCep());
 			pst.setString(3, endereco.getLogradouro());
-			pst.setString(4, endereco.getCep());
-			pst.setString(5, endereco.getNumero());
+			pst.setString(4, endereco.getNumero());
+			pst.setString(5, endereco.getComplemento());
 			pst.setString(6, endereco.getBairro());
 			pst.setString(7, endereco.getCidade());
 			pst.setString(8, endereco.getEstado());
-			pst.setString(9, endereco.getComplemento());
-			pst.setString(10, endereco.getTipoEndereco().toString());
-			pst.setString(12, endereco.getObservacoes().toString());
-			pst.setString(13, endereco.getPais());
-			pst.setBoolean(15, true);
-			pst.setLong(16, endereco.getId());
+			pst.setString(9, endereco.getTipoEndereco().toString());
+			pst.setBoolean(10, true);
+			pst.setLong(11, endereco.getId());
 
 			pst.executeUpdate();
 
@@ -109,19 +100,16 @@ public class EnderecoDAO implements IDao {
 
 	@Override
 	public void excluir(EntidadeDominio entidade) {
-		PreparedStatement pst = null;
 		Endereco endereco = (Endereco) entidade;
 
 		try {
 			connection = Conexao.conectar();
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE tb_endereco SET end_status = ? WHERE end_id = ?");
-
+			sql.append("UPDATE endereco SET ativo = ? WHERE id = ?");
 			pst = connection.prepareStatement(sql.toString());
 			pst.setBoolean(1, false);
 			pst.setLong(2, endereco.getId());
-
 			pst.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -130,32 +118,37 @@ public class EnderecoDAO implements IDao {
 	}
 
 	@Override
-	public List<EntidadeDominio> consultar(EntidadeDominio entidade) {
-		PreparedStatement stm = null;
-		List<EntidadeDominio> clientes = null;
+	public List<EntidadeDominio> listar(EntidadeDominio entidade) {
+		List<EntidadeDominio> enderecos = null;
+		Cliente cliente = (Cliente) entidade;
 		try {
 			StringBuilder sql = new StringBuilder();
 			connection = Conexao.conectar();
 			connection.setAutoCommit(false);
-			sql.append("SELECT * FROM tb_enderecos_cliente WHERE end_status = ?");
-			stm = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
-			ResultSet rs = stm.executeQuery();
-			clientes = new ArrayList<EntidadeDominio>();
+			sql.append("SELECT * FROM endereco WHERE ativo = ? AND cliente_id = ?");
+			pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+			pst.setBoolean(1, true);
+			pst.setLong(2, cliente.getId());
+			ResultSet rs = pst.executeQuery();
+			enderecos = new ArrayList<EntidadeDominio>();
 			while (rs.next()) {
-				Cliente cli = new Cliente();
-				cli.setNome(rs.getString("cli_nome"));
-				cli.setGenero(EnumGenero.valueOf(rs.getString("cli_genero")));
-				cli.setRg(rs.getString("cli_rg"));
-				cli.setCpf(rs.getString("cli_cpf"));
-				cli.setEmail(rs.getString("cli_email"));
-				cli.setSenha(rs.getString("cli_senha"));
-				cli.setDataNascimento(rs.getDate("cli_data_nascimento").toLocalDate());
-				cli.setDataUltimoLogin(rs.getDate("cli_data_ultimo_login").toLocalDate());
-				cli.setDataUltimaCompra(rs.getDate("cli_data_ultima_compra").toLocalDate());
-				cli.setQtdPedidos(rs.getInt("cli_qtd_pedidos"));
-				clientes.add(cli);
+				Endereco end = new Endereco();
+				end.setId(rs.getLong("id"));
+				end.setNome(rs.getString("nome"));
+				end.setCep(rs.getString("cep"));
+				end.setLogradouro(rs.getString("logradouro"));
+				end.setNumero(rs.getString("numero"));
+				end.setComplemento(rs.getString("complemento"));
+				end.setBairro(rs.getString("bairro"));
+				end.setCidade(rs.getString("cidade"));
+				end.setEstado(rs.getString("estado"));
+				end.setTipoEndereco(EnumTipoEndereco.valueOf(rs.getString("tipo_endereco").toUpperCase()));
+				end.setDataCadastro(rs.getDate("data_cadastro").toLocalDate());
+				end.setAtivo(rs.getBoolean("ativo"));
+				end.setCliente(cliente);
+				enderecos.add(end);
 			}
-			return clientes;
+			return enderecos;
 		} catch (Exception e) {
 			try {
 				connection.rollback();
@@ -165,12 +158,60 @@ public class EnderecoDAO implements IDao {
 			e.printStackTrace();
 		} finally {
 			try {
-				stm.close();
+				pst.close();
 				connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		return clientes;
+		return enderecos;
+	}
+
+	@Override
+	public EntidadeDominio consultar(EntidadeDominio entidade) {
+		Endereco endereco = null;
+		Cliente cliente = (Cliente) entidade;
+		try {
+			StringBuilder sql = new StringBuilder();
+			connection = Conexao.conectar();
+			connection.setAutoCommit(false);
+			sql.append("SELECT * FROM endereco WHERE ativo = ? AND cliente_id = ?");
+			pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+			pst.setBoolean(1, true);
+			pst.setLong(2, cliente.getId());
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				endereco = new Endereco();
+				endereco.setId(rs.getLong("id"));
+				endereco.setNome(rs.getString("nome"));
+				endereco.setCep(rs.getString("cep"));
+				endereco.setLogradouro(rs.getString("logradouro"));
+				endereco.setNumero(rs.getString("numero"));
+				endereco.setComplemento(rs.getString("complemento"));
+				endereco.setBairro(rs.getString("bairro"));
+				endereco.setCidade(rs.getString("cidade"));
+				endereco.setEstado(rs.getString("estado"));
+				endereco.setTipoEndereco(EnumTipoEndereco.valueOf(rs.getString("tipo_endereco").toUpperCase()));
+				endereco.setDataCadastro(rs.getDate("data_cadastro").toLocalDate());
+				endereco.setAtivo(rs.getBoolean("ativo"));
+				endereco.setCliente(cliente);
+			}
+			return endereco;
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				pst.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return endereco;
 	}
 }

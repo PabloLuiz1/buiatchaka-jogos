@@ -79,7 +79,6 @@ public class CartaoVH implements IViewHelper {
 	
 	private Cartao criarCartao(HttpServletRequest request) {
 		Cartao cartao = new Cartao();
-		cartao.setNome(request.getParameter("txtNomeCartao"));
 		cartao.setNomeImpresso(request.getParameter("txtNomeImpresso"));
 		cartao.setNumero(request.getParameter("txtNumero"));
 		cartao.setBandeira(new Bandeira(request.getParameter("cbBandeira")));

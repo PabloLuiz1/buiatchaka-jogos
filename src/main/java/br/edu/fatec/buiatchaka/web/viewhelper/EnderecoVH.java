@@ -49,9 +49,7 @@ public class EnderecoVH implements IViewHelper {
 		endereco.setBairro(request.getParameter("txtBairro"));
 		endereco.setCidade(request.getParameter("txtCidade"));
 		endereco.setEstado(request.getParameter("cbEstado"));
-		endereco.setPais(request.getParameter("cbPais"));
 		endereco.setComplemento(request.getParameter("txtComplemento"));
-		endereco.setObservacoes(request.getParameter("txtObservacoes"));
 
 		Resultado resultado = (Resultado) request.getSession().getAttribute("resultado");
 		System.out.println(resultado.getEntidades().get(0).getId());

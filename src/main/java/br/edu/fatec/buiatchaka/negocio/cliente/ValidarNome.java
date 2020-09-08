@@ -3,7 +3,6 @@ package br.edu.fatec.buiatchaka.negocio.cliente;
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.negocio.AbstractValidator;
-import br.edu.fatec.buiatchaka.web.util.ValidadoraDeCampos;
 
 
 public class ValidarNome extends AbstractValidator {

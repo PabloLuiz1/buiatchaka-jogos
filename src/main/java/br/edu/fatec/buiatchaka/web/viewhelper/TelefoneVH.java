@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.Resultado;
 import br.edu.fatec.buiatchaka.dominio.cliente.Telefone;
-import br.edu.fatec.buiatchaka.dominio.enums.EnumTipoTelefone;
 
 public class TelefoneVH implements IViewHelper {
 
@@ -79,17 +78,6 @@ public class TelefoneVH implements IViewHelper {
 	private Telefone criarTelefone(HttpServletRequest request) {
 		Telefone telefone = new Telefone();
 		
-		String tipoTelefone = request.getParameter("cbTipoTelefone");
-		
-		if (EnumTipoTelefone.CELULAR.toString().equals(tipoTelefone)) {
-			telefone.setTipo(EnumTipoTelefone.CELULAR);
-		}
-		if (EnumTipoTelefone.RESIDENCIAL.toString().equals(tipoTelefone)) {
-			telefone.setTipo(EnumTipoTelefone.RESIDENCIAL);
-		}
-		if (EnumTipoTelefone.RECADO.toString().equals(tipoTelefone)) {
-			telefone.setTipo(EnumTipoTelefone.RECADO);
-		}
 
 		telefone.setDdd(request.getParameter("txtDdd"));
 		telefone.setNumero(request.getParameter("txtTelefone"));

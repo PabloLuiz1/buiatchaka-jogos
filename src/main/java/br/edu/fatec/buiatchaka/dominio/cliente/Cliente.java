@@ -3,10 +3,10 @@ package br.edu.fatec.buiatchaka.dominio.cliente;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import br.edu.fatec.buiatchaka.dominio.Usuario;
 import lombok.AllArgsConstructor;
@@ -21,15 +21,27 @@ import lombok.Setter;
 @AllArgsConstructor
 
 @Entity
+@Table(name = "cliente", schema = "public")
 public class Cliente extends Usuario {
+	@Column(nullable = false)
 	private int qtdPedidos;
+	@Column(nullable = true)
 	private LocalDate dataUltimaCompra;
+	@Column(nullable = false)
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos;
+	@Column(nullable = true)
 	@OneToMany(mappedBy = "cliente")
 	private List<Cartao> cartoes;
+	@Column(nullable = true)
 	@OneToMany(mappedBy = "cliente")
 	private List<Cupom> cupons;
-	@OneToOne(cascade=CascadeType.ALL)
-	private Telefone telefone;
+	@Column(nullable = true)
+	@OneToMany(mappedBy = "cliente")
+	private List<Telefone> telefones;
+	@Override
+	public String toString() {
+		return "Cliente [qtdPedidos=" + qtdPedidos + ", dataUltimaCompra=" + dataUltimaCompra + ", enderecos="
+				+ enderecos + ", cartoes=" + cartoes + ", cupons=" + cupons + ", telefones=" + telefones + "]";
+	}
 }

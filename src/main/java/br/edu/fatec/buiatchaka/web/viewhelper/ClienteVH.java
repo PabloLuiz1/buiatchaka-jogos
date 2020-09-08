@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.Resultado;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
-import br.edu.fatec.buiatchaka.dominio.cliente.Telefone;
 import br.edu.fatec.buiatchaka.dominio.enums.EnumGenero;
 
 public class ClienteVH implements IViewHelper {
@@ -21,7 +20,7 @@ public class ClienteVH implements IViewHelper {
 	public EntidadeDominio getEntidade(HttpServletRequest request) {
 		HttpSession session = null;
 		Cliente cliente = null;
-		String operacao = request.getParameter("btnOperacao");
+		String operacao = request.getParameter("operacao");
 
 		if (operacao.equals("SALVAR")) {
 			cliente = criarCliente(request);
@@ -41,7 +40,8 @@ public class ClienteVH implements IViewHelper {
 	private Cliente criarCliente(HttpServletRequest request) {
 		Cliente cliente = new Cliente();
 		TelefoneVH telefoneVH = new TelefoneVH();
-		
+		EnderecoVH enderecoVH = new EnderecoVH();
+		cliente.setId((Long.parseLong(request.getParameter("id"))));
 		cliente.setNome(request.getParameter("nome"));
 		cliente.setRg(request.getParameter("rg"));
 		cliente.setCpf(request.getParameter("cpf"));
@@ -50,7 +50,7 @@ public class ClienteVH implements IViewHelper {
 		cliente.setEmail(request.getParameter(("email")));
 		cliente.setSenha(request.getParameter("senha"));
 		
-		cliente.setTelefone((Telefone) telefoneVH.getEntidade(request));
+//		cliente.setTelefone((Telefone) telefoneVH.getEntidade(request));
 		
 		return cliente;
 	}
