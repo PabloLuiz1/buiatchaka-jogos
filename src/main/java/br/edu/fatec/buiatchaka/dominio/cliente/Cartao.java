@@ -1,10 +1,8 @@
 package br.edu.fatec.buiatchaka.dominio.cliente;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -25,10 +23,12 @@ public class Cartao extends FormaPagamentoAbstract {
 	private String numero;
 	@Column(nullable = false)
 	private String nomeImpresso;
-	@OneToOne(cascade=CascadeType.ALL)
-	private Bandeira bandeira;
+	@Column(nullable = false)
+	private String bandeira;
 	@Column(nullable = false)
 	private String codigo;
+	@Column(nullable = false)
+	private String cpfTitular;
 	@ManyToOne
 	private Cliente cliente;
 }

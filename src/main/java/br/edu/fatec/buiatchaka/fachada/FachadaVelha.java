@@ -246,4 +246,10 @@ public class FachadaVelha implements IFachada {
 		return resultado;
 	}
 
+	@Override
+	public Resultado listar(EntidadeDominio entidade) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

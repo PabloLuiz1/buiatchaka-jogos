@@ -22,10 +22,10 @@ public class Resultado {
 		if (entidades == null) {
 			entidades = new ArrayList<EntidadeDominio>();
 			entidades.add(entidade);
-		} else
+		} else {
 			entidades.add(entidade);
-
+		}
+		
 		return entidades;
-
 	}
 }

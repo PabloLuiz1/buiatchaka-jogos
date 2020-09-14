@@ -8,7 +8,7 @@ public class ValidarNumeroCartao extends AbstractValidator{
 	@Override
 	public String validar(EntidadeDominio entidade) {
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 }

@@ -78,7 +78,7 @@
 						<div class="tab-pane container active" id="home">
 							<div class="row">
 								<div class="col">
-									<div th:if="${resultado.msg ne ''}" class="alert alert-danger">
+									<div th:if="${resultado?.msg ne ''}" class="alert alert-danger">
 										<span
 											th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(resultado?.msg),'\n','&lt;br /&gt;'))}"></span>
 									</div>
@@ -119,7 +119,7 @@
 						<div class="tab-pane container fade" id="menu1">
 							<div class="row">
 								<div class="col">
-									<div th:if="${resultado.msg ne ''}" class="alert alert-danger">
+									<div th:if="${resultado?.msg ne ''}" class="alert alert-danger">
 										<span
 											th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(resultado?.msg),'\n','&lt;br /&gt;'))}"></span>
 									</div>
@@ -148,7 +148,7 @@
 									<div class="card">
 										<div class="card-header" th:text="${end.nome}"></div>
 										<div class="card-body" th:text="${end.logradouro} + ', ' + ${end.numero} + '. ' 
-										+ ${end.cep} + '-' + ${end.cidade} + ', ' + ${end.estado}">
+										+ ${end.cep} + ' - ' + ${end.cidade} + ', ' + ${end.estado}">
 										</div>
 										<div class="card-footer">
 											<form method="POST" action="ControleEndereco">
@@ -168,7 +168,7 @@
 							<h6>Novo endereço:</h6>
 							<div class="row">
 								<div class="col">
-									<div th:if="${resultado.msg ne ''}" class="alert alert-danger">
+									<div th:if="${resultado?.msg ne ''}" class="alert alert-danger">
 										<span
 											th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(resultado?.msg),'\n','&lt;br /&gt;'))}"></span>
 									</div>
@@ -215,11 +215,11 @@
 							<div class="row mt-2">
 								<div class="col-md-6 mb-4" th:each="cartao: ${session.cliente?.cartoes}">
 									<div class="card">
-										<div class="card-body" th:text="${#strings.substring(cartao.numero, 11)} + '-' + ${cartao.bandeira}"></div>
+										<div class="card-body" th:text="'Final: ' + ${#strings.substring(cartao.numero, 12)} + ' - ' + ${cartao.bandeira}"></div>
 										<div class="card-footer">
 											<form method="POST" action="ControleCartao">
 												<input type="hidden" name="cartao" id="cartao"
-													value="cartao"> <input type="submit"
+													th:value="${cartao.id}"> <input type="submit"
 													class="btn btn-danger pull-left font-weight-bold"
 													id="operacao" name="operacao" value="EXCLUIR"> <input
 													type="submit"
@@ -234,7 +234,7 @@
 							<h6>Novo cartão:</h6>
 							<div class="row">
 								<div class="col">
-									<div th:if="${resultado.msg ne ''}" class="alert alert-danger">
+									<div th:if="${resultado?.msg ne ''}" class="alert alert-danger">
 										<span
 											th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(resultado?.msg),'\n','&lt;br /&gt;'))}"></span>
 									</div>
@@ -244,30 +244,49 @@
 								<div class="col-md-6">
 									<label for="numeroCartao">Número do cartão: </label> <input
 										type="text" name="numeroCartao" class="form-control"
-										th:value="${cartao?.numero}"> <br> <label
+										th:value="${cartao?.numero}"> <br> 
+										<label for="bandeira">Bandeira: </label>
+										<select class="form-control" id="bandeira" name="bandeira" required>
+											<option value="">Selecione</option>
+											<option value="MASTERCARD">MasterCard</option>
+											<option value="VISA">VISA</option>
+											<option value="AMERICANEXPRESS">American Express</option>
+										</select>
+										<label
 										for="nomeTitular">Nome do titular (como escrito no
 										cartão):</label> <input type="text" name="nomeTitular"
 										class="form-control" th:value="${cartao?.titular}" required>
 									<br> <label for="dataVencimento">Data de
-										vencimento (Mês/Ano):</label> <br> <select class="col-md-2">
+										vencimento (Mês/Ano):</label> <br> <select class="col-md-2" id="mes" name="mes" required>
 										<option value="01">01</option>
-										<option>02</option>
-										<option>03</option>
-										<option>04</option>
-										<option>05</option>
-										<option>...</option>
-									</select> / <select class="col-md-2">
-										<option>21</option>
-										<option>22</option>
-										<option>23</option>
-										<option>24</option>
-										<option>25</option>
-										<option>...</option>
+										<option value="02">02</option>
+										<option value="03">03</option>
+										<option value="04">04</option>
+										<option value="05">05</option>
+										<option value="06">06</option>
+										<option value="07">07</option>
+										<option value="08">08</option>
+										<option value="09">09</option>
+										<option value="10">10</option>
+										<option value="11">11</option>
+										<option value="12">12</option>
+									</select> / <select class="col-md-2" id="ano" name="ano" required>
+										<option value="2020">20</option>
+										<option value="2021">21</option>
+										<option value="2022">22</option>
+										<option value="2023">23</option>
+										<option value="2024">24</option>
+										<option value="2025">25</option>
+										<option value="2026">26</option>
+										<option value="2027">27</option>
+										<option value="2028">28</option>
+										<option value="2029">29</option>
+										<option value="2030">30</option>
 									</select> <br> <br> <label for="cvv">Código de
-										segurança: </label> <input type="text" name="cvv"
+										segurança: </label> <input type="text" name="codigo" id="codigo"
 										class="form-control col-md-4" th:value="${cartao?.codigo}"
 										required> <br> <label for="cpfTitular">CPF
-										do titular: </label> <input type="text" name="cpfTitular"
+										do titular: </label> <input type="text" name="cpfTitular" id="cpfTitular"
 										class="form-control" th:value="${cartao?.cpf}" required>
 									<br> <input type="submit" id="operacao" name="operacao"
 										class="btn btn-success font-weight-bold pull-left"

@@ -15,6 +15,7 @@ import br.edu.fatec.buiatchaka.dominio.Resultado;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
+import br.edu.fatec.buiatchaka.dominio.cliente.Telefone;
 import br.edu.fatec.buiatchaka.negocio.IValidar;
 import br.edu.fatec.buiatchaka.negocio.cartao.ValidarBandeira;
 import br.edu.fatec.buiatchaka.negocio.cartao.ValidarCodigo;
@@ -63,7 +64,7 @@ public class Fachada implements IFachada {
 		daos.put(Cliente.class.getName(), clienteDAO);
 		daos.put(Endereco.class.getName(), enderecoDAO);
 		daos.put(Cartao.class.getName(), cartaoDAO);
-		daos.put(Cartao.class.getName(), telefoneDAO);
+		daos.put(Telefone.class.getName(), telefoneDAO);
 		// Início: Regras de Cliente
 		IValidar validacaoNomeCliente = new ValidarNome();
 		IValidar validacaoGenero = new ValidarGenero();
@@ -134,13 +135,14 @@ public class Fachada implements IFachada {
 	public Resultado salvar(EntidadeDominio entidade) {
 		Cliente cliente = null;
 		Endereco endereco = null;
+		Cartao cartao = null;
 		resultado = new Resultado();
 		nomeClasse = entidade.getClass().getName();
 		regra = regras.get(nomeClasse);
 		sb.setLength(0);
 
 		if (nomeClasse.equals(Cliente.class.getName())) {
-			Log.loggar("ENTROU NO IF DA CLASSE DO CLIENTE NESTA PORRA!!!");
+			Log.loggar("ENTROU NO IF DA CLASSE DO CLIENTE!!!");
 			cliente = (Cliente) entidade;
 			sb.append(executarRegras(regra, cliente));
 			if (sb.length() == 0 || sb.toString().trim().equals("")) {
@@ -159,16 +161,16 @@ public class Fachada implements IFachada {
 			}
 		}
 		if (nomeClasse.equals(Endereco.class.getName())) {
-			endereco = (Endereco) entidade;
-			Log.loggar("ENTROU NO IF DA CLASSE DO ENDEREÇO NESTA PORRA!!!");
+			Log.loggar("ENTROU NO IF DA CLASSE DO ENDEREÇO!!!");
 			endereco = (Endereco) entidade;
 			sb.append(executarRegras(regra, endereco));
 			if (sb.length() == 0 || sb.toString().trim().equals("")) {
 				try {
 					dao = daos.get(nomeClasse);
 					endereco.setId(dao.salvar(endereco).getId());
-					System.out.println("Salvando no banco... " + endereco.getId());
-					resultado.addEntidades((Endereco) endereco);
+					Log.loggar(("Salvando no banco... " + endereco.getId()));
+					consultar(endereco.getCliente()).getEntidades().get(0);
+					resultado.addEntidades(consultar(endereco.getCliente()).getEntidades().get(0));
 				} catch (Exception e) {
 					e.printStackTrace();
 					resultado.setMsg("Não foi possível salvar...");
@@ -178,10 +180,30 @@ public class Fachada implements IFachada {
 				resultado.addEntidades((Endereco) endereco);
 			}
 		}
+		
+		if (nomeClasse.equals(Cartao.class.getName())) {
+			Log.loggar("ENTROU NO IF DA CLASSE DO CARTÃO!!!");
+			cartao = (Cartao) entidade;
+			sb.append(executarRegras(regra, cartao));
+			if (sb.length() == 0 || sb.toString().trim().equals("")) {
+				try {
+					dao = daos.get(nomeClasse);
+					cartao.setId(dao.salvar(cartao).getId());
+					Log.loggar(("Salvando no banco... " + cartao.getId()));
+					consultar(cartao.getCliente()).getEntidades().get(0);
+					resultado.addEntidades(consultar(cartao.getCliente()).getEntidades().get(0));
+				} catch (Exception e) {
+					e.printStackTrace();
+					resultado.setMsg("Não foi possível salvar...");
+				}
+			} else {
+				System.out.println("Erro encontrado...");
+				resultado.addEntidades((Cartao) cartao);
+			}
+		}
 
 		resultado.setMsg(sb.toString());
-		Log.loggar("Printando o resultado das validações de negócio do Cliente/Endereço:" + resultado.getMsg());
-//		Log.loggar("Testando as entidades adicionadas no resultado" + resultado.getEntidades().get(0).getId());
+		Log.loggar("Printando o resultado das validações de negócio do Cliente/Endereço/Cartao na Fachada:" + resultado.getMsg());
 		return resultado;
 	}
 
@@ -216,24 +238,101 @@ public class Fachada implements IFachada {
 
 	@Override
 	public Resultado excluir(EntidadeDominio entidade) {
+		Endereco endereco;
+		Cartao cartao;
 		sb.setLength(0);
 		resultado = new Resultado();
 
 		nomeClasse = entidade.getClass().getName();
 
 		dao = daos.get(nomeClasse);
-
-		try {
-			dao.excluir(entidade);
-			System.out.println("Excluindo do banco");
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultado.setMsg("Não foi possível realizar a consulta...");
+		
+		if (nomeClasse.equals(Endereco.class.getName())) {
+			endereco = (Endereco) entidade;
+			try {
+				dao.excluir(endereco);
+				System.out.println("Excluindo do banco");
+				consultar(endereco.getCliente()).getEntidades().get(0);
+				resultado.addEntidades(consultar(endereco.getCliente()).getEntidades().get(0));
+			} catch (Exception e) {
+				e.printStackTrace();
+				resultado.setMsg("Não foi possível realizar a consulta...");
+			}
 		}
-
+		
+		if (nomeClasse.equals(Cartao.class.getName())) {
+			cartao = (Cartao) entidade;
+			try {
+				dao.excluir(cartao);
+				System.out.println("Excluindo do banco");
+				consultar(cartao.getCliente()).getEntidades().get(0);
+				resultado.addEntidades(consultar(cartao.getCliente()).getEntidades().get(0));
+			} catch (Exception e) {
+				e.printStackTrace();
+				resultado.setMsg("Não foi possível realizar a consulta...");
+			}
+		}
+		
 		return resultado;
 	}
 
+
+	@Override
+	public Resultado listar(EntidadeDominio entidade) {
+		List<? extends EntidadeDominio> clientes = null;
+		List<? extends EntidadeDominio> enderecos = null;
+		List<? extends EntidadeDominio> cartoes = null;
+		resultado = new Resultado();
+		
+		nomeClasse = entidade.getClass().getName();
+		sb.setLength(0);
+		
+		if (nomeClasse.equals(Cliente.class.getName())) {
+			Cliente cli = (Cliente) entidade;
+			try {
+				dao = daos.get(nomeClasse);
+				cartoes = dao.listar(cli);
+				for (EntidadeDominio e : cartoes) {
+					resultado.addEntidades(e);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				Log.loggar("Não foi possível salvar...");
+			}
+		}
+		
+		if (nomeClasse.equals(Cartao.class.getName())) {
+			Cliente cli = (Cliente) entidade;
+			try {
+				dao = daos.get(nomeClasse);
+				clientes = dao.listar(cli);
+				for (EntidadeDominio e : clientes) {
+					resultado.addEntidades(e);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				Log.loggar("Não foi possível salvar...");
+			}
+		}
+		
+		if (nomeClasse.equals(Endereco.class.getName())) {
+			Cliente cli = (Cliente) entidade;
+			
+			try {
+				dao = daos.get(nomeClasse);
+				enderecos = dao.listar(cli);
+				for (EntidadeDominio e : enderecos) {
+					resultado.addEntidades(e);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				Log.loggar("Não foi possível salvar...");
+			}
+		}
+		
+		return resultado;
+	}
+	
 	@Override
 	public Resultado consultar(EntidadeDominio entidade) {
 		sb.setLength(0);
@@ -244,7 +343,7 @@ public class Fachada implements IFachada {
 		dao = daos.get(nomeClasse);
 
 		try {
-			resultado.setEntidades(dao.listar(entidade));
+			resultado.addEntidades(dao.consultar(entidade));
 			System.out.println("Consultando no banco");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -254,5 +353,6 @@ public class Fachada implements IFachada {
 
 		return resultado;
 	}
+
 
 }

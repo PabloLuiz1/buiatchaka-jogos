@@ -14,6 +14,7 @@ import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.Resultado;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
+import br.edu.fatec.buiatchaka.sistema.logging.Log;
 
 public class EnderecoVH implements IViewHelper {
 
@@ -27,13 +28,12 @@ public class EnderecoVH implements IViewHelper {
 			endereco = criarEndereco(request);
 
 		} else if (operacao.equals("ALTERAR")) {
-			endereco = criarEndereco(request);
+			endereco = criarEndereco(request, Long.parseLong(request.getParameter("endereco")));
 
 		} else if (operacao.equals("EXCLUIR")) {
-			endereco = criarEndereco(request);
-
+			endereco = criarEndereco(request, Long.parseLong(request.getParameter("endereco")));
 		} else if (operacao.equals("CONSULTAR")) {
-			endereco = criarEndereco(request);
+			endereco = criarEndereco(request, Long.parseLong(request.getParameter("endereco")));
 
 		}
 		return endereco;
@@ -54,6 +54,14 @@ public class EnderecoVH implements IViewHelper {
 		endereco.setCliente(cliente);
 		return endereco;
 	}
+	
+	private Endereco criarEndereco(HttpServletRequest request, Long id) {
+		Endereco endereco = new Endereco();
+		endereco.setId(Long.parseLong(request.getParameter("endereco")));
+		Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
+		endereco.setCliente(cliente);
+		return endereco;
+	}
 
 	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, HttpServletResponse response)
@@ -66,9 +74,9 @@ public class EnderecoVH implements IViewHelper {
 //			request.setAttribute("resultado", (Resultado) resultado);
 //			d = request.getRequestDispatcher("perfil-dados.html");
 //		}
-		if (!resultado.getMsg().trim().equals("") && operacao.equals("SALVAR")) {
+		if (resultado.getMsg() != null && operacao.equals("SALVAR")) {
 			request.setAttribute("resultado", resultado);
-			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
+//			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
 			d = request.getRequestDispatcher("perfil-dados");
 		}
 		if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
@@ -81,21 +89,16 @@ public class EnderecoVH implements IViewHelper {
 			request.getSession().setAttribute("resultado", (Resultado) resultado);
 			d = request.getRequestDispatcher("editar-endereco");
 		}
-		if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
-//			resultado.setMsg("Cliente inativado com sucesso.");
+		if (operacao.equals("EXCLUIR")) {
+			
 			request.getSession().setAttribute("resultado", (Resultado) resultado);
 			d = request.getRequestDispatcher("perfil-dados");
 		}
-		if (resultado.getMsg().trim().equals("")) {
+		if (resultado.getMsg() == "" || resultado.getMsg() == null) {
 			List<Endereco> enderecos = new ArrayList<Endereco>();
 			Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
-			for (EntidadeDominio e : resultado.getEntidades()) {
-				enderecos.add((Endereco) e);
-			}
-			cliente.setEnderecos(enderecos);
-			
-			request.setAttribute("resultado", (Resultado) resultado);
-			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
+			request.getSession().setAttribute("cliente", resultado.getEntidades().get(0));
+//			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
 			if (operacao.equals("SALVAR")) {
 				d = request.getRequestDispatcher("perfil-dados");
 			}

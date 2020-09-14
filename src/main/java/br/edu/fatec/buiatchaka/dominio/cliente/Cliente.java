@@ -1,6 +1,5 @@
 package br.edu.fatec.buiatchaka.dominio.cliente;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -25,8 +24,6 @@ import lombok.Setter;
 public class Cliente extends Usuario {
 	@Column(nullable = false, columnDefinition = "integer default 0")
 	private int qtdPedidos;
-	@Column(nullable = true)
-	private LocalDate dataUltimaCompra;
 	@Column(nullable = false)
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos;
@@ -40,7 +37,7 @@ public class Cliente extends Usuario {
 	private String telefone;
 	@Override
 	public String toString() {
-		return "Cliente [qtdPedidos=" + qtdPedidos + ", dataUltimaCompra=" + dataUltimaCompra + ", enderecos="
+		return "Cliente [qtdPedidos=" + qtdPedidos + ", dataUltimaCompra=" + ", enderecos="
 				+ enderecos + ", cartoes=" + cartoes + ", cupons=" + cupons + ", telefone=" + telefone + "]";
 	}
 }

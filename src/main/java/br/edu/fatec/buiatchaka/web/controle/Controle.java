@@ -22,7 +22,7 @@ import br.edu.fatec.buiatchaka.web.viewhelper.ClienteVH;
 import br.edu.fatec.buiatchaka.web.viewhelper.EnderecoVH;
 import br.edu.fatec.buiatchaka.web.viewhelper.IViewHelper;
 
-@WebServlet(urlPatterns = { "/ControleEndereco", "/ControleCliente", "/admin/ControleCliente" }, loadOnStartup = 1)
+@WebServlet(urlPatterns = { "/ControleEndereco", "/ControleCliente", "/ControleCartao", "/admin/ControleCliente" }, loadOnStartup = 1)
 public class Controle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,6 @@ public class Controle extends HttpServlet {
 		commands.put("EXCLUIR", new ExcluirCommand());
 		commands.put("CONSULTAR", new ConsultarCommand());
 		commands.put("PERFIL", new ConsultarCommand());
-		System.out.println("Passou no construtor");
 		vhs = new HashMap<String, IViewHelper>();
 		vhs.put("/ControleCliente", new ClienteVH());
 		vhs.put("/ControleEndereco", new EnderecoVH());

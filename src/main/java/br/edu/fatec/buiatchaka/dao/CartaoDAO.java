@@ -1,6 +1,7 @@
 package br.edu.fatec.buiatchaka.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,31 +15,39 @@ import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.web.util.Conexao;
 
 public class CartaoDAO implements IDao {
-	PreparedStatement stm = null;
+	private PreparedStatement stm = null;
 	private Connection connection = null;
 
 	@Override
 	public EntidadeDominio salvar(EntidadeDominio entidade) {
-		PreparedStatement pst = null;
 		Cartao cartao = (Cartao) entidade;
 
 		try {
+			connection = Conexao.conectar();
 			connection.setAutoCommit(false);
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("INSERT INTO cartao (numero, codigo, nome_impresso, cliente_id, bandeira_id)");
-			sql.append("VALUES (?, ?, ?, ?, ?)");
+			sql.append("INSERT INTO cartao (nome_impresso, numero, bandeira, codigo, cpf_titular, data_vencimento, cliente_id)");
+			sql.append("VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-			pst = connection.prepareStatement(sql.toString());
+			stm = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
-			pst.setString(1, cartao.getNumero());
-			pst.setString(2, cartao.getCodigo());
-			pst.setString(3, cartao.getNomeImpresso());
-			pst.setLong(4, cartao.getCliente().getId());
-			pst.setLong(5, cartao.getBandeira().getId());
+			stm.setString(1, cartao.getNomeImpresso());
+			stm.setString(2, cartao.getNumero());
+			stm.setString(3, cartao.getBandeira());
+			stm.setString(4, cartao.getCodigo());
+			stm.setString(5, cartao.getCpfTitular());
+			stm.setDate(6, Date.valueOf(cartao.getDataVencimento()));
+			stm.setLong(7, cartao.getCliente().getId());
 
-			pst.executeUpdate();
+			stm.executeUpdate();
 
+			ResultSet rs = stm.getGeneratedKeys();
+			long idCartao = 0;
+			if (rs.next())
+				idCartao = rs.getInt(1);
+			cartao.setId(idCartao);
+			
 			connection.commit();
 		} catch (Exception e) {
 			try {
@@ -49,7 +58,7 @@ public class CartaoDAO implements IDao {
 			e.printStackTrace();
 		} finally {
 			try {
-				pst.close();
+				stm.close();
 				connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -67,17 +76,17 @@ public class CartaoDAO implements IDao {
 			connection.setAutoCommit(false);
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE cartao SET numero = ?, codigo = ?, nome_impresso = ?, bandeira_id = ?"
+			sql.append("UPDATE cartao SET nome_impresso = ?, numero = ?, bandeira = ?, codigo = ?, cpf_titular = ?, data_vencimento = ?"
 					+ "WHERE ativo = ? AND id = ?");
 
 			stm = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
-			stm.setString(1, cartao.getNumero());
-			stm.setString(2, cartao.getCodigo());
-			stm.setString(3, cartao.getNomeImpresso());
-			stm.setLong(4, cartao.getBandeira().getId());
-			stm.setBoolean(5, true);
-			stm.setLong(6, cartao.getId());
+			stm.setString(1, cartao.getNomeImpresso());
+			stm.setString(2, cartao.getNumero());
+			stm.setString(3, cartao.getBandeira());
+			stm.setString(4, cartao.getCodigo());
+			stm.setString(5, cartao.getCpfTitular());
+			stm.setDate(6, Date.valueOf(cartao.getDataVencimento()));
 
 			stm.executeUpdate();
 
@@ -138,7 +147,7 @@ public class CartaoDAO implements IDao {
 	@Override
 	public List<EntidadeDominio> listar(EntidadeDominio entidade) {
 		List<EntidadeDominio> cartoes;
-		Cartao cartao = (Cartao) entidade;
+		Cliente cliente = (Cliente) entidade;
 
 		try {
 			connection = Conexao.conectar();
@@ -150,16 +159,22 @@ public class CartaoDAO implements IDao {
 			stm = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
 			stm.setBoolean(1, true);
-			stm.setLong(2, cartao.getCliente().getId());
+			stm.setLong(2, cliente.getId());
 
 			ResultSet rs = stm.executeQuery();
 			cartoes = new ArrayList<EntidadeDominio>();
 			while (rs.next()) {
 				Cartao car = new Cartao();
+//				nome_impresso, numero, bandeira, codigo, cpf_titular, data_vencimento, cliente_id
 				car.setId(rs.getLong("id"));
-				car.setNumero(rs.getString("numero"));
-				car.setCodigo(rs.getString("codigo"));
 				car.setNomeImpresso(rs.getString("nome_impresso"));
+				car.setNumero(rs.getString("numero"));
+				car.setBandeira(rs.getString("bandeira"));
+				car.setCodigo(rs.getString("codigo"));
+				car.setCpfTitular(rs.getString("cpf_titular"));
+				car.setDataVencimento((rs.getDate(("data_vencimento")).toLocalDate()));
+				car.setCliente(cliente);
+
 				cartoes.add(car);
 			}
 			return cartoes;
@@ -202,9 +217,12 @@ public class CartaoDAO implements IDao {
 			while (rs.next()) {
 				cartao = new Cartao();
 				cartao.setId(rs.getLong("id"));
-				cartao.setNumero(rs.getString("numero"));
-				cartao.setCodigo(rs.getString("codigo"));
 				cartao.setNomeImpresso(rs.getString("nome_impresso"));
+				cartao.setNumero(rs.getString("numero"));
+				cartao.setBandeira(rs.getString("bandeira"));
+				cartao.setCodigo(rs.getString("codigo"));
+				cartao.setCpfTitular(rs.getString("cpf_titular"));
+				cartao.setDataVencimento((rs.getDate(("data_vencimento")).toLocalDate()));
 				cartao.setCliente(cliente);
 			}
 			return cartao;

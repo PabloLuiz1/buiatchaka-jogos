@@ -60,7 +60,7 @@ public class ClienteDAO implements IDao {
 //
 //			cliente.getEnderecos().forEach(enderecoDAO::salvar);
 //			cliente.getCartoes().forEach(cartaoDAO::salvar);
-			
+
 			connection.commit();
 
 		} catch (Exception e) {
@@ -115,14 +115,14 @@ public class ClienteDAO implements IDao {
 			if (rs.next())
 				idCliente = rs.getInt(1);
 			cliente.setId(idCliente);
-			
+
 //			for (Endereco e : cliente.getEnderecos()) {
 //				e.setCliente(cliente);
 //			}
 //
 //			cliente.getEnderecos().forEach(enderecoDAO::alterar);
 //			cliente.getCartoes().forEach(cartaoDAO::alterar);
-			
+
 			connection.commit();
 		} catch (Exception e) {
 			try {
@@ -172,7 +172,7 @@ public class ClienteDAO implements IDao {
 //			}
 //			cliente.getEnderecos().forEach(enderecoDAO::excluir);
 //			cliente.getCartoes().forEach(cartaoDAO::excluir);
-			
+
 			connection.commit();
 		} catch (Exception e) {
 			try {
@@ -219,7 +219,6 @@ public class ClienteDAO implements IDao {
 				cli.setTelefone(rs.getString("telefone"));
 				cli.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
 				cli.setDataUltimoLogin((rs.getDate(("data_ultimo_login")).toLocalDate()));
-				cli.setDataUltimaCompra(rs.getDate("data_ultima_compra").toLocalDate());
 				cli.setQtdPedidos(rs.getInt("qtd_pedidos"));
 				enderecos = enderecoDAO.listar(cli);
 				cartoes = cartaoDAO.listar(cli);
@@ -273,7 +272,6 @@ public class ClienteDAO implements IDao {
 				cliente.setTelefone(rs.getString("telefone"));
 				cliente.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
 				cliente.setDataUltimoLogin((rs.getDate(("data_ultimo_login")).toLocalDate()));
-				cliente.setDataUltimaCompra(rs.getDate("data_ultima_compra").toLocalDate());
 				cliente.setQtdPedidos(rs.getInt("qtd_pedidos"));
 				enderecos = enderecoDAO.listar(cliente);
 				cartoes = cartaoDAO.listar(cliente);

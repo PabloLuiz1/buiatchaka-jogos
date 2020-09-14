@@ -1,6 +1,9 @@
 package br.edu.fatec.buiatchaka.web.viewhelper;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +15,8 @@ import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.Resultado;
 import br.edu.fatec.buiatchaka.dominio.cliente.Bandeira;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
+import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
+import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
 
 public class CartaoVH implements IViewHelper {
 
@@ -20,19 +25,19 @@ public class CartaoVH implements IViewHelper {
 		
 		HttpSession session = null;
 		Cartao cartao = null;
-		String operacao = request.getParameter("btnOperacao");
+		String operacao = request.getParameter("operacao");
 
 		if (operacao.equals("SALVAR")) {
 			cartao = criarCartao(request);
 
 		} else if (operacao.equals("ALTERAR")) {
-			cartao = criarCartao(request);
+			cartao = criarCartao(request, Long.parseLong(request.getParameter("cartao")));
 
 		} else if (operacao.equals("EXCLUIR")) {
-			cartao = criarCartao(request);
+			cartao = criarCartao(request, Long.parseLong(request.getParameter("cartao")));
 
 		} else if (operacao.equals("CONSULTAR")) {
-			cartao = criarCartao(request);
+			cartao = criarCartao(request, Long.parseLong(request.getParameter("cartao")));
 
 		}
 		
@@ -44,33 +49,45 @@ public class CartaoVH implements IViewHelper {
 			throws IOException, ServletException {
 		
 		RequestDispatcher d = null;
-		String operacao = request.getParameter("btnOperacao");
+		String operacao = request.getParameter("operacao");
 
-		if (resultado.getMsg() != null && !resultado.getMsg().trim().equals("")) {
-			System.out.println("adicionando resultado na sessão");
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("register3.jsp");
 
-		} else if (operacao.equals("SALVAR")) {
-			resultado.setMsg("Cadastro realizado com sucesso.");
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("register3.jsp");
-
-		} else if (operacao.equals("CONSULTAR")) {
-			resultado.setMsg("Consulta realizada com sucesso.");
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("cartao.jsp");
-
-		} else if (operacao.equals("ALTERAR")) {
-			resultado.setMsg("Alteração realizada com sucesso.");
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("cartao.jsp");
-
-		} else if (operacao.equals("EXCLUIR")) {
-			resultado.setMsg("Cartao excluido com sucesso.");
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("cartao.jsp");
-
+//		if (resultado.getMsg().trim().equals("") && operacao.equals("SALVAR")) {
+//			System.out.println("Adicionando resultado na request.");
+//			request.setAttribute("resultado", (Resultado) resultado);
+//			d = request.getRequestDispatcher("perfil-dados.html");
+//		}
+		if (resultado.getMsg() != null && operacao.equals("SALVAR")) {
+			request.setAttribute("resultado", resultado);
+//			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
+			d = request.getRequestDispatcher("perfil-dados");
+		}
+		if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
+//			resultado.setMsg("Consulta realizada com sucesso.");
+			request.getSession().setAttribute("resultado", (Resultado) resultado);
+			d = request.getRequestDispatcher("ver-cartao");
+		}
+		if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
+//			resultado.setMsg("Alteração realizada com sucesso.");
+			request.getSession().setAttribute("resultado", (Resultado) resultado);
+			d = request.getRequestDispatcher("editar-cartao");
+		}
+		if (operacao.equals("EXCLUIR")) {
+			
+			request.getSession().setAttribute("resultado", (Resultado) resultado);
+			d = request.getRequestDispatcher("perfil-dados");
+		}
+		if (resultado.getMsg() == "" || resultado.getMsg() == null) {
+			List<Cartao> cartoes = new ArrayList<Cartao>();
+			Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
+//			request.getSession().setAttribute("cliente", resultado.getEntidades().get(0));
+//			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
+			if (operacao.equals("SALVAR")) {
+				d = request.getRequestDispatcher("perfil-dados");
+			}
+			if (operacao.equals("ALTERAR")) {
+				d = request.getRequestDispatcher("editar-cartao");
+			}
 		}
 
 		d.forward(request, response);
@@ -79,14 +96,25 @@ public class CartaoVH implements IViewHelper {
 	
 	private Cartao criarCartao(HttpServletRequest request) {
 		Cartao cartao = new Cartao();
-		cartao.setNomeImpresso(request.getParameter("txtNomeImpresso"));
-		cartao.setNumero(request.getParameter("txtNumero"));
-		cartao.setBandeira(new Bandeira(request.getParameter("cbBandeira")));
-		cartao.setCodigo(request.getParameter("txtCodigo"));
+		cartao.setNumero(request.getParameter("numeroCartao"));
+		cartao.setNomeImpresso(request.getParameter("nomeTitular"));
+		cartao.setBandeira(request.getParameter("bandeira"));
+		cartao.setCodigo(request.getParameter("codigo"));
+		cartao.setDataVencimento(LocalDate.of(Integer.parseInt(request.getParameter("ano")), Integer.parseInt(request.getParameter("mes")), 1));
+		cartao.setCpfTitular(request.getParameter("cpfTitular"));
+		cartao.setCliente((Cliente) request.getSession().getAttribute("cliente"));
 		
-		Resultado resultado = (Resultado) request.getSession().getAttribute("resultado");
-		cartao.setId(resultado.getEntidades().get(0).getId());
+//		Resultado resultado = (Resultado) request.getSession().getAttribute("resultado");
+//		cartao.setId(resultado.getEntidades().get(0).getId());
 		
+		return cartao;
+	}
+	
+	private Cartao criarCartao(HttpServletRequest request, Long id) {
+		Cartao cartao = new Cartao();
+		cartao.setId(Long.parseLong(request.getParameter("cartao")));
+		Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
+		cartao.setCliente(cliente);
 		return cartao;
 	}
 
