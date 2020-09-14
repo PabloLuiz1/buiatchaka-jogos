@@ -21,8 +21,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "endereco", schema = "public")
 public class Endereco extends EntidadeDominio {
-	@Column(nullable = false, columnDefinition = "character varying(255)")
-	private EnumTipoEndereco tipoEndereco;
 	@Column(nullable = false)
 	private String nome;
 	@Column(nullable = false)

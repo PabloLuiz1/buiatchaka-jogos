@@ -17,7 +17,7 @@ public class ValidarBairro extends AbstractValidator{
 	
 	private String validarBairro(String bairro) {
 		if (bairro.trim().length() < 4 || !ValidadoraDeCampos.validarCampoTexto(bairro)) {
-			return "Insira o bairro corretamente. ";
+			return "Insira o bairro corretamente. \n";
 		}
 		return "";
 	}

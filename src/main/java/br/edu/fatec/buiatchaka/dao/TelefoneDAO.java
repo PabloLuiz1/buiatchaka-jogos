@@ -18,7 +18,7 @@ public class TelefoneDAO implements IDao {
 	private Connection connection = null;
 
 	@Override
-	public void salvar(EntidadeDominio entidade) {
+	public EntidadeDominio salvar(EntidadeDominio entidade) {
 		Telefone telefone = (Telefone) entidade;
 
 		try {
@@ -53,7 +53,7 @@ public class TelefoneDAO implements IDao {
 				e.printStackTrace();
 			}
 		}
-
+		return telefone;
 	}
 
 	@Override

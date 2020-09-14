@@ -16,16 +16,14 @@ public class ValidarCpf extends AbstractValidator {
 		mensagem.append(validarCpf(cliente.getCpf()));
 		return mensagem.toString();
 	}
-	
+
 	private String validarCpf(String cpf) {
 
-		if (cpf.equals("00000000000") || cpf.equals("11111111111")
-				|| cpf.equals("22222222222") || cpf.equals("33333333333")
-				|| cpf.equals("44444444444") || cpf.equals("55555555555")
-				|| cpf.equals("66666666666") || cpf.equals("77777777777")
-				|| cpf.equals("88888888888") || cpf.equals("99999999999")
-				|| (cpf.length() != 11) || !ValidadoraDeCampos.validarCampoNumero(cpf))
-			return ("Insira um CPF válido.");
+		if (cpf.equals("00000000000") || cpf.equals("11111111111") || cpf.equals("22222222222")
+				|| cpf.equals("33333333333") || cpf.equals("44444444444") || cpf.equals("55555555555")
+				|| cpf.equals("66666666666") || cpf.equals("77777777777") || cpf.equals("88888888888")
+				|| cpf.equals("99999999999") || (cpf.length() != 11) || !ValidadoraDeCampos.validarCampoNumero(cpf))
+			return ("Insira um CPF válido. \n");
 
 		char dig10, dig11;
 		int sm, i, r, num, peso;
@@ -69,10 +67,10 @@ public class ValidarCpf extends AbstractValidator {
 			if ((dig10 == cpf.charAt(9)) && (dig11 == cpf.charAt(10)))
 				return "";
 			else
-				return ("Insira um CPF válido.");
+				return ("Insira um CPF válido. \n");
 		} catch (InputMismatchException erro) {
 			erro.printStackTrace();
-			return ("Insira um CPF válido.");
+			return ("Insira um CPF válido. \n");
 		}
 	}
 }

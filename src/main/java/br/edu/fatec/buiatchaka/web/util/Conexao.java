@@ -19,8 +19,8 @@ public class Conexao {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection
-					("jdbc:postgresql://ec2-174-129-227-146.compute-1.amazonaws.com/deh9ut08774ce7",
-							"fqrtzpvrsidylm?sslmode=require", "4ff05dd9e6a47e815cad8bbe62dd1cb6797e9f0ac4500164b1ddfe9b45210407");
+					("jdbc:postgresql://127.0.0.1:5432/dbbuiatchaka",
+							"postgres", "admin");
 		} catch (SQLException e) {
 			throw new RuntimeException("Não foi possível exceutar o acesso", e);
 		}

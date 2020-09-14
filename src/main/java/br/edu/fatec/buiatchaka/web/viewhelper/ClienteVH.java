@@ -13,6 +13,7 @@ import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.Resultado;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.enums.EnumGenero;
+import br.edu.fatec.buiatchaka.sistema.logging.Log;
 
 public class ClienteVH implements IViewHelper {
 
@@ -28,8 +29,7 @@ public class ClienteVH implements IViewHelper {
 			cliente = criarCliente(request);
 
 		} else if (operacao.equals("EXCLUIR")) {
-			cliente = new Cliente();
-			cliente.setId(10);
+			cliente = criarCliente(request);
 
 		} else if (operacao.equals("CONSULTAR")) {
 			cliente = criarCliente(request);
@@ -39,19 +39,19 @@ public class ClienteVH implements IViewHelper {
 
 	private Cliente criarCliente(HttpServletRequest request) {
 		Cliente cliente = new Cliente();
-		TelefoneVH telefoneVH = new TelefoneVH();
-		EnderecoVH enderecoVH = new EnderecoVH();
-		cliente.setId((Long.parseLong(request.getParameter("id"))));
+//		cliente.setId((Long.parseLong(request.getParameter("id"))));
 		cliente.setNome(request.getParameter("nome"));
 		cliente.setRg(request.getParameter("rg"));
 		cliente.setCpf(request.getParameter("cpf"));
-		cliente.setGenero(EnumGenero.valueOf(request.getParameter("genero").toUpperCase()));
-		cliente.setDataNascimento(LocalDate.parse(request.getParameter("dataNascimento")));
+		cliente.setTelefone(request.getParameter("telefone"));
+//		System.out.println(request.getParameter("telefone"));
+//		System.out.println(request.getParameter("dataNascimento"));
+//		System.out.println(request.getParameter("genero"));
+		cliente.setDataNascimento(LocalDate.parse((request.getParameter("dataNascimento"))));
+		cliente.setGenero(EnumGenero.valueOf(request.getParameter("genero").toString()));
 		cliente.setEmail(request.getParameter(("email")));
 		cliente.setSenha(request.getParameter("senha"));
-		
-//		cliente.setTelefone((Telefone) telefoneVH.getEntidade(request));
-		
+
 		return cliente;
 	}
 
@@ -61,31 +61,37 @@ public class ClienteVH implements IViewHelper {
 		RequestDispatcher d = null;
 		String operacao = request.getParameter("operacao");
 
-		if (resultado.getMsg() != null && !resultado.getMsg().trim().equals("")) {
-			System.out.println("adicionando resultado na request");
-			request.setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("register.jsp");
-
-		} else if (operacao.equals("SALVAR")) {
-			resultado.setMsg("Cadastro realizado com sucesso.");
-			request.setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("register.jsp");
-
-		} else if (operacao.equals("CONSULTAR")) {
+		if (resultado.getMsg().trim().equals("") && operacao.equals("SALVAR")) {
+			System.out.println("Adicionando resultado na request.");
+			request.setAttribute("resultado", (Resultado) resultado);
+			request.getSession().setAttribute("cliente", (Cliente) resultado.getEntidades().get(0));
+			Log.loggar("ID do Cliente a ser passado para a página de endereço: " + resultado.getEntidades().get(0).getId());
+			d = request.getRequestDispatcher("perfil-dados");
+		}
+		if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
 			resultado.setMsg("Consulta realizada com sucesso.");
 			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("PesquisaCliente.jsp");
-
-		} else if (operacao.equals("ALTERAR")) {
+			d = request.getRequestDispatcher("ver-cliente");
+		}
+		if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
 			resultado.setMsg("Alteração realizada com sucesso.");
 			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("AlterarCliente.jsp");
-
-		} else if (operacao.equals("EXCLUIR")) {
+			d = request.getRequestDispatcher("editar-cliente");
+		}
+		if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
 			resultado.setMsg("Cliente inativado com sucesso.");
 			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("PesquisaCliente.jsp");
-
+			d = request.getRequestDispatcher("clientes");
+		}
+		if (!resultado.getMsg().trim().equals("")) {
+			request.setAttribute("resultado", (Resultado) resultado);
+			request.setAttribute("cliente", (Cliente) resultado.getEntidades().get(0));
+			if (operacao.equals("SALVAR")) {
+				d = request.getRequestDispatcher("sign-up");
+			}
+			if (operacao.equals("ALTERAR")) {
+				d = request.getRequestDispatcher("editar-cliente");
+			}
 		}
 
 		d.forward(request, response);

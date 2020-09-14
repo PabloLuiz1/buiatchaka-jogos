@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <title> BuiaTchaKa Games </title>
+	<link rel="stylesheet" th:href="@{css/reset.css}">
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{css/font-awesome.min.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid p-0">
+        <header>
+            <div class="container-fluid p-1 border border-dark">
+                <a href="index.html">BuiaTchaKa Games</a>
+                <br>
+            </div>
+            <div class="col text-right text-dark">
+                Olá, visitante.
+                <a class="text-dark" href="#">Login | Cadastre-se</a>
+                <br>
+                <a class="text-dark" href="cart.html">Carrinho (vazio) </a>
+            </div>
+            <div class="container-fluid bg-light">
+                <nav>
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Item 1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Item 2</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Item 3</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Item 4</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Item 5</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="container">
+            <h3>Cadastre-se</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="sign-up.html">Dados pessoais</a></li>
+                    <li class="breadcrumb-item"><a href="sign-up-endereco.html">Endereço</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><a href="#"
+                            class="font-weight-bold">Cartões</a></li>
+                </ol>
+            </nav>
+            <div class="row mt-2">
+                <div class="col mb-4">
+                    <form method="POST" class="col-md-10">
+                        <label for="numeroCartao">Número do cartão: </label>
+                        <input type="text" name="numeroCartao" class="form-control">
+                        <br>
+                        <label for="nomeTitular">Nome do titular (como escrito no cartão):</label>
+                        <input type="text" name="nomeTitular" class="form-control">
+                        <br>
+                        <label for="dataVencimento">Data de vencimento (Mês/Ano):</label>
+                        <br>
+                        <select class="col-md-2">
+                            <option>01</option>
+                            <option>02</option>
+                            <option>03</option>
+                            <option>04</option>
+                            <option>05</option>
+                            <option>...</option>
+                        </select>
+                        /
+                        <select class="col-md-2">
+                            <option>21</option>
+                            <option>22</option>
+                            <option>23</option>
+                            <option>24</option>
+                            <option>25</option>
+                            <option>...</option>
+                        </select>
+                        <br>
+                        <br>
+                        <label for="cvv">Código de segurança: </label>
+                        <input type="text" name="cvv" class="form-control col-md-4">
+                        <br>
+                        <label for="cpfTitular">CPF do titular: </label>
+                        <input type="text" name="cpfTitular" class="form-control">
+                        <br>
+                        <input type="submit" class="btn btn-success pull-right font-weight-bold" value="Continuar">
+                </div>
+                <div class="col mb-4">
+                </div>
+            </div>
+        </div>
+        <footer>
+            Footer
+        </footer>
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+</html>

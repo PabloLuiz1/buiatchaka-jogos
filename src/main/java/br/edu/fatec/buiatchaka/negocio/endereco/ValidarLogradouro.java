@@ -17,7 +17,7 @@ public class ValidarLogradouro extends AbstractValidator {
 
 	private String validarLogradouro(String logradouro) {
 		if (logradouro.trim().equals("") || !ValidadoraDeCampos.validarCampoTexto(logradouro)) {
-			return "Insira o logradouro. ";
+			return "Insira o logradouro. \n";
 		}
 		return "";
 	}

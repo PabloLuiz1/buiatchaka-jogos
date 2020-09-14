@@ -20,7 +20,7 @@ public class EnderecoDAO implements IDao {
 	private Connection connection = null;
 	private PreparedStatement pst = null;
 	@Override
-	public void salvar(EntidadeDominio entidade) {
+	public EntidadeDominio salvar(EntidadeDominio entidade) {
 		Endereco endereco = (Endereco) entidade;
 
 		try {
@@ -29,8 +29,8 @@ public class EnderecoDAO implements IDao {
 
 			StringBuilder sql = new StringBuilder();
 			sql.append(
-					"INSERT INTO endereco (nome, cep, logradouro, numero, complemento, bairro, cidade, estado, tipo_endereco, cliente_id)");
-			sql.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO endereco (nome, cep, logradouro, numero, complemento, bairro, cidade, estado, cliente_id)");
+			sql.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			
@@ -42,11 +42,16 @@ public class EnderecoDAO implements IDao {
 			pst.setString(6, endereco.getBairro());
 			pst.setString(7, endereco.getCidade());
 			pst.setString(8, endereco.getEstado());
-			pst.setString(9, endereco.getTipoEndereco().toString());
-			pst.setLong(10, endereco.getCliente().getId());
+			pst.setLong(9, endereco.getCliente().getId());
 			
 			pst.executeUpdate();
 
+			ResultSet rs = pst.getGeneratedKeys();
+			long idEndereco = 0;
+			if (rs.next())
+				idEndereco = rs.getInt(1);
+			endereco.setId(idEndereco);
+			
 			connection.commit();
 		} catch (Exception e) {
 			try {
@@ -63,7 +68,7 @@ public class EnderecoDAO implements IDao {
 				e.printStackTrace();
 			}
 		}
-
+		return endereco;
 	}
 
 	@Override
@@ -86,9 +91,8 @@ public class EnderecoDAO implements IDao {
 			pst.setString(6, endereco.getBairro());
 			pst.setString(7, endereco.getCidade());
 			pst.setString(8, endereco.getEstado());
-			pst.setString(9, endereco.getTipoEndereco().toString());
-			pst.setBoolean(10, true);
-			pst.setLong(11, endereco.getId());
+			pst.setBoolean(9, true);
+			pst.setLong(10, endereco.getId());
 
 			pst.executeUpdate();
 
@@ -142,7 +146,6 @@ public class EnderecoDAO implements IDao {
 				end.setBairro(rs.getString("bairro"));
 				end.setCidade(rs.getString("cidade"));
 				end.setEstado(rs.getString("estado"));
-				end.setTipoEndereco(EnumTipoEndereco.valueOf(rs.getString("tipo_endereco").toUpperCase()));
 				end.setDataCadastro(rs.getDate("data_cadastro").toLocalDate());
 				end.setAtivo(rs.getBoolean("ativo"));
 				end.setCliente(cliente);
@@ -191,7 +194,6 @@ public class EnderecoDAO implements IDao {
 				endereco.setBairro(rs.getString("bairro"));
 				endereco.setCidade(rs.getString("cidade"));
 				endereco.setEstado(rs.getString("estado"));
-				endereco.setTipoEndereco(EnumTipoEndereco.valueOf(rs.getString("tipo_endereco").toUpperCase()));
 				endereco.setDataCadastro(rs.getDate("data_cadastro").toLocalDate());
 				endereco.setAtivo(rs.getBoolean("ativo"));
 				endereco.setCliente(cliente);

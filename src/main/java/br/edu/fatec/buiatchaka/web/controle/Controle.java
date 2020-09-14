@@ -22,7 +22,7 @@ import br.edu.fatec.buiatchaka.web.viewhelper.ClienteVH;
 import br.edu.fatec.buiatchaka.web.viewhelper.EnderecoVH;
 import br.edu.fatec.buiatchaka.web.viewhelper.IViewHelper;
 
-@WebServlet(urlPatterns = { "/ControleCliente", "/admin/ControleCliente" })
+@WebServlet(urlPatterns = { "/ControleEndereco", "/ControleCliente", "/admin/ControleCliente" }, loadOnStartup = 1)
 public class Controle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -36,11 +36,11 @@ public class Controle extends HttpServlet {
 		commands.put("EXCLUIR", new ExcluirCommand());
 		commands.put("CONSULTAR", new ConsultarCommand());
 		commands.put("PERFIL", new ConsultarCommand());
-
+		System.out.println("Passou no construtor");
 		vhs = new HashMap<String, IViewHelper>();
-		vhs.put("/buiatchaka-smartphones/ControleCliente", new ClienteVH());
-		vhs.put("/buiatchaka-smartphones/ControleEndereco", new EnderecoVH());
-		vhs.put("/buiatchaka-smartphones/ControleCartao", new CartaoVH());
+		vhs.put("/ControleCliente", new ClienteVH());
+		vhs.put("/ControleEndereco", new EnderecoVH());
+		vhs.put("/ControleCartao", new CartaoVH());
 		vhs.put("/admin/ControleCliente", new ClienteVH());
 	}
 
@@ -48,10 +48,10 @@ public class Controle extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String uri = request.getRequestURI();
-		String operacao = request.getParameter("btnOperacao");
+		String operacao = request.getParameter("operacao");
 
 		System.out.println("URI: " + uri);
-		System.out.println("OPERACAO: " + request.getParameter("btnOperacao"));
+		System.out.println("OPERACAO: " + request.getParameter("operacao"));
 
 		IViewHelper vh = vhs.get(uri);
 		EntidadeDominio entidade = vh.getEntidade(request);

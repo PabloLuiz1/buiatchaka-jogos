@@ -17,7 +17,7 @@ public class ValidarEstado extends AbstractValidator{
 
 	private String validarEstado(String estado) {
 		if (estado.trim().length() != 2 || !ValidadoraDeCampos.validarCampoTexto(estado)) {
-			return "Selecione o estado. ";
+			return "Selecione o estado. \n";
 		}
 		return "";
 	}

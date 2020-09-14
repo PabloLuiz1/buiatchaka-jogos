@@ -16,8 +16,8 @@ public class ValidarCidade extends AbstractValidator{
 	}
 	
 	private String validarCidade(String cidade) {
-		if (cidade.trim().length() < 4 || !ValidadoraDeCampos.validarCampoTexto(cidade)) {
-			return "Insira a cidade corretamente. ";
+		if (cidade.trim().length() < 3) {
+			return "Insira a cidade corretamente. \n";
 		}
 		return "";
 	}

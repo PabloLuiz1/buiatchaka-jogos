@@ -24,7 +24,7 @@ public class ClienteDAO implements IDao {
 	private Connection connection = null;
 
 	@Override
-	public void salvar(EntidadeDominio entidade) {
+	public EntidadeDominio salvar(EntidadeDominio entidade) {
 		PreparedStatement stm = null;
 		Cliente cliente = (Cliente) entidade;
 
@@ -33,8 +33,8 @@ public class ClienteDAO implements IDao {
 			connection.setAutoCommit(false);
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("INSERT INTO cliente (nome, rg, cpf, email, genero, data_nascimento, senha)");
-			sql.append("VALUES (?, ?, ?, ?, ?, ?, ?)");
+			sql.append("INSERT INTO cliente (nome, rg, cpf, email, genero, data_nascimento, senha, telefone)");
+			sql.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 			stm = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
@@ -45,25 +45,21 @@ public class ClienteDAO implements IDao {
 			stm.setString(5, cliente.getGenero().toString());
 			stm.setDate(6, Date.valueOf(cliente.getDataNascimento()));
 			stm.setString(7, cliente.getSenha());
+			stm.setString(8, cliente.getTelefone());
 
 			stm.executeUpdate();
 
 			ResultSet rs = stm.getGeneratedKeys();
-			int idCliente = 0;
+			long idCliente = 0;
 			if (rs.next())
 				idCliente = rs.getInt(1);
 			cliente.setId(idCliente);
-
-			for (Telefone t : cliente.getTelefones()) {
-				t.setCliente(cliente);
-			}
-			for (Endereco e : cliente.getEnderecos()) {
-				e.setCliente(cliente);
-			}
-
-			cliente.getTelefones().forEach(telefoneDAO::salvar);
-			cliente.getEnderecos().forEach(enderecoDAO::salvar);
-			cliente.getCartoes().forEach(cartaoDAO::salvar);
+//			for (Endereco e : cliente.getEnderecos()) {
+//				e.setCliente(cliente);
+//			}
+//
+//			cliente.getEnderecos().forEach(enderecoDAO::salvar);
+//			cliente.getCartoes().forEach(cartaoDAO::salvar);
 			
 			connection.commit();
 
@@ -82,6 +78,7 @@ public class ClienteDAO implements IDao {
 				e.printStackTrace();
 			}
 		}
+		return cliente;
 	}
 
 	@Override
@@ -95,7 +92,7 @@ public class ClienteDAO implements IDao {
 
 			StringBuilder sql = new StringBuilder();
 			sql.append(
-					"UPDATE cliente SET nome = ?, rg = ?, cpf = ?, email = ?, genero = ?, data_nascimento = ?, senha  = ? "
+					"UPDATE cliente SET nome = ?, rg = ?, cpf = ?, email = ?, genero = ?, data_nascimento = ?, senha  = ?, telefone = ?"
 							+ "WHERE ativo = ? AND id = ?");
 
 			stm = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
@@ -107,8 +104,9 @@ public class ClienteDAO implements IDao {
 			stm.setString(5, cliente.getGenero().toString());
 			stm.setDate(6, Date.valueOf(cliente.getDataNascimento()));
 			stm.setString(7, cliente.getSenha());
-			stm.setBoolean(8, true);
-			stm.setLong(9, cliente.getId());
+			stm.setString(8, cliente.getTelefone());
+			stm.setBoolean(9, true);
+			stm.setLong(10, cliente.getId());
 
 			stm.executeUpdate();
 
@@ -117,17 +115,13 @@ public class ClienteDAO implements IDao {
 			if (rs.next())
 				idCliente = rs.getInt(1);
 			cliente.setId(idCliente);
-
-			for (Telefone t : cliente.getTelefones()) {
-				t.setCliente(cliente);
-			}
-			for (Endereco e : cliente.getEnderecos()) {
-				e.setCliente(cliente);
-			}
-
-			cliente.getTelefones().forEach(telefoneDAO::alterar);
-			cliente.getEnderecos().forEach(enderecoDAO::alterar);
-			cliente.getCartoes().forEach(cartaoDAO::alterar);
+			
+//			for (Endereco e : cliente.getEnderecos()) {
+//				e.setCliente(cliente);
+//			}
+//
+//			cliente.getEnderecos().forEach(enderecoDAO::alterar);
+//			cliente.getCartoes().forEach(cartaoDAO::alterar);
 			
 			connection.commit();
 		} catch (Exception e) {
@@ -173,16 +167,11 @@ public class ClienteDAO implements IDao {
 				idCliente = rs.getInt(1);
 			cliente.setId(idCliente);
 
-			for (Telefone t : cliente.getTelefones()) {
-				t.setCliente(cliente);
-			}
-			for (Endereco e : cliente.getEnderecos()) {
-				e.setCliente(cliente);
-			}
-			
-			cliente.getTelefones().forEach(telefoneDAO::excluir);
-			cliente.getEnderecos().forEach(enderecoDAO::excluir);
-			cliente.getCartoes().forEach(cartaoDAO::excluir);
+//			for (Endereco e : cliente.getEnderecos()) {
+//				e.setCliente(cliente);
+//			}
+//			cliente.getEnderecos().forEach(enderecoDAO::excluir);
+//			cliente.getCartoes().forEach(cartaoDAO::excluir);
 			
 			connection.commit();
 		} catch (Exception e) {
@@ -216,7 +205,6 @@ public class ClienteDAO implements IDao {
 			stm = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			ResultSet rs = stm.executeQuery();
 			clientes = new ArrayList<EntidadeDominio>();
-			List<? extends EntidadeDominio> telefones = new ArrayList<Telefone>();
 			List<? extends EntidadeDominio> enderecos = new ArrayList<Endereco>();
 			List<? extends EntidadeDominio> cartoes = new ArrayList<Cartao>();
 			while (rs.next()) {
@@ -228,14 +216,13 @@ public class ClienteDAO implements IDao {
 				cli.setCpf(rs.getString("cpf"));
 				cli.setEmail(rs.getString("email"));
 				cli.setSenha(rs.getString("senha"));
+				cli.setTelefone(rs.getString("telefone"));
 				cli.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
 				cli.setDataUltimoLogin((rs.getDate(("data_ultimo_login")).toLocalDate()));
 				cli.setDataUltimaCompra(rs.getDate("data_ultima_compra").toLocalDate());
 				cli.setQtdPedidos(rs.getInt("qtd_pedidos"));
-				telefones = telefoneDAO.listar(cli);
 				enderecos = enderecoDAO.listar(cli);
 				cartoes = cartaoDAO.listar(cli);
-				cli.setTelefones((List<Telefone>) telefones);
 				cli.setEnderecos((List<Endereco>) enderecos);
 				cli.setCartoes((List<Cartao>) cartoes);
 				clientes.add(cli);
@@ -273,7 +260,6 @@ public class ClienteDAO implements IDao {
 			stm.setBoolean(1, true);
 			stm.setLong(2, cliente.getId());
 			ResultSet rs = stm.executeQuery();
-			List<? extends EntidadeDominio> telefones = new ArrayList<Telefone>();
 			List<? extends EntidadeDominio> enderecos = new ArrayList<Endereco>();
 			List<? extends EntidadeDominio> cartoes = new ArrayList<Cartao>();
 			while (rs.next()) {
@@ -284,14 +270,13 @@ public class ClienteDAO implements IDao {
 				cliente.setCpf(rs.getString("cpf"));
 				cliente.setEmail(rs.getString("email"));
 				cliente.setSenha(rs.getString("senha"));
+				cliente.setTelefone(rs.getString("telefone"));
 				cliente.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
 				cliente.setDataUltimoLogin((rs.getDate(("data_ultimo_login")).toLocalDate()));
 				cliente.setDataUltimaCompra(rs.getDate("data_ultima_compra").toLocalDate());
 				cliente.setQtdPedidos(rs.getInt("qtd_pedidos"));
-				telefones = telefoneDAO.listar(cliente);
 				enderecos = enderecoDAO.listar(cliente);
 				cartoes = cartaoDAO.listar(cliente);
-				cliente.setTelefones((List<Telefone>) telefones);
 				cliente.setEnderecos((List<Endereco>) enderecos);
 				cliente.setCartoes((List<Cartao>) cartoes);
 			}

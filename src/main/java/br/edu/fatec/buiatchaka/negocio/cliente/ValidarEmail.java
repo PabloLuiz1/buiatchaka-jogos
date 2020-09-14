@@ -26,7 +26,7 @@ public class ValidarEmail extends AbstractValidator{
 	public String validarEmail(String email) {
 		Matcher matcher = pattern.matcher(email);
 		if (email.trim().length() < 6 || !matcher.matches()) {
-			return "Insira o e-mail corretamente.";
+			return "Insira o e-mail corretamente. \n";
 		}
 		return "";
 	}

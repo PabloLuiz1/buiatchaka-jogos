@@ -13,22 +13,20 @@ import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.web.util.Conexao;
 
-public class CartaoDAO implements IDao{
+public class CartaoDAO implements IDao {
 	PreparedStatement stm = null;
 	private Connection connection = null;
-	
+
 	@Override
-	public void salvar(EntidadeDominio entidade) {
+	public EntidadeDominio salvar(EntidadeDominio entidade) {
 		PreparedStatement pst = null;
 		Cartao cartao = (Cartao) entidade;
 
 		try {
-			connection = Conexao.conectar();
 			connection.setAutoCommit(false);
 
 			StringBuilder sql = new StringBuilder();
-			sql.append(
-					"INSERT INTO cartao (numero, codigo, nome_impresso, cliente_id, bandeira_id)");
+			sql.append("INSERT INTO cartao (numero, codigo, nome_impresso, cliente_id, bandeira_id)");
 			sql.append("VALUES (?, ?, ?, ?, ?)");
 
 			pst = connection.prepareStatement(sql.toString());
@@ -57,6 +55,7 @@ public class CartaoDAO implements IDao{
 				e.printStackTrace();
 			}
 		}
+		return cartao;
 	}
 
 	@Override
@@ -68,7 +67,8 @@ public class CartaoDAO implements IDao{
 			connection.setAutoCommit(false);
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE cartao SET numero = ?, codigo = ?, nome_impresso = ?, bandeira_id = ?" + "WHERE ativo = ? AND id = ?");
+			sql.append("UPDATE cartao SET numero = ?, codigo = ?, nome_impresso = ?, bandeira_id = ?"
+					+ "WHERE ativo = ? AND id = ?");
 
 			stm = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
@@ -225,5 +225,5 @@ public class CartaoDAO implements IDao{
 		}
 		return cartao;
 	}
-	
+
 }

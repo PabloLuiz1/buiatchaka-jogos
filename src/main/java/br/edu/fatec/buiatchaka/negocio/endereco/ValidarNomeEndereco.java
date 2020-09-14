@@ -3,7 +3,6 @@ package br.edu.fatec.buiatchaka.negocio.endereco;
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
 import br.edu.fatec.buiatchaka.negocio.AbstractValidator;
-import br.edu.fatec.buiatchaka.web.util.ValidadoraDeCampos;
 
 public class ValidarNomeEndereco extends AbstractValidator {
 
@@ -16,8 +15,8 @@ public class ValidarNomeEndereco extends AbstractValidator {
 	}
 	
 	private String validarNome(String nome) {
-		if (nome.trim().equals("") || !ValidadoraDeCampos.validarCampoTexto(nome)) {
-			return "Insira o nome do endereço. ";
+		if (nome.trim().equals("")) {
+			return "Insira o nome do endereço. \n";
 		}
 		return "";
 	}

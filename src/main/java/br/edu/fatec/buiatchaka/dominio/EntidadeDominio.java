@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
@@ -16,9 +17,9 @@ import lombok.Setter;
 @MappedSuperclass
 public class EntidadeDominio {
 	@Id
-	@GeneratedValue
+	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private long id;
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "date default 'now()'")
 	private LocalDate dataCadastro;
 	@Column(nullable = false, columnDefinition = "boolean default true")
 	private boolean ativo;

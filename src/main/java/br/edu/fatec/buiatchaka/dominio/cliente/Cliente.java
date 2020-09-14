@@ -21,9 +21,9 @@ import lombok.Setter;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "cliente", schema = "public")
+@Table(name = "cliente")
 public class Cliente extends Usuario {
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "integer default 0")
 	private int qtdPedidos;
 	@Column(nullable = true)
 	private LocalDate dataUltimaCompra;
@@ -36,12 +36,11 @@ public class Cliente extends Usuario {
 	@Column(nullable = true)
 	@OneToMany(mappedBy = "cliente")
 	private List<Cupom> cupons;
-	@Column(nullable = true)
-	@OneToMany(mappedBy = "cliente")
-	private List<Telefone> telefones;
+	@Column(nullable = false)
+	private String telefone;
 	@Override
 	public String toString() {
 		return "Cliente [qtdPedidos=" + qtdPedidos + ", dataUltimaCompra=" + dataUltimaCompra + ", enderecos="
-				+ enderecos + ", cartoes=" + cartoes + ", cupons=" + cupons + ", telefones=" + telefones + "]";
+				+ enderecos + ", cartoes=" + cartoes + ", cupons=" + cupons + ", telefone=" + telefone + "]";
 	}
 }

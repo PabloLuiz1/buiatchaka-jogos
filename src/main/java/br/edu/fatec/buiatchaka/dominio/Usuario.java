@@ -35,6 +35,6 @@ public class Usuario extends EntidadeDominio {
 	private String senha;
 	@Column(nullable = false)
 	private LocalDate dataNascimento;
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "date default 'now()'")
 	private LocalDate dataUltimoLogin;
 }

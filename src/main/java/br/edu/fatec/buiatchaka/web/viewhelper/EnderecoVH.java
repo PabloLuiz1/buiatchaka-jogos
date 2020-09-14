@@ -1,6 +1,7 @@
 package br.edu.fatec.buiatchaka.web.viewhelper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,8 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.Resultado;
+import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
-import br.edu.fatec.buiatchaka.dominio.enums.EnumTipoEndereco;
 
 public class EnderecoVH implements IViewHelper {
 
@@ -20,7 +21,7 @@ public class EnderecoVH implements IViewHelper {
 	public EntidadeDominio getEntidade(HttpServletRequest request) {
 		HttpSession session = null;
 		Endereco endereco = null;
-		String operacao = request.getParameter("btnOperacao");
+		String operacao = request.getParameter("operacao");
 
 		if (operacao.equals("SALVAR")) {
 			endereco = criarEndereco(request);
@@ -41,20 +42,16 @@ public class EnderecoVH implements IViewHelper {
 	private Endereco criarEndereco(HttpServletRequest request) {
 		Endereco endereco = new Endereco();
 
-		endereco.setNome(request.getParameter("txtNomeEndereco"));
-		endereco.setTipoEndereco(EnumTipoEndereco.valueOf(request.getParameter("cbTipoEndereco").toUpperCase()));
-		endereco.setCep(request.getParameter("txtCep"));
-		endereco.setLogradouro(request.getParameter("txtLogradouro"));
-		endereco.setNumero(request.getParameter("txtNumero"));
-		endereco.setBairro(request.getParameter("txtBairro"));
-		endereco.setCidade(request.getParameter("txtCidade"));
-		endereco.setEstado(request.getParameter("cbEstado"));
-		endereco.setComplemento(request.getParameter("txtComplemento"));
-
-		Resultado resultado = (Resultado) request.getSession().getAttribute("resultado");
-		System.out.println(resultado.getEntidades().get(0).getId());
-		endereco.setId(resultado.getEntidades().get(0).getId());
-
+		endereco.setNome(request.getParameter("nome"));
+		endereco.setCep(request.getParameter("cep"));
+		endereco.setLogradouro(request.getParameter("logradouro"));
+		endereco.setNumero(request.getParameter("numero"));
+		endereco.setComplemento(request.getParameter("complemento"));
+		endereco.setBairro(request.getParameter("bairro"));
+		endereco.setCidade(request.getParameter("cidade"));
+		endereco.setEstado(request.getParameter("estado"));
+		Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
+		endereco.setCliente(cliente);
 		return endereco;
 	}
 
@@ -62,33 +59,49 @@ public class EnderecoVH implements IViewHelper {
 	public void setView(Resultado resultado, HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		RequestDispatcher d = null;
-		String operacao = request.getParameter("btnOperacao");
+		String operacao = request.getParameter("operacao");
 
-		if (resultado.getMsg() != null && !resultado.getMsg().trim().equals("")) {
-			System.out.println("adicionando resultado na sessão");
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("register2.jsp");
-
-		} else if (operacao.equals("SALVAR")) {
-			resultado.setMsg("Cadastro realizado com sucesso.");
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("register2.jsp");
-
-		} else if (operacao.equals("CONSULTAR")) {
-			resultado.setMsg("Consulta realizada com sucesso.");
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("endereco.jsp");
-
-		} else if (operacao.equals("ALTERAR")) {
-			resultado.setMsg("Alteração realizada com sucesso.");
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("EditarEndereco.jsp");
-
-		} else if (operacao.equals("EXCLUIR")) {
-			resultado.setMsg("Funcionario inativado com sucesso.");
-			request.getSession().setAttribute("resultado", resultado);
-			d = request.getRequestDispatcher("endereco.jsp");
-
+//		if (resultado.getMsg().trim().equals("") && operacao.equals("SALVAR")) {
+//			System.out.println("Adicionando resultado na request.");
+//			request.setAttribute("resultado", (Resultado) resultado);
+//			d = request.getRequestDispatcher("perfil-dados.html");
+//		}
+		if (!resultado.getMsg().trim().equals("") && operacao.equals("SALVAR")) {
+			request.setAttribute("resultado", resultado);
+			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
+			d = request.getRequestDispatcher("perfil-dados");
+		}
+		if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
+//			resultado.setMsg("Consulta realizada com sucesso.");
+			request.getSession().setAttribute("resultado", (Resultado) resultado);
+			d = request.getRequestDispatcher("ver-endereco");
+		}
+		if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
+//			resultado.setMsg("Alteração realizada com sucesso.");
+			request.getSession().setAttribute("resultado", (Resultado) resultado);
+			d = request.getRequestDispatcher("editar-endereco");
+		}
+		if (resultado.getMsg() == null && operacao.equals("EXCLUIR")) {
+//			resultado.setMsg("Cliente inativado com sucesso.");
+			request.getSession().setAttribute("resultado", (Resultado) resultado);
+			d = request.getRequestDispatcher("perfil-dados");
+		}
+		if (resultado.getMsg().trim().equals("")) {
+			List<Endereco> enderecos = new ArrayList<Endereco>();
+			Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
+			for (EntidadeDominio e : resultado.getEntidades()) {
+				enderecos.add((Endereco) e);
+			}
+			cliente.setEnderecos(enderecos);
+			
+			request.setAttribute("resultado", (Resultado) resultado);
+			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
+			if (operacao.equals("SALVAR")) {
+				d = request.getRequestDispatcher("perfil-dados");
+			}
+			if (operacao.equals("ALTERAR")) {
+				d = request.getRequestDispatcher("editar-endereco");
+			}
 		}
 
 		d.forward(request, response);

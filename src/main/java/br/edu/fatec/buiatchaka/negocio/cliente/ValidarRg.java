@@ -17,7 +17,7 @@ public class ValidarRg extends AbstractValidator{
 
 	private String validarRg(String rg) {
 		if (rg.trim().length() < 4 || !ValidadoraDeCampos.validarCampoEspecial(rg)) {
-			return "Insira o RG corretamente.";
+			return "Insira o RG corretamente. \n";
 		}
 		return "";
 	}

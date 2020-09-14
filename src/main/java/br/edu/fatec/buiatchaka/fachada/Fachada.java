@@ -1,19 +1,20 @@
 package br.edu.fatec.buiatchaka.fachada;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-
+import br.edu.fatec.buiatchaka.dao.CartaoDAO;
+import br.edu.fatec.buiatchaka.dao.ClienteDAO;
+import br.edu.fatec.buiatchaka.dao.EnderecoDAO;
+import br.edu.fatec.buiatchaka.dao.IDao;
+import br.edu.fatec.buiatchaka.dao.TelefoneDAO;
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.Resultado;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
-import br.edu.fatec.buiatchaka.dominio.cliente.Telefone;
 import br.edu.fatec.buiatchaka.negocio.IValidar;
 import br.edu.fatec.buiatchaka.negocio.cartao.ValidarBandeira;
 import br.edu.fatec.buiatchaka.negocio.cartao.ValidarCodigo;
@@ -29,49 +30,40 @@ import br.edu.fatec.buiatchaka.negocio.cliente.ValidarSenha;
 import br.edu.fatec.buiatchaka.negocio.endereco.ValidarBairro;
 import br.edu.fatec.buiatchaka.negocio.endereco.ValidarCep;
 import br.edu.fatec.buiatchaka.negocio.endereco.ValidarCidade;
-import br.edu.fatec.buiatchaka.negocio.endereco.ValidarComplemento;
 import br.edu.fatec.buiatchaka.negocio.endereco.ValidarEstado;
 import br.edu.fatec.buiatchaka.negocio.endereco.ValidarLogradouro;
 import br.edu.fatec.buiatchaka.negocio.endereco.ValidarNomeEndereco;
-import br.edu.fatec.buiatchaka.negocio.endereco.ValidarTipoEndereco;
-import br.edu.fatec.buiatchaka.negocio.telefone.ValidarDdd;
-import br.edu.fatec.buiatchaka.negocio.telefone.ValidarNumeroTelefone;
-import br.edu.fatec.buiatchaka.repository.BandeiraRepository;
-import br.edu.fatec.buiatchaka.repository.CartaoRepository;
-import br.edu.fatec.buiatchaka.repository.ClienteRepository;
-import br.edu.fatec.buiatchaka.repository.EnderecoRepository;
-import br.edu.fatec.buiatchaka.repository.TelefoneRepository;
+import br.edu.fatec.buiatchaka.sistema.logging.Log;
 
 public class Fachada implements IFachada {
-	@Autowired
-	private Map<String, JpaRepository<? extends EntidadeDominio, Long>> repositories;
-	@Autowired
+	private Map<String, IDao> daos;
 	private Map<String, List<IValidar>> regras;
-	@Autowired
 	private StringBuilder sb;
-	@Autowired
-	private ClienteRepository clienteRepository;
-	@Autowired
-	private EnderecoRepository enderecoRepository;
-	@Autowired
-	private CartaoRepository cartaoRepository;
-	@Autowired
-	private TelefoneRepository telefoneRepository;
-	@Autowired
-	private BandeiraRepository bandeiraRepository;
+	private ClienteDAO clienteDAO;
+	private EnderecoDAO enderecoDAO;
+	private CartaoDAO cartaoDAO;
+	private TelefoneDAO telefoneDAO;
 
-	Cliente cliente = null;
 	Resultado resultado = null;
-	JpaRepository<? extends EntidadeDominio, Long> repository = null;
+	IDao dao = null;
 	String nomeClasse = null;
 	List<IValidar> regra = null;
 
 	public Fachada() {
-		repositories.put(Cliente.class.getName(), clienteRepository);
-		repositories.put(Endereco.class.getName(), enderecoRepository);
-		repositories.put(Cartao.class.getName(), cartaoRepository);
-		repositories.put(Cartao.class.getName(), telefoneRepository);
+		// Instanciando os objetos
+		daos = new HashMap<String, IDao>();
+		clienteDAO = new ClienteDAO();
+		enderecoDAO = new EnderecoDAO();
+		cartaoDAO = new CartaoDAO();
+		telefoneDAO = new TelefoneDAO();
+		regras = new HashMap<String, List<IValidar>>();
 
+		sb = new StringBuilder();
+
+		daos.put(Cliente.class.getName(), clienteDAO);
+		daos.put(Endereco.class.getName(), enderecoDAO);
+		daos.put(Cartao.class.getName(), cartaoDAO);
+		daos.put(Cartao.class.getName(), telefoneDAO);
 		// Início: Regras de Cliente
 		IValidar validacaoNomeCliente = new ValidarNome();
 		IValidar validacaoGenero = new ValidarGenero();
@@ -94,25 +86,19 @@ public class Fachada implements IFachada {
 
 		// Início: Regras de Endereço
 		List<IValidar> regrasEndereco = new ArrayList<IValidar>();
-		IValidar validacaoTipoEndereco = new ValidarTipoEndereco();
 		IValidar validacaoNomeEndereco = new ValidarNomeEndereco();
 		IValidar validacaoLogradouro = new ValidarLogradouro();
-		IValidar validacaoNumero = new ValidarNumeroTelefone();
 		IValidar validacaoCep = new ValidarCep();
 		IValidar validacaoBairro = new ValidarBairro();
 		IValidar validacaoCidade = new ValidarCidade();
 		IValidar validacaoEstado = new ValidarEstado();
-		IValidar validacaoComplemento = new ValidarComplemento();
 
-		regrasEndereco.add(validacaoTipoEndereco);
 		regrasEndereco.add(validacaoNomeEndereco);
 		regrasEndereco.add(validacaoLogradouro);
-		regrasEndereco.add(validacaoNumero);
 		regrasEndereco.add(validacaoCep);
 		regrasEndereco.add(validacaoBairro);
 		regrasEndereco.add(validacaoCidade);
 		regrasEndereco.add(validacaoEstado);
-		regrasEndereco.add(validacaoComplemento);
 
 		// Fim: Regras de Endereço
 
@@ -130,95 +116,72 @@ public class Fachada implements IFachada {
 
 		// Fim: Regras de Cartão
 
-		// Início: Regras de Telefone
-		List<IValidar> regrasTelefone = new ArrayList<IValidar>();
-		IValidar validacaoDdd = new ValidarDdd();
-		IValidar validacaoNumeroTelefone = new ValidarNumeroTelefone();
-
-		regrasTelefone.add(validacaoDdd);
-		regrasTelefone.add(validacaoNumeroTelefone);
-
-		// Fim: Regras de Telefone
-
 		regras.put(Cliente.class.getName(), regrasCliente);
 		regras.put(Endereco.class.getName(), regrasEndereco);
 		regras.put(Cartao.class.getName(), regrasCartao);
-		regras.put(Telefone.class.getName(), regrasTelefone);
 	}
 
-	private void executarRegras(List<IValidar> regrasEntidade, EntidadeDominio entidade) {
+	private String executarRegras(List<IValidar> regrasEntidade, EntidadeDominio entidade) {
 		String msg = "";
 		for (IValidar validacao : regrasEntidade) {
 			msg = validacao.validar(entidade);
 			sb.append(msg);
 		}
+		return msg;
 	}
 
 	@Override
 	public Resultado salvar(EntidadeDominio entidade) {
+		Cliente cliente = null;
+		Endereco endereco = null;
 		resultado = new Resultado();
 		nomeClasse = entidade.getClass().getName();
 		regra = regras.get(nomeClasse);
 		sb.setLength(0);
 
-		executarRegras(regra, entidade);
-
-		if (sb.length() == 0 || sb.toString().trim().equals("")) {
-			if (nomeClasse.equals("Cliente")) {
-				if (!clienteRepository.save((Cliente) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
+		if (nomeClasse.equals(Cliente.class.getName())) {
+			Log.loggar("ENTROU NO IF DA CLASSE DO CLIENTE NESTA PORRA!!!");
+			cliente = (Cliente) entidade;
+			sb.append(executarRegras(regra, cliente));
+			if (sb.length() == 0 || sb.toString().trim().equals("")) {
+				try {
+					dao = daos.get(nomeClasse);
+					entidade.setId(dao.salvar(cliente).getId());
+					System.out.println("Salvando no banco... " + cliente.getId());
+					resultado.addEntidades(cliente);
+				} catch (Exception e) {
+					e.printStackTrace();
+					resultado.setMsg("Não foi possível salvar...");
 				}
+			} else {
+				System.out.println("Erro encontrado...");
+				resultado.addEntidades((Cliente) cliente);
 			}
-			if (nomeClasse.equals("Cartao")) {
-				if (!cartaoRepository.save((Cartao) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
+		}
+		if (nomeClasse.equals(Endereco.class.getName())) {
+			endereco = (Endereco) entidade;
+			Log.loggar("ENTROU NO IF DA CLASSE DO ENDEREÇO NESTA PORRA!!!");
+			endereco = (Endereco) entidade;
+			sb.append(executarRegras(regra, endereco));
+			if (sb.length() == 0 || sb.toString().trim().equals("")) {
+				try {
+					dao = daos.get(nomeClasse);
+					endereco.setId(dao.salvar(endereco).getId());
+					System.out.println("Salvando no banco... " + endereco.getId());
+					resultado.addEntidades((Endereco) endereco);
+				} catch (Exception e) {
+					e.printStackTrace();
+					resultado.setMsg("Não foi possível salvar...");
 				}
+			} else {
+				System.out.println("Erro encontrado...");
+				resultado.addEntidades((Endereco) endereco);
 			}
-			if (nomeClasse.equals("Endereco")) {
-				if (!enderecoRepository.save((Endereco) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
-				}
-			}
-		} else {
-			System.out.println("Erro na validação das regras");
-			resultado.addEntidades(entidade);
-			resultado.setMsg(sb.toString());
 		}
 
-		// verificar se é um cliente pq cliente tem q verificar alem dos dados dele
-		// tem q validar os dados de end, senha e usu
-//		if (nomeClasse == Cliente.class.getName()) {
-//			Cliente cliente = (Cliente) entidade;
-//			// executar regras dos endereços
-//			List<IValidar> regrasTelefone = regras.get(Telefone.class.getName());
-//			if (sb.length() == 0 || sb.toString().trim().equals("")) {
-//				try {
-//					dao = daos.get(nomeClasse);
-//					repository.save(cliente);
-//					dao.salvar(cliente);
-//					System.out.println("Salvando no banco...");
-//					resultado.addEntidades(entidade);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					resultado.setMsg("Não foi possível salvar...");
-//				}
-//			} else {
-//				System.out.println("Erro encontrado...");
-//				resultado.addEntidades(entidade);
-//				resultado.setMsg(sb.toString());
-//			}
-////			executarRegras(regrasTelefone, cliente.getTelefones());
-//		}
-
-		System.out.println("Erro:" + sb.toString());
-		// se tem msg de erro ele não salva
-
+		resultado.setMsg(sb.toString());
+		Log.loggar("Printando o resultado das validações de negócio do Cliente/Endereço:" + resultado.getMsg());
+//		Log.loggar("Testando as entidades adicionadas no resultado" + resultado.getEntidades().get(0).getId());
 		return resultado;
 	}
 
@@ -235,15 +198,15 @@ public class Fachada implements IFachada {
 		// se tem msg de erro ele não salva
 		if (sb.length() == 0 || sb.toString().trim().equals("")) {
 			try {
-//				dao = daos.get(nomeClasse);
-//				repository.save(entidade);
-				System.out.println("Alterando no banco....");
+				dao = daos.get(nomeClasse);
+				dao.alterar(entidade);
+				System.out.println("Alterando no banco...");
 			} catch (Exception e) {
 				e.printStackTrace();
-				resultado.setMsg("Não foi possível Salvar...");
+				resultado.setMsg("Não foi possível salvar...");
 			}
 		} else {
-			System.out.println("erro encontrado....");
+			System.out.println("Erro encontrado...");
 			resultado.addEntidades(entidade);
 			resultado.setMsg(sb.toString());
 		}
@@ -258,32 +221,14 @@ public class Fachada implements IFachada {
 
 		nomeClasse = entidade.getClass().getName();
 
-		if (sb.length() == 0 || sb.toString().trim().equals("")) {
-			if (nomeClasse.equals("Cliente")) {
-				if (!clienteRepository.save((Cliente) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
-				}
-			}
-			if (nomeClasse.equals("Cartao")) {
-				if (!cartaoRepository.save((Cartao) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
-				}
-			}
-			if (nomeClasse.equals("Endereco")) {
-				if (!enderecoRepository.save((Endereco) entidade).equals(null)) {
-					resultado.addEntidades(entidade);
-				} else {
-					System.out.println("Erro ao tentar salvar no banco de dados.");
-				}
-			}
-		} else {
-			System.out.println("Erro na validação das regras");
-			resultado.addEntidades(entidade);
-			resultado.setMsg(sb.toString());
+		dao = daos.get(nomeClasse);
+
+		try {
+			dao.excluir(entidade);
+			System.out.println("Excluindo do banco");
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setMsg("Não foi possível realizar a consulta...");
 		}
 
 		return resultado;
@@ -291,33 +236,15 @@ public class Fachada implements IFachada {
 
 	@Override
 	public Resultado consultar(EntidadeDominio entidade) {
-		List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
 		sb.setLength(0);
 		resultado = new Resultado();
 
 		nomeClasse = entidade.getClass().getName();
 
-//		dao = daos.get(nomeClasse);
-		if (nomeClasse.equals("Cliente")) {
-			Optional<Cliente> cliente = clienteRepository.findById(entidade.getId());
-			if (!cliente.equals(null)) {
-				entidades.add(entidade);
-			}
-		}
-		if (nomeClasse.equals("Cartao")) {
-			Optional<Cartao> cartao = cartaoRepository.findById(entidade.getId());
-			if (!cartao.equals(null)) {
-				entidades.add(entidade);
-			}
-		}
-		if (nomeClasse.equals("Endereco")) {
-			Optional<Endereco> endereco = enderecoRepository.findById(entidade.getId());
-			if (!endereco.equals(null)) {
-				entidades.add(entidade);
-			}
-		}
+		dao = daos.get(nomeClasse);
+
 		try {
-			resultado.setEntidades(entidades);
+			resultado.setEntidades(dao.listar(entidade));
 			System.out.println("Consultando no banco");
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -16,10 +16,11 @@ public class ValidarCep extends AbstractValidator {
 	}
 
 	private String validarCep(String cep) {
-		if (cep.trim().length() != 8 || !ValidadoraDeCampos.validarCampoTexto(cep)) {
-			return "Insira o CEP corretamente. ";
+		if (cep.trim().length() != 8) {
+			return "Insira o CEP corretamente. \n";
 		}
 		return "";
 	}
 	
+//	|| !ValidadoraDeCampos.validarCampoNumero(cep)
 }

@@ -1,15 +1,24 @@
 package br.edu.fatec.buiatchaka.web.controle;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import br.edu.fatec.buiatchaka.repository.ClienteRepository;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(value = "/clientes")
 public class ClienteController {
-	@Autowired
-	private ClienteRepository repo;
-
+	
+	@RequestMapping(value = "sign-up", method = {RequestMethod.GET, RequestMethod.POST})
+	public String signUp() {
+		return "sign-up";
+	}
+	
+	@RequestMapping(value = "sign-up-endereco", method = {RequestMethod.GET, RequestMethod.POST})
+	public String signUpEndereco() {
+		return "sign-up-endereco";
+	}
+	
+	@RequestMapping(value = "perfil-dados", method = {RequestMethod.GET, RequestMethod.POST})
+	public String perfilDados() {
+		return "perfil-dados";
+	}
 }

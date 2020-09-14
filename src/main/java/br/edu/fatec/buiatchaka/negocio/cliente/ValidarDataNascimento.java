@@ -18,13 +18,13 @@ public class ValidarDataNascimento extends AbstractValidator{
 	
 	private String validarDataNascimento(LocalDate dataNascimento) {
 		if (dataNascimento.equals(null)) {
-			return "Insira uma data de nascimento. ";
+			return "Insira uma data de nascimento. \n";
 		}
 		if (Period.between(dataNascimento, LocalDate.now()).getYears() < 18) {
-			return "É necessário ter no mínimo 18 anos.";
+			return "É necessário ter no mínimo 18 anos. \n";
 		}
 		if (dataNascimento.isAfter(LocalDate.now())) {
-			return "Insira uma data de nascimento válida.";
+			return "Insira uma data de nascimento válida. \n";
 		}
 		return "";
 	}

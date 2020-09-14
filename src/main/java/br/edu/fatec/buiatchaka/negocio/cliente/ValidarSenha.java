@@ -16,7 +16,7 @@ public class ValidarSenha extends AbstractValidator{
 
 	private String validarSenha(String senha) {
 		if (senha.length() < 8) {
-			return "A senha precisa ter no mínimo 8 digitos.";
+			return "A senha precisa ter no mínimo 8 digitos. \n";
 		}
 		return "";
 	}

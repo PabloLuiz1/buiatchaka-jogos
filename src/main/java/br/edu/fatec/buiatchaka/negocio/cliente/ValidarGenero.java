@@ -17,7 +17,7 @@ public class ValidarGenero extends AbstractValidator{
 	
 	private String validarGenero(EnumGenero genero) {
 		if (genero.equals(null)) {
-			return "Escolha um gênero. ";
+			return "Escolha um gênero. \n";
 		}
 		return "";
 	}

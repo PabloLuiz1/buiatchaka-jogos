@@ -17,7 +17,7 @@ public class ValidarNumeroEndereco extends AbstractValidator {
 	
 	private String validarNumero(String numero) {
 		if (numero.trim().equals("") || !ValidadoraDeCampos.validarCampoEspecial(numero)) {
-			return "Insira o número. ";
+			return "Insira o número. \n";
 		}
 		return "";
 	}

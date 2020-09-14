@@ -16,7 +16,6 @@ import br.edu.fatec.buiatchaka.dominio.Resultado;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
-import br.edu.fatec.buiatchaka.dominio.cliente.Telefone;
 import br.edu.fatec.buiatchaka.negocio.IValidar;
 import br.edu.fatec.buiatchaka.negocio.cartao.ValidarBandeira;
 import br.edu.fatec.buiatchaka.negocio.cartao.ValidarCodigo;
@@ -36,9 +35,6 @@ import br.edu.fatec.buiatchaka.negocio.endereco.ValidarComplemento;
 import br.edu.fatec.buiatchaka.negocio.endereco.ValidarEstado;
 import br.edu.fatec.buiatchaka.negocio.endereco.ValidarLogradouro;
 import br.edu.fatec.buiatchaka.negocio.endereco.ValidarNomeEndereco;
-import br.edu.fatec.buiatchaka.negocio.endereco.ValidarTipoEndereco;
-import br.edu.fatec.buiatchaka.negocio.telefone.ValidarDdd;
-import br.edu.fatec.buiatchaka.negocio.telefone.ValidarNumeroTelefone;
 import br.edu.fatec.buiatchaka.repository.BandeiraRepository;
 import br.edu.fatec.buiatchaka.repository.ClienteRepository;
 
@@ -95,20 +91,16 @@ public class FachadaVelha implements IFachada {
 
 		// Início: Regras de Endereço
 		List<IValidar> regrasEndereco = new ArrayList<IValidar>();
-		IValidar validacaoTipoEndereco = new ValidarTipoEndereco();
 		IValidar validacaoNomeEndereco = new ValidarNomeEndereco();
 		IValidar validacaoLogradouro = new ValidarLogradouro();
-		IValidar validacaoNumero = new ValidarNumeroTelefone();
 		IValidar validacaoCep = new ValidarCep();
 		IValidar validacaoBairro = new ValidarBairro();
 		IValidar validacaoCidade = new ValidarCidade();
 		IValidar validacaoEstado = new ValidarEstado();
 		IValidar validacaoComplemento = new ValidarComplemento();
 
-		regrasEndereco.add(validacaoTipoEndereco);
 		regrasEndereco.add(validacaoNomeEndereco);
 		regrasEndereco.add(validacaoLogradouro);
-		regrasEndereco.add(validacaoNumero);
 		regrasEndereco.add(validacaoCep);
 		regrasEndereco.add(validacaoBairro);
 		regrasEndereco.add(validacaoCidade);
@@ -131,20 +123,9 @@ public class FachadaVelha implements IFachada {
 
 		// Fim: Regras de Cartão
 
-		// Início: Regras de Telefone
-		List<IValidar> regrasTelefone = new ArrayList<IValidar>();
-		IValidar validacaoDdd = new ValidarDdd();
-		IValidar validacaoNumeroTelefone = new ValidarNumeroTelefone();
-
-		regrasTelefone.add(validacaoDdd);
-		regrasTelefone.add(validacaoNumeroTelefone);
-
-		// Fim: Regras de Telefone
-
 		regras.put(Cliente.class.getName(), regrasCliente);
 		regras.put(Endereco.class.getName(), regrasEndereco);
 		regras.put(Cartao.class.getName(), regrasCartao);
-		regras.put(Telefone.class.getName(), regrasTelefone);
 	}
 
 	private void executarRegras(List<IValidar> regrasEntidade, EntidadeDominio entidade) {
