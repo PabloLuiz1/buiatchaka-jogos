@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html lang="pt-br" xmlns:th:="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>BuiaTchaKa Games</title>
+<link rel="stylesheet" th:href="@{../../css/reset.css}">
+<link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../../css/font-awesome.min.css}">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+	integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+	crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container-fluid p-0">
+		<header>
+			<div class="container-fluid p-1 border border-dark">
+				<a href="index.html">BuiaTchaKa Games</a> <br>
+			</div>
+			<div class="col text-right text-dark">
+				<span th:text="'Olá ' + ${session?.cliente?.nome} ?: 'visitante'"></span>
+				<a class="text-dark" href="#"
+					th:text="${session?.cliente?.nome} ? 'Perfil' : 'Login | Cadastre-se'"></a>
+				<br> <a class="text-dark" href="cart.html">Carrinho (vazio)
+				</a>
+			</div>
+			<div class="container-fluid bg-light">
+				<nav>
+					<ul class="nav justify-content-center">
+						<li class="nav-item"><a class="nav-link" href="#">Item 1</a>
+						</li>
+						<li class="nav-item"><a class="nav-link" href="#">Item 2</a>
+						</li>
+						<li class="nav-item"><a class="nav-link" href="#">Item 3</a>
+						</li>
+						<li class="nav-item"><a class="nav-link" href="#">Item 4</a>
+						</li>
+						<li class="nav-item"><a class="nav-link" href="#">Item 5</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<div class="container">
+			<div class="row mt-2">
+				<div class="col-md-2 p-0 bg-light">
+					<h6 th:text="${session.cliente?.nome}"></h6>
+					<h6 th:text="${session.cliente?.email}"></h6>
+					<nav class="navbar bg-light">
+						<ul class="navbar-nav">
+							<li class="nav-item"><a class="nav-link" href="#">Perfil</a>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="perfil.html">Pedidos</a>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="cupons.html">Cupons</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				<div class="col-md-10">
+					<h4>Você tem XX pontos. Seu nível é: XX.</h4>
+					<!-- Nav pills -->
+					<ul class="nav nav-pills">
+						<li class="nav-item"><a class="nav-link active"
+							data-toggle="pill" href="#menu2">Alterar endereço</a></li>
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<hr>
+						<div class="row">
+							<div class="col">
+								<div th:if="${resultado?.msg ne ''}" class="alert alert-danger">
+									<span
+										th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(resultado?.msg),'\n','&lt;br /&gt;'))}"></span>
+								</div>
+							</div>
+						</div>
+						<form class="row" method="POST" action="" modelAttribute="endereco">
+							<div class="col">
+								<input type="hidden" th:value="${endereco?.id}" id="endereco"
+									name="endereco" path="id"> <label for="nome">Dê um nome
+									para este endereço: </label> <input class="form-control" type="text"
+									name="nome" id="nome" th:value="${endereco?.nome}" path="nome" required>
+								<br> <label for="cep">CEP: </label> <input
+									class="form-control" type="text" name="cep" id="cep"
+									th:value="${endereco?.cep}" path="cep" required> <br> <label
+									for="logradouro">Logradouro: </label> <input
+									class="form-control" type="text" name="logradouro"
+									id="logradouro" th:value="${endereco?.logradouro}" path="logradouro" required>
+								<br> <label for="numero">Número: </label> <input
+									class="form-control" type="text" name="numero" id="numero"
+									th:value="${endereco?.numero}" path="numero" required> <br>
+							</div>
+							<div class="col">
+								<label for="complemento">Complemento: </label> <input
+									class="form-control" type="text" name="complemento"
+									id="complemento" th:value="${endereco?.complemento}"> <br>
+								<label for="bairro">Bairro: </label> <input class="form-control"
+									type="text" name="bairro" id="bairro"
+									th:value="${endereco?.bairro}" path="bairro" required> <br> <label
+									for="cidade">Cidade: </label> <input class="form-control"
+									type="text" name="cidade" id="cidade"
+									th:value="${endereco?.cidade}" path="cidade" required> <br> <label
+									for="estado">Estado: </label> <select class="form-control"
+									name="estado" id="estado" path="estado" required>
+									<option value="">Selecione</option>
+									<option value="SP">SP</option>
+									<option value="RJ">RJ</option>
+									<option value="MG">MG</option>
+									<option>...</option>
+								</select> <br> <a href="perfil"
+									class="btn btn-danger font-weight-bold pull-left">CANCELAR</a>
+								<input type="submit" id="operacao" name="operacao"
+									class="btn btn-success pull-right font-weight-bold"
+									value="SALVAR" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<br>
+		</div>
+	</div>
+	<footer> Footer </footer>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <title> BuiaTchaKa Games </title>
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+    integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container-fluid p-0">
+    <header>
+      <div class="container-fluid p-1 border border-dark">
+        BuiaTchaKa Games | Dashboard
+        <br>
+      </div>
+      <div class="container-fluid bg-light">
+      </div>
+    </header>
+    <div class="container-fluid pl-0">
+      <div class="row mt-4">
+        <div class="col-md-2">
+          <div class="p-0 bg-light">
+            <h6>Fulano Cicrano Beltrano</h6>
+            <h6>fulano@gmail.com</h6>
+            <nav class="navbar bg-light">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Início</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Perfil</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Produtos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Estoque</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Clientes</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Pedidos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Trocas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Cupons</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Usuários</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Logs</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div class="col">
+            <h4>Você tem XX pontos. Seu nível é: XX.</h4>
+            <!-- Nav pills -->
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill" href="#home">Dados pessoais</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#menu1">Alterar senha</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane container active" id="home">
+                    <form class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <label for="nome">Nome:</label>
+                                <br>
+                                <input type="text" name="nome" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email">Email:</label>
+                                <br>
+                                <input type="text" name="email" class="form-control">
+                                <label for="telefone">Telefone:</label>
+                                <br>
+                                <input type="text" name="telefone" class="form-control">
+                                <label for="rg">RG:</label>
+                                <br>
+                                <input type="text" name="rg" class="form-control">
+                                <label for="cpf">CPF:</label>
+                                <br>
+                                <input type="text" name="cpf" class="form-control">
+                                <label for="sexo">Sexo:</label>
+                                <br>
+                                <select name="sexo">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                </select>
+                                <br>
+                                <label for="datanascimento">Data de nascimento:</label>
+                                <br>
+                                <input type="date" name="datanascimento">
+                            </div>
+                        </div>
+                        <br>
+                        <a class="font-weight-bold pull-right" href="#">Salvar alterações</a>
+                    </form>
+                </div>
+                <div class="tab-pane container fade" id="menu1">
+                    <div>
+                        <label for="senhaatual">Senha atual:</label>
+                        <br>
+                        <input type="password" name="senhaatual" class="form-control">
+                        <label for="novasenha">Nova senha:</label>
+                        <br>
+                        <input type="password" name="novasenha" class="form-control">
+                        <label for="confirmarsenha">Confirmar senha:</label>
+                        <br>
+                        <input type="password" name="confirmarsenha" class="form-control">
+                    </div>
+                    <br>
+                    <a class="font-weight-bold pull-right" href="#">Salvar alterações</a>
+                </div>
+        </div>
+        <div class="col">
+          Ações recentes
+        </div>
+    </div>
+    <footer>
+      Footer
+    </footer>
+  </div>
+</body>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+
+</html>

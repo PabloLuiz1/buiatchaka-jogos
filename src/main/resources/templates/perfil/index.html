@@ -4,9 +4,9 @@
 <head>
 <meta charset="utf-8">
 <title>BuiaTchaKa Games</title>
-<link rel="stylesheet" href="css/reset.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" th:href="@{../../css/reset.css}">
+<link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../../css/font-awesome.min.css}">
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
 	integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
@@ -93,9 +93,9 @@
 										name="rg" id="rg" th:value="${session.cliente?.rg}" required>
 									<br> <label for="cpf">CPF: </label> <input
 										class="form-control" type="text" name="cpf" id="cpf"
-										th:value="${session.cliente?.cpf}" required disabled>
-									<br> <label for="telefone">Telefone: </label> <input
-										type="tel" class="form-control" name="telefone" id="telefone"
+										th:value="${session.cliente?.cpf}" required> <br>
+									<label for="telefone">Telefone: </label> <input type="tel"
+										class="form-control" name="telefone" id="telefone"
 										th:value="${session.cliente?.telefone}" required> <br>
 									<label for="dataNascimento">Data de nascimento: </label> <input
 										type="date" class="form-control" max="2020-08-31"
@@ -109,10 +109,10 @@
 										<option value="FEMININO">Feminino</option>
 									</select> <br> <label for="email">E-mail: </label> <input
 										class="form-control" type="email" name="email" id="email"
-										th:value="${session.cliente?.email}" required> <br> <input
-										type="submit"
+										th:value="${session.cliente?.email}" required> <br>
+									<input type="submit"
 										class="btn btn-success pull-right font-weight-bold"
-										name="operacao" id="operacao" value="SALVAR">
+										name="operacao" id="operacao" value="ALTERAR">
 								</div>
 							</form>
 						</div>
@@ -136,7 +136,7 @@
 										class="form-control" required> <br> <input
 										type="submit"
 										class="btn btn-success pull-right font-weight-bold"
-										name="operacao" id="operacao" value="SALVAR">
+										name="operacao" id="operacao" value="ALTERAR">
 								</div>
 							</form>
 							<br>
@@ -144,10 +144,12 @@
 						<div class="tab-pane container fade" id="menu2">
 							<h6>Endereços cadastrados:</h6>
 							<div class="row mt-2">
-								<div class="col-md-6 mb-4" th:each="end: ${session.cliente?.enderecos}">
+								<div class="col-md-6 mb-4"
+									th:each="end: ${session.cliente?.enderecos}">
 									<div class="card">
 										<div class="card-header" th:text="${end.nome}"></div>
-										<div class="card-body" th:text="${end.logradouro} + ', ' + ${end.numero} + '. ' 
+										<div class="card-body"
+											th:text="${end.logradouro} + ', ' + ${end.numero} + '. ' 
 										+ ${end.cep} + ' - ' + ${end.cidade} + ', ' + ${end.estado}">
 										</div>
 										<div class="card-footer">
@@ -156,16 +158,16 @@
 													name="endereco"> <input type="submit"
 													class="btn btn-danger pull-left font-weight-bold"
 													id="operacao" name="operacao" value="EXCLUIR"> <input
-													type="submit"
-													class="btn btn-info pull-right font-weight-bold"
-													id="operacao" name="operacao" value="EDITAR">
+													type="hidden" th:value="${end.id}" id="endereco"
+													name="endereco"> <input type="submit"
+													class="btn btn-info pull-right font-weight-bold" id="operacao" name="operacao"
+													value="CONSULTAR">
 											</form>
 										</div>
 									</div>
 								</div>
 							</div>
 							<hr>
-							<h6>Novo endereço:</h6>
 							<div class="row">
 								<div class="col">
 									<div th:if="${resultado?.msg ne ''}" class="alert alert-danger">
@@ -196,7 +198,8 @@
 										class="form-control" type="text" name="bairro" id="bairro"
 										th:value="${endereco?.bairro}" required> <br> <label
 										for="cidade">Cidade: </label> <input class="form-control"
-										type="text" name="cidade" id="cidade" th:value="${endereco?.cidade}" required> <br> <label
+										type="text" name="cidade" id="cidade"
+										th:value="${endereco?.cidade}" required> <br> <label
 										for="estado">Estado: </label> <select class="form-control"
 										name="estado" id="estado" required>
 										<option value="">Selecione</option>
@@ -213,9 +216,11 @@
 						<div class="tab-pane container fade" id="menu3">
 							<h6>Cartões cadastrados:</h6>
 							<div class="row mt-2">
-								<div class="col-md-6 mb-4" th:each="cartao: ${session.cliente?.cartoes}">
+								<div class="col-md-6 mb-4"
+									th:each="cartao: ${session.cliente?.cartoes}">
 									<div class="card">
-										<div class="card-body" th:text="'Final: ' + ${#strings.substring(cartao.numero, 12)} + ' - ' + ${cartao.bandeira}"></div>
+										<div class="card-body"
+											th:text="'Final: ' + ${#strings.substring(cartao.numero, 12)} + ' - ' + ${cartao.bandeira}"></div>
 										<div class="card-footer">
 											<form method="POST" action="ControleCartao">
 												<input type="hidden" name="cartao" id="cartao"
@@ -244,20 +249,19 @@
 								<div class="col-md-6">
 									<label for="numeroCartao">Número do cartão: </label> <input
 										type="text" name="numeroCartao" class="form-control"
-										th:value="${cartao?.numero}"> <br> 
-										<label for="bandeira">Bandeira: </label>
-										<select class="form-control" id="bandeira" name="bandeira" required>
-											<option value="">Selecione</option>
-											<option value="MASTERCARD">MasterCard</option>
-											<option value="VISA">VISA</option>
-											<option value="AMERICANEXPRESS">American Express</option>
-										</select>
-										<label
-										for="nomeTitular">Nome do titular (como escrito no
-										cartão):</label> <input type="text" name="nomeTitular"
+										th:value="${cartao?.numero}"> <br> <label
+										for="bandeira">Bandeira: </label> <select class="form-control"
+										id="bandeira" name="bandeira" required>
+										<option value="">Selecione</option>
+										<option value="MASTERCARD">MasterCard</option>
+										<option value="VISA">VISA</option>
+										<option value="AMERICANEXPRESS">American Express</option>
+									</select> <label for="nomeTitular">Nome do titular (como escrito
+										no cartão):</label> <input type="text" name="nomeTitular"
 										class="form-control" th:value="${cartao?.titular}" required>
 									<br> <label for="dataVencimento">Data de
-										vencimento (Mês/Ano):</label> <br> <select class="col-md-2" id="mes" name="mes" required>
+										vencimento (Mês/Ano):</label> <br> <select class="col-md-2"
+										id="mes" name="mes" required>
 										<option value="01">01</option>
 										<option value="02">02</option>
 										<option value="03">03</option>
@@ -286,9 +290,10 @@
 										segurança: </label> <input type="text" name="codigo" id="codigo"
 										class="form-control col-md-4" th:value="${cartao?.codigo}"
 										required> <br> <label for="cpfTitular">CPF
-										do titular: </label> <input type="text" name="cpfTitular" id="cpfTitular"
-										class="form-control" th:value="${cartao?.cpf}" required>
-									<br> <input type="submit" id="operacao" name="operacao"
+										do titular: </label> <input type="text" name="cpfTitular"
+										id="cpfTitular" class="form-control" th:value="${cartao?.cpf}"
+										required> <br> <input type="submit" id="operacao"
+										name="operacao"
 										class="btn btn-success font-weight-bold pull-left"
 										value="SALVAR" />
 								</div>
@@ -302,8 +307,8 @@
 	</div>
 	<footer> Footer </footer>
 </body>
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/popper.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
 
 </html>

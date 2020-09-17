@@ -13,8 +13,6 @@ import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
-import br.edu.fatec.buiatchaka.dominio.cliente.Telefone;
-import br.edu.fatec.buiatchaka.dominio.enums.EnumGenero;
 import br.edu.fatec.buiatchaka.web.util.Conexao;
 
 public class ClienteDAO implements IDao {
@@ -211,7 +209,7 @@ public class ClienteDAO implements IDao {
 				Cliente cli = new Cliente();
 				cli.setId(rs.getLong("id"));
 				cli.setNome(rs.getString("nome"));
-				cli.setGenero(EnumGenero.valueOf(rs.getString("genero")));
+				cli.setGenero((rs.getString("genero")));
 				cli.setRg(rs.getString("rg"));
 				cli.setCpf(rs.getString("cpf"));
 				cli.setEmail(rs.getString("email"));
@@ -264,7 +262,7 @@ public class ClienteDAO implements IDao {
 			while (rs.next()) {
 				cliente.setId(rs.getLong("id"));
 				cliente.setNome(rs.getString("nome"));
-				cliente.setGenero(EnumGenero.valueOf(rs.getString("genero")));
+				cliente.setGenero(rs.getString("genero"));
 				cliente.setRg(rs.getString("rg"));
 				cliente.setCpf(rs.getString("cpf"));
 				cliente.setEmail(rs.getString("email"));

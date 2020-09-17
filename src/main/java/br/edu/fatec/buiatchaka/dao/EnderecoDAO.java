@@ -172,16 +172,15 @@ public class EnderecoDAO implements IDao {
 
 	@Override
 	public EntidadeDominio consultar(EntidadeDominio entidade) {
-		Endereco endereco = null;
-		Cliente cliente = (Cliente) entidade;
+		Endereco endereco = (Endereco) entidade;
 		try {
 			StringBuilder sql = new StringBuilder();
 			connection = Conexao.conectar();
 			connection.setAutoCommit(false);
-			sql.append("SELECT * FROM endereco WHERE ativo = ? AND cliente_id = ?");
+			sql.append("SELECT * FROM endereco WHERE ativo = ? AND id = ?");
 			pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			pst.setBoolean(1, true);
-			pst.setLong(2, cliente.getId());
+			pst.setLong(2, endereco.getId());
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				endereco = new Endereco();
@@ -196,7 +195,6 @@ public class EnderecoDAO implements IDao {
 				endereco.setEstado(rs.getString("estado"));
 				endereco.setDataCadastro(rs.getDate("data_cadastro").toLocalDate());
 				endereco.setAtivo(rs.getBoolean("ativo"));
-				endereco.setCliente(cliente);
 			}
 			return endereco;
 		} catch (Exception e) {

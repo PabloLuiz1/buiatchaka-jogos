@@ -1,4 +1,4 @@
-package br.edu.fatec.buiatchaka.repository;
+package br.edu.fatec.buiatchaka.repository.cliente;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -32,7 +32,7 @@ public class CartaoDAO implements IDao {
 
 			stm = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
-			stm.setString(1, cartao.getNomeImpresso());
+			stm.setString(1, cartao.getNomeTitular());
 			stm.setString(2, cartao.getNumero());
 			stm.setString(3, cartao.getBandeira());
 			stm.setString(4, cartao.getCodigo());
@@ -81,7 +81,7 @@ public class CartaoDAO implements IDao {
 
 			stm = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
-			stm.setString(1, cartao.getNomeImpresso());
+			stm.setString(1, cartao.getNomeTitular());
 			stm.setString(2, cartao.getNumero());
 			stm.setString(3, cartao.getBandeira());
 			stm.setString(4, cartao.getCodigo());
@@ -167,7 +167,7 @@ public class CartaoDAO implements IDao {
 				Cartao car = new Cartao();
 //				nome_impresso, numero, bandeira, codigo, cpf_titular, data_vencimento, cliente_id
 				car.setId(rs.getLong("id"));
-				car.setNomeImpresso(rs.getString("nome_impresso"));
+				car.setNomeTitular(rs.getString("nome_titular"));
 				car.setNumero(rs.getString("numero"));
 				car.setBandeira(rs.getString("bandeira"));
 				car.setCodigo(rs.getString("codigo"));
@@ -217,7 +217,7 @@ public class CartaoDAO implements IDao {
 			while (rs.next()) {
 				cartao = new Cartao();
 				cartao.setId(rs.getLong("id"));
-				cartao.setNomeImpresso(rs.getString("nome_impresso"));
+				cartao.setNomeTitular(rs.getString("nome_titular"));
 				cartao.setNumero(rs.getString("numero"));
 				cartao.setBandeira(rs.getString("bandeira"));
 				cartao.setCodigo(rs.getString("codigo"));

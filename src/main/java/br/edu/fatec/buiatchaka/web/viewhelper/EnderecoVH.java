@@ -26,15 +26,15 @@ public class EnderecoVH implements IViewHelper {
 
 		if (operacao.equals("SALVAR")) {
 			endereco = criarEndereco(request);
-
-		} else if (operacao.equals("ALTERAR")) {
+		} 
+		if (operacao.equals("ALTERAR")) {
 			endereco = criarEndereco(request, Long.parseLong(request.getParameter("endereco")));
-
-		} else if (operacao.equals("EXCLUIR")) {
+		} 
+		if (operacao.equals("EXCLUIR")) {
 			endereco = criarEndereco(request, Long.parseLong(request.getParameter("endereco")));
-		} else if (operacao.equals("CONSULTAR")) {
+		} 
+		if (operacao.equals("CONSULTAR")) {
 			endereco = criarEndereco(request, Long.parseLong(request.getParameter("endereco")));
-
 		}
 		return endereco;
 	}
@@ -55,9 +55,9 @@ public class EnderecoVH implements IViewHelper {
 		return endereco;
 	}
 	
-	private Endereco criarEndereco(HttpServletRequest request, Long id) {
+	private Endereco criarEndereco(HttpServletRequest request, long id) {
 		Endereco endereco = new Endereco();
-		endereco.setId(Long.parseLong(request.getParameter("endereco")));
+		endereco.setId(id);
 		Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
 		endereco.setCliente(cliente);
 		return endereco;
@@ -77,33 +77,35 @@ public class EnderecoVH implements IViewHelper {
 		if (resultado.getMsg() != null && operacao.equals("SALVAR")) {
 			request.setAttribute("resultado", resultado);
 //			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
-			d = request.getRequestDispatcher("perfil-dados");
+			d = request.getRequestDispatcher("perfil");
 		}
-		if (resultado.getMsg() == null && operacao.equals("CONSULTAR")) {
+		if (operacao.equals("CONSULTAR")) {
 //			resultado.setMsg("Consulta realizada com sucesso.");
-			request.getSession().setAttribute("resultado", (Resultado) resultado);
-			d = request.getRequestDispatcher("ver-endereco");
+//			request.getSession().setAttribute("resultado", (Resultado) resultado);
+			Log.loggar("Entrou no IF do CONSULTAR na EnderecoVH");
+			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
+			d = request.getRequestDispatcher("perfil/ver-endereco");
 		}
 		if (resultado.getMsg() == null && operacao.equals("ALTERAR")) {
 //			resultado.setMsg("Alteração realizada com sucesso.");
 			request.getSession().setAttribute("resultado", (Resultado) resultado);
-			d = request.getRequestDispatcher("editar-endereco");
+			d = request.getRequestDispatcher("perfil/editar-endereco");
 		}
 		if (operacao.equals("EXCLUIR")) {
 			
 			request.getSession().setAttribute("resultado", (Resultado) resultado);
-			d = request.getRequestDispatcher("perfil-dados");
+			d = request.getRequestDispatcher("perfil");
 		}
 		if (resultado.getMsg() == "" || resultado.getMsg() == null) {
 			List<Endereco> enderecos = new ArrayList<Endereco>();
 			Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
 			request.getSession().setAttribute("cliente", resultado.getEntidades().get(0));
-//			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
+			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
 			if (operacao.equals("SALVAR")) {
-				d = request.getRequestDispatcher("perfil-dados");
+				d = request.getRequestDispatcher("perfil");
 			}
 			if (operacao.equals("ALTERAR")) {
-				d = request.getRequestDispatcher("editar-endereco");
+				d = request.getRequestDispatcher("ver-endereco");
 			}
 		}
 

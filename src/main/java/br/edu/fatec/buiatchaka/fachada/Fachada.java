@@ -19,7 +19,8 @@ import br.edu.fatec.buiatchaka.dominio.cliente.Telefone;
 import br.edu.fatec.buiatchaka.negocio.IValidar;
 import br.edu.fatec.buiatchaka.negocio.cartao.ValidarBandeira;
 import br.edu.fatec.buiatchaka.negocio.cartao.ValidarCodigo;
-import br.edu.fatec.buiatchaka.negocio.cartao.ValidarNomeImpresso;
+import br.edu.fatec.buiatchaka.negocio.cartao.ValidarCpfTitular;
+import br.edu.fatec.buiatchaka.negocio.cartao.ValidarNomeTitular;
 import br.edu.fatec.buiatchaka.negocio.cartao.ValidarNumeroCartao;
 import br.edu.fatec.buiatchaka.negocio.cliente.ValidarCpf;
 import br.edu.fatec.buiatchaka.negocio.cliente.ValidarDataNascimento;
@@ -107,13 +108,15 @@ public class Fachada implements IFachada {
 		List<IValidar> regrasCartao = new ArrayList<IValidar>();
 		IValidar validacaoBandeira = new ValidarBandeira();
 		IValidar validacaoCodigo = new ValidarCodigo();
-		IValidar validacaoNomeImpresso = new ValidarNomeImpresso();
+		IValidar validacaoNomeImpresso = new ValidarNomeTitular();
 		IValidar validacaoNumeroCartao = new ValidarNumeroCartao();
+		IValidar validacaoCpfTitular = new ValidarCpfTitular();
 
 		regrasCartao.add(validacaoBandeira);
 		regrasCartao.add(validacaoCodigo);
 		regrasCartao.add(validacaoNomeImpresso);
 		regrasCartao.add(validacaoNumeroCartao);
+		regrasCartao.add(validacaoCpfTitular);
 
 		// Fim: Regras de Cartão
 
@@ -180,7 +183,7 @@ public class Fachada implements IFachada {
 				resultado.addEntidades((Endereco) endereco);
 			}
 		}
-		
+
 		if (nomeClasse.equals(Cartao.class.getName())) {
 			Log.loggar("ENTROU NO IF DA CLASSE DO CARTÃO!!!");
 			cartao = (Cartao) entidade;
@@ -203,7 +206,8 @@ public class Fachada implements IFachada {
 		}
 
 		resultado.setMsg(sb.toString());
-		Log.loggar("Printando o resultado das validações de negócio do Cliente/Endereço/Cartao na Fachada:" + resultado.getMsg());
+		Log.loggar("Printando o resultado das validações de negócio do Cliente/Endereço/Cartao na Fachada:"
+				+ resultado.getMsg());
 		return resultado;
 	}
 
@@ -246,7 +250,7 @@ public class Fachada implements IFachada {
 		nomeClasse = entidade.getClass().getName();
 
 		dao = daos.get(nomeClasse);
-		
+
 		if (nomeClasse.equals(Endereco.class.getName())) {
 			endereco = (Endereco) entidade;
 			try {
@@ -259,7 +263,7 @@ public class Fachada implements IFachada {
 				resultado.setMsg("Não foi possível realizar a consulta...");
 			}
 		}
-		
+
 		if (nomeClasse.equals(Cartao.class.getName())) {
 			cartao = (Cartao) entidade;
 			try {
@@ -272,10 +276,9 @@ public class Fachada implements IFachada {
 				resultado.setMsg("Não foi possível realizar a consulta...");
 			}
 		}
-		
+
 		return resultado;
 	}
-
 
 	@Override
 	public Resultado listar(EntidadeDominio entidade) {
@@ -283,15 +286,16 @@ public class Fachada implements IFachada {
 		List<? extends EntidadeDominio> enderecos = null;
 		List<? extends EntidadeDominio> cartoes = null;
 		resultado = new Resultado();
-		
+
 		nomeClasse = entidade.getClass().getName();
 		sb.setLength(0);
-		
+
 		if (nomeClasse.equals(Cliente.class.getName())) {
 			Cliente cli = (Cliente) entidade;
 			try {
 				dao = daos.get(nomeClasse);
 				cartoes = dao.listar(cli);
+				enderecos = dao.listar(cli);
 				for (EntidadeDominio e : cartoes) {
 					resultado.addEntidades(e);
 				}
@@ -300,7 +304,7 @@ public class Fachada implements IFachada {
 				Log.loggar("Não foi possível salvar...");
 			}
 		}
-		
+
 		if (nomeClasse.equals(Cartao.class.getName())) {
 			Cliente cli = (Cliente) entidade;
 			try {
@@ -314,10 +318,10 @@ public class Fachada implements IFachada {
 				Log.loggar("Não foi possível salvar...");
 			}
 		}
-		
+
 		if (nomeClasse.equals(Endereco.class.getName())) {
 			Cliente cli = (Cliente) entidade;
-			
+
 			try {
 				dao = daos.get(nomeClasse);
 				enderecos = dao.listar(cli);
@@ -329,30 +333,32 @@ public class Fachada implements IFachada {
 				Log.loggar("Não foi possível salvar...");
 			}
 		}
-		
+
 		return resultado;
 	}
-	
+
 	@Override
 	public Resultado consultar(EntidadeDominio entidade) {
+		Endereco endereco = null;
+		Cliente cliente = null;
+		Cartao cartao = null;
 		sb.setLength(0);
 		resultado = new Resultado();
 
 		nomeClasse = entidade.getClass().getName();
+		if (nomeClasse.equals(Endereco.class.getName())) {
+			try {
+				dao = daos.get(nomeClasse);
+				endereco = (Endereco) dao.consultar(entidade);
+				Log.loggar("Consultando no banco...");
+				resultado.addEntidades(endereco);
+			} catch (Exception e) {
+				e.printStackTrace();
+				Log.loggar("Não foi possível consultar...");
+			}
 
-		dao = daos.get(nomeClasse);
-
-		try {
-			resultado.addEntidades(dao.consultar(entidade));
-			System.out.println("Consultando no banco");
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultado.setMsg("Não foi possível realizar a consulta...");
 		}
-		resultado.addEntidades(entidade);
-
 		return resultado;
 	}
-
 
 }

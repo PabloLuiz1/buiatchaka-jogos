@@ -16,7 +16,7 @@ public class ValidarNome extends AbstractValidator {
 	}
 	
 	private String validarNome(String nome) {
-		if (nome.trim().equals("")) {
+		if (nome.length() < 3) {
 			return "Insira o seu nome completo corretamente. \n";
 		}
 		return "";

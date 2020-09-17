@@ -22,7 +22,7 @@ public class Cartao extends FormaPagamentoAbstract {
 	@Column(nullable = false)
 	private String numero;
 	@Column(nullable = false)
-	private String nomeImpresso;
+	private String nomeTitular;
 	@Column(nullable = false)
 	private String bandeira;
 	@Column(nullable = false)

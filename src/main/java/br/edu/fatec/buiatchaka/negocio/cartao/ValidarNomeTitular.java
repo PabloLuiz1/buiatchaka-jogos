@@ -4,20 +4,21 @@ import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
 import br.edu.fatec.buiatchaka.negocio.AbstractValidator;
 
-public class ValidarCodigo extends AbstractValidator{
+public class ValidarNomeTitular extends AbstractValidator{
 
 	@Override
 	public String validar(EntidadeDominio entidade) {
 		Cartao cartao = (Cartao) entidade;
 		mensagem = new StringBuilder();
-		mensagem.append(validarCodigo(cartao.getCodigo()));
+		mensagem.append(validarNomeImpresso(cartao.getNomeTitular()));
 		return mensagem.toString();
 	}
 
-	public String validarCodigo (String codigo) {
-		if (codigo.length() != 3) {
-			return "Insira o código de segurança corretamente. \n";
+	public String validarNomeImpresso(String nomeImpresso) {
+		if (nomeImpresso.length() < 5) {
+			return "Insira o nome do titular (assim como impresso no cartão) corretamente. \n";
 		}
 		return "";
 	}
+	
 }

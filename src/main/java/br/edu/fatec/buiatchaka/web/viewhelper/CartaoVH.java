@@ -97,7 +97,7 @@ public class CartaoVH implements IViewHelper {
 	private Cartao criarCartao(HttpServletRequest request) {
 		Cartao cartao = new Cartao();
 		cartao.setNumero(request.getParameter("numeroCartao"));
-		cartao.setNomeImpresso(request.getParameter("nomeTitular"));
+		cartao.setNomeTitular(request.getParameter("nomeTitular"));
 		cartao.setBandeira(request.getParameter("bandeira"));
 		cartao.setCodigo(request.getParameter("codigo"));
 		cartao.setDataVencimento(LocalDate.of(Integer.parseInt(request.getParameter("ano")), Integer.parseInt(request.getParameter("mes")), 1));
@@ -110,7 +110,7 @@ public class CartaoVH implements IViewHelper {
 		return cartao;
 	}
 	
-	private Cartao criarCartao(HttpServletRequest request, Long id) {
+	private Cartao criarCartao(HttpServletRequest request, long id) {
 		Cartao cartao = new Cartao();
 		cartao.setId(Long.parseLong(request.getParameter("cartao")));
 		Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
