@@ -3,10 +3,8 @@ package br.edu.fatec.buiatchaka.dominio.cliente;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
-import br.edu.fatec.buiatchaka.dominio.enums.EnumTipoEndereco;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +17,6 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "endereco", schema = "public")
 public class Endereco extends EntidadeDominio {
 	@Column(nullable = false)
 	private String nome;

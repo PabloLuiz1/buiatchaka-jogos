@@ -4,9 +4,9 @@
 <head>
 <meta charset="utf-8">
 <title>BuiaTchaKa Games</title>
-<link rel="stylesheet" th:href="@{../css/reset.css}">
-<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{../css/font-awesome.min.css}">
+<link rel="stylesheet" th:href="@{../../css/reset.css}">
+<link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../../css/font-awesome.min.css}">
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
 	integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
@@ -54,42 +54,14 @@
 					</div>
 				</div>
 				<div class="col-md-8">
-					<form class="form-inline p-0 col-md-6 mb-2">
-						<input type="text" class="form-control col-md-6 form-control-sm"
-							placeholder="Pesquisar" id="search"> <input
-							type="checkbox" class="form-check-input ml-4" value="">Mostrar
-						inativos
-					</form>
-					<table
-						class="table table-bordered table-hover table-responsive-md text-center">
-						<thead class="thead-dark font-weight-bold">
-							<th>#</th>
-							<th>Descrição</th>
-							<th>Categoria</th>
-							<th>Status</th>
-							<th>Detalhes</th>
-							<th>Editar</th>
-							<th>Excluir</th>
-						</thead>
-						<tbody id="produtos">
-							<tr>
-								<td>123</td>
-								<td>Jogo God Of War</td>
-								<td>PS4</td>
-								<td>Disponível</td>
-								<td><a class="font-weight-bold" href="ver-produto.html">Ver</a></td>
-								<td><a class="font-weight-bold" href="ver-produto.html">Editar</a></td>
-								<td><a class="font-weight-bold" href="ver-produto.html">Excluir</a></td>
-							</tr>
-						</tbody>
-					</table>
 					<hr> 
 					<h3>Produto: </h3>
 					<form class="col-md-6 p-0" action="" method="POST" modelAttribute="produto">
+						<input type="hidden" id="id" name="id" th:value="${produto.id}">
 						<label for="nome">Nome: </label>
-						<input type="text" class="form-control" id="nome" name="nome" path="nome" required>
+						<input type="text" class="form-control" id="nome" name="nome" path="nome" th:value="${produto.nome}" required>
 						<label for="descricao">Descrição: </label>
-						<textarea class="form-control" id="descricao" name="descricao" path="descricao" required></textarea>
+						<textarea class="form-control" id="descricao" name="descricao" path="descricao" th:value="${produto.descricao}" required></textarea>
 						<label for="categoria">Categoria: </label>
 						<select class="form-control" name="categoria" id="categoria" path="categoria" required>
 							<option value="">Selecione</option>
@@ -97,7 +69,7 @@
 							<option value="Acessórios">Acessórios</option>
 						</select>
 						<label for="precoCompra">Preço de compra: </label>
-						<input type="number" class="form-control" id="precoCompra" name="precoCompra" path="precoCompra" required>
+						<input type="number" class="form-control" id="precoCompra" name="precoCompra" path="precoCompra" th:value="${produto.precoCompra}" required>
 						<label for="precificacao">Precificação: </label>
 						<select class="form-control" name="precificacao" id="precificacao" path="precificacao" required>
 							<option value="">Selecione</option>
@@ -109,7 +81,7 @@
 							<option value="Um">1%</option>
 						</select>
 						<label for="precoVenda">Preço de venda: </label>
-						<input type="number" class="form-control" id="precoVenda" name="precoVenda" path="precoVenda" required disabled>
+						<input type="number" class="form-control" id="precoVenda" name="precoVenda" path="precoVenda" th:value="${produto.precoVenda}" required disabled>
 						<label for="ativo">Ativo: </label>
 						<select class="form-control" id="ativo" name="ativo" path="ativo" required>
 							<option value="">Selecione</option>

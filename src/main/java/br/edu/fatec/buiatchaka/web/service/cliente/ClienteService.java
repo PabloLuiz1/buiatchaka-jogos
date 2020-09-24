@@ -1,4 +1,4 @@
-package br.edu.fatec.buiatchaka.web.service;
+package br.edu.fatec.buiatchaka.web.service.cliente;
 
 import java.util.Optional;
 

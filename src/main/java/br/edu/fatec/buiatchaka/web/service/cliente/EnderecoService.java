@@ -1,11 +1,10 @@
-package br.edu.fatec.buiatchaka.web.service;
+package br.edu.fatec.buiatchaka.web.service.cliente;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;

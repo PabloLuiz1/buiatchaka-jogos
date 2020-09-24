@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
-import br.edu.fatec.buiatchaka.web.service.CartaoService;
+import br.edu.fatec.buiatchaka.web.service.cliente.CartaoService;
 
 @Controller
 @RequestMapping(value = "perfil/cartoes")

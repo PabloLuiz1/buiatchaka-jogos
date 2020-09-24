@@ -23,5 +23,4 @@ public class Produto extends EntidadeDominio{
 	private double precoVenda;
 	@ManyToOne
 	private Categoria categoria;
-	
 }

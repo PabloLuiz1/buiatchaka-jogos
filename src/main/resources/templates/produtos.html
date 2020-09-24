@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html lang="pt-br" xlmns:th:="http://www.thymeleaf.org">
+    <head>
+		<meta charset="utf-8">
+        <title> BuiaTchaKa Games </title>
+		<link rel="stylesheet" th:href="@{css/reset.css}">
+    	<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    	<link rel="stylesheet" th:href="@{css/font-awesome.min.css}">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container-fluid p-0">
+            <header>
+                <div class="container-fluid p-1 border border-dark">
+                    <a href="index.html">BuiaTchaKa Games</a>
+                    <br>
+                </div>
+                <div class="col text-right text-dark">
+                  Olá, visitante.
+                  <a class="text-dark" href="login.html">Login | Cadastre-se</a>
+                  <br>
+                  <a class="text-dark" href="cart.html">Carrinho (vazio) </a>
+                </div>
+                <div class="container-fluid bg-light">
+                    <nav>
+                      <ul class="nav justify-content-center">
+                          <li class="nav-item">
+                            <a class="nav-link" href="#">Item 1</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#">Item 2</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#">Item 3</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#">Item 4</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="#">Item 5</a>
+                          </li>
+                        </ul>
+                    </nav>
+                  </div>
+            </header>
+            <div class="container">
+                <div class="card-deck mt-4">
+                  <div class="card">
+                    <img class="card-img-top" src="Produto 1" alt="Produto 1">
+                    <div class="card-body">
+                      <h5 class="card-title">Produto 1</h5>
+                      <p class="card-text">Lorem psiu opem la bla de.</p>
+                      <h5 class="text-info">R$ 249,90</h5>
+                      <div class="text-center">
+                          <a href="cart.html" class="font-weight-bold">Comprar</a>
+                          <br>
+                          <a href="ver-produto.html" class="font-weight-bold">+ Detalhes</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card">
+                    <img class="card-img-top" src="Produto 2" alt="Produto 2">
+                    <div class="card-body">
+                      <h5 class="card-title">Produto 2</h5>
+                      <p class="card-text">Lorem psiu opem la bla de.</p>
+                      <h5 class="text-info">R$ 249,90</h5>
+                      <div class="text-center">
+                          <a href="cart.html" class="font-weight-bold">Comprar</a>
+                          <br>
+                          <a href="ver-produto.html" class="font-weight-bold">+ Detalhes</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <img class="card-img-top" src="Produto 3" alt="Produto 3">
+                    <div class="card-body">
+                      <h5 class="card-title">Produto 3</h5>
+                      <p class="card-text">Lorem psiu opem la bla de.</p>
+                      <h5 class="text-info">R$ 249,90</h5>
+                      <div class="text-center">
+                          <a href="cart.html" class="font-weight-bold">Comprar</a>
+                          <br>
+                          <a href="ver-produto.html" class="font-weight-bold">+ Detalhes</a>
+                      </div>
+                    </div>
+                  </div>
+             </div>
+            </div>
+            <footer>
+              Footer
+            </footer>
+        </div>
+    </body>
+    <script th:src="@{js/jquery.min.js}"></script>
+    <script th:src="@{js/popper.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+</html>

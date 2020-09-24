@@ -2,6 +2,7 @@ package br.edu.fatec.buiatchaka.dominio.produto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
 import lombok.Getter;
@@ -11,7 +12,9 @@ import lombok.Setter;
 @Setter
 
 @Entity
-public class Categoria extends EntidadeDominio{
-	@Column(nullable = false)
-	private String descricao;
+public class ItemEstoque extends EntidadeDominio {
+	@OneToOne
+	private Produto produto;
+	@Column(nullable = false, columnDefinition = "integer default 0")
+	private int quantidade;
 }

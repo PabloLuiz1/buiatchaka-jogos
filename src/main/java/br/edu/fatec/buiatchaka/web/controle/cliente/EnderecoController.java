@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
-import br.edu.fatec.buiatchaka.sistema.logging.Log;
-import br.edu.fatec.buiatchaka.web.service.EnderecoService;
+import br.edu.fatec.buiatchaka.web.service.cliente.EnderecoService;
 
 @Controller
 @RequestMapping(value = "perfil/enderecos")
