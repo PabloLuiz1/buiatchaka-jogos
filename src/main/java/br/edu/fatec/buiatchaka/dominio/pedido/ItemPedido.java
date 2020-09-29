@@ -18,6 +18,4 @@ public class ItemPedido extends EntidadeDominio {
 	private ItemEstoque item;
 	@Column(nullable = false, columnDefinition = "integer default 1")
 	private int quantidade;
-	@ManyToOne
-	private Pedido pedido;
 }

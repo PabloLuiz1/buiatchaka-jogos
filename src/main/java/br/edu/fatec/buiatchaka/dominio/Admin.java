@@ -1,6 +1,7 @@
 package br.edu.fatec.buiatchaka.dominio;
 
-//import lombok.AllArgsConstructor;
+import javax.persistence.Entity;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,8 +9,10 @@ import lombok.Setter;
 @Getter
 @Setter
 
-//@AllArgsConstructor
+
 @NoArgsConstructor
 
+@Entity
 public class Admin extends Usuario{
+	
 }

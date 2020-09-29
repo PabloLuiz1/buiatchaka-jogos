@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html lang="pt-br" xlmns:th:="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<title>BuiaTchaKa Games</title>
+<link rel="stylesheet" th:href="@{../css/reset.css}">
+<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../css/font-awesome.min.css}">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+	integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+	crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container-fluid p-0">
+		<header>
+			<div class="container-fluid p-1 border border-dark">
+				<a href="index.html">BuiaTchaKa Games</a> <br>
+			</div>
+			<div class="col text-right text-dark">
+				Olá, visitante. <a class="text-dark" href="login.html">Login |
+					Cadastre-se</a> <br> <a class="text-dark" href="cart.html">Carrinho
+					(vazio) </a>
+			</div>
+		</header>
+		<div class="container">
+			<h4>Carrinho</h4>
+			<table class="table" th:each="item: ${carrinho?.itens}">
+				<thead class="thead-light font-weight-bold">
+					<tr>
+						<th>Item</th>
+						<th>Quantidade</th>
+						<th>Subtotal</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td th:text="${item.produto.nome}"><img class="img-thumbnail"
+							src="Produto 1" alt="Produto 1" width="200" height="200"></td>
+						<td><select class="col-md-5">
+								<option th:each="i : ${#numbers.sequence(1, item.quantidade)}"
+									th:value="${i}" th:text="${i}"></option>
+						</select></td>
+						<td><span th:text="${'R$ ' + item.produto.precoVenda}"></span>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table" th:if="${not #lists.isEmpty(carrinho.itens)}">
+				<thead class="thead-light font-weight-bold">
+					<tr>
+						<th>Valor</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<table class="table table-striped table-borderless table-sm">
+								<tr>
+									<td class="font-weight-bold">Total dos produtos:</td>
+									<td th:text="${'R$ ' + carrinho?.total}"></td>
+								</tr>
+								<tr>
+									<td class="font-weight-bold">Desconto:</td>
+									<td>- R$ 0,00</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td class="font-weight-bold">Valor total:</td>
+									<td th:text="${'R$ ' + carrinho?.total}"></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<h4>Endereço de entrega</h4>
+			<div class="card">
+				<form method="POST" action="/carrinho/pagamento"
+					modelAttribute="endereco">
+					<input type="hidden" name="id" id="id" path="id"
+						th:value="${carrinho?.endereco.id}">
+					<div class="card-body">
+						<h5 class="card-title" th:text="${carrinho?.endereco.nome}"></h5>
+						<p class="card-text"
+							th:text="${carrinho?.endereco.logradouro + ', ' + carrinho?.endereco.numero + '. ' + carrinho?.endereco.bairro + ' - ' + carrinho?.endereco.cidade + '/' + carrinho?.endereco.estado}"></p>
+						<div class="text-center"></div>
+					</div>
+				</form>
+			</div>
+			<h4>Forma de pagamento</h4>
+			<div th:if="${not #lists.isEmpty(carrinho.cartoes)}">
+				<h5>Cartão:</h5>
+				<div class="card" th:each="cartao: ${carrinho?.cartoes}">
+					<form method="POST" action="/carrinho/pagamento"
+						modelAttribute="cartao">
+						<input type="hidden" name="id" id="id" path="id"
+							th:value="${cartao.id}">
+						<div class="card-body">
+							<h6 class="card-title"
+								th:text="'Final: ' + ${#strings.substring(cartao.numero, 12)} + ' - ' + ${cartao.bandeira}"></h6>
+						</div>
+					</form>
+				</div>
+				<a class="btn btn-primary pull-right font-weight-bold mt-2"
+					href="/carrinho/pedido">Confirmar pedido</a><br> <br>
+			</div>
+		</div>
+		<footer> Footer </footer>
+	</div>
+</body>
+<script th:src="@{../js/jquery.min.js}"></script>
+<script th:src="@{../js/popper.min.js}"></script>
+<script th:src="@{../js/bootstrap.min.js}"></script>
+</html>

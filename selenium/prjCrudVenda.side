@@ -1861,6 +1861,76 @@
         ["xpath=//div/input", "xpath:position"]
       ],
       "value": ""
+    }, {
+      "id": "737dd4f1-c198-4cec-b055-4c594b0268c0",
+      "comment": "",
+      "command": "click",
+      "target": "id=v-pills-profile-tab",
+      "targets": [
+        ["id=v-pills-profile-tab", "id"],
+        ["css=#v-pills-profile-tab", "css:finder"],
+        ["xpath=//a[contains(text(),'Cartão\n\t\t\t\t\t\t\t\tde crédito')]", "xpath:link"],
+        ["xpath=//a[@id='v-pills-profile-tab']", "xpath:attributes"],
+        ["xpath=//div[@id='v-pills-tab']/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '#v-pills-profile')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6a47d37f-ad8f-4c0e-acb0-0779deb58fb2",
+      "comment": "",
+      "command": "click",
+      "target": "css=.card:nth-child(1) .btn",
+      "targets": [
+        ["css=.card:nth-child(1) .btn", "css:finder"],
+        ["xpath=//input[@value='Selecionar cartão']", "xpath:attributes"],
+        ["xpath=//div[@id='v-pills-profile']/div/div/form/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "65abf16b-0532-4d62-93ff-08b1ee95acbb",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Continuar",
+      "targets": [
+        ["linkText=Continuar", "linkText"],
+        ["css=.mb-2", "css:finder"],
+        ["xpath=//a[contains(text(),'Continuar')]", "xpath:link"],
+        ["xpath=//div[@id='collapseOne']/div/div[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/carrinho/revisar')]", "xpath:href"],
+        ["xpath=//div[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Continuar')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e9331a37-387f-4013-9116-60747648af51",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Confirmar pedido",
+      "targets": [
+        ["linkText=Confirmar pedido", "linkText"],
+        ["css=.btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Confirmar pedido')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/carrinho/pedido')]", "xpath:href"],
+        ["xpath=//div/div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Confirmar pedido')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a5d0cd2e-a155-4d1e-b0fe-244f2781f1ac",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Meus pedidos",
+      "targets": [
+        ["linkText=Confirmar pedido", "linkText"],
+        ["css=.btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Confirmar pedido')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/carrinho/pedido')]", "xpath:href"],
+        ["xpath=//div/div[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Confirmar pedido')]", "xpath:innerText"]
+      ],
+      "value": ""
     }]
   }],
   "suites": [{
@@ -1871,6 +1941,6 @@
     "timeout": 300,
     "tests": []
   }],
-  "urls": ["http://localhost:8080/", "http://localhost:8080/sign-up", "http://localhost:8080/sign-up-endereco", "http://localhost:8080/perfil-dados", "http://localhost:8080/perfil/enderecos/novo", "http://localhost:8080/perfil/"],
+  "urls": ["http://localhost:8080/", "http://localhost:8080/sign-up", "http://localhost:8080/sign-up-endereco", "http://localhost:8080/perfil-dados", "http://localhost:8080/perfil/enderecos/novo", "http://localhost:8080/perfil/", "http://localhost:8080/login"],
   "plugins": []
 }

@@ -7,11 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
+import br.edu.fatec.buiatchaka.dominio.cliente.Cupom;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-	
-	@Query("SELECT c FROM Cliente c WHERE c.email = :email AND c.senha = :senha")
-	public Optional<Cliente> findLogin (@Param("email") String email, @Param("senha") String senha);
+public interface CupomRepository extends JpaRepository<Cupom, Long>{
+	@Query("SELECT c FROM Cupom c WHERE c.codigo = :codigo")
+	public Optional<Cupom> findByCodigo (@Param("codigo") String codigo);
 }

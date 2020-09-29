@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html lang="pt-br" xlmns:th:="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title> BuiaTchaKa Games </title>
+<link rel="stylesheet" th:href="@{../css/reset.css}">
+<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../css/font-awesome.min.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid p-0">
+        <header>
+            <div class="container-fluid p-1 border border-dark">
+                <a href="index.html">BuiaTchaKa Games</a>
+                <br>
+            </div>
+            <div class="col text-right text-dark">
+                Olá, visitante.
+                <a class="text-dark" href="#">Login | Cadastre-se</a>
+                <br>
+                <a class="text-dark" href="cart.html">Carrinho (vazio) </a>
+            </div>
+            <div class="container-fluid bg-light">
+                <nav>
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Item 1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Item 2</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Item 3</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Item 4</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Item 5</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="col border-right mb-4">
+                    <h3>Já tem conta?</h3>
+                    <div class="alert alert-danger" th:if="${erro ne null}">E-mail e/ou senha inválidos. </div>
+                    <form action="login" method="POST" class="col-md-10" modelAttribute="cliente">
+                        <label for="email">E-mail: </label>
+                        <input class="form-control" type="email" name="email" id="email" path="email">
+                        <label for="senha">Senha: </label>
+                        <input class="form-control" type="password" name="senha" id="senha" path="senha">
+                        <a href="forgot-password.html">Esqueci a senha/e-mail</a>
+                        <br>
+                        <input type="submit" class="btn btn-primary font-weight-bold pull-right mt-2" value="Logar">
+                    </form>
+                </div>
+                <div class="col border-left mb-4">
+                    <h3>Não tem uma conta ainda?</h3>
+                    <form method="POST" class="col-md-10">
+                        <label for="email">E-mail: </label>
+                        <input class="form-control" type="email" name="email" id="email">
+                        <!--<label for="senha">Crie sua senha: </label>
+                        <input class="form-control" type="password" name="senha" id="senha">
+                        <label for="confirmasenha">Confirme sua senha: </label>
+                        <input class="form-control" type="password" name="confirmasenha" id="confirmasenha">
+                        <label for="cpf">CPF: </label>
+                        <input class="form-control" type="text" name="cpf" id="cpf">
+                        <label for="cep">CEP: </label>
+                        <input class="form-control" type="text" name="cep" id="cep">-->
+                        <a href="sign-up.html" class="font-weight-bold pull-right mt-3">Continuar</a>
+                    </form>
+                </div>
+            </div>
+            </div>
+            <footer>
+                Footer
+            </footer>
+        </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+</html>

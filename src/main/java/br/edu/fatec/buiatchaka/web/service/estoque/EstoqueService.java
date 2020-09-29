@@ -1,4 +1,4 @@
-package br.edu.fatec.buiatchaka.web.service.produto;
+package br.edu.fatec.buiatchaka.web.service.estoque;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,4 +28,17 @@ public class EstoqueService {
 	public List<ItemEstoque> listar(){
 		return repo.findAll();
 	}
+	
+	public ItemEstoque consultarCarrinho(Long id) {
+		Optional<ItemEstoque> item = repo.findById(id);
+		try {
+			item.get().setQuantidade(item.get().getQuantidade() - 1);
+			repo.save(item.get());
+		} catch (Exception e) {
+			System.err.println(e.getStackTrace());
+		}
+		return item.orElseThrow(
+				() -> new ObjectNotFoundException("Item não encontrado. Tipo: " + ItemEstoque.class.getName())); 
+	}
+	
 }

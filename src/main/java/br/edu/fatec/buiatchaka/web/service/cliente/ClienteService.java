@@ -14,10 +14,10 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repo;
 	
-	public Cliente clienteLogado(Cliente cliente) {
-		Optional<Cliente> clienteLogado = repo.findById(cliente.getId());
-		return clienteLogado.orElseThrow(
+	public Cliente logar(Cliente cliente) {
+		Optional<Cliente> c = repo.findLogin(cliente.getEmail(), cliente.getSenha());
+		return c.orElseThrow(
 				() -> new ObjectNotFoundException("Item não encontrado. Tipo: " + Cliente.class.getName()));
 	}
-	
+
 }

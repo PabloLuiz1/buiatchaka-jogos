@@ -19,8 +19,8 @@ public class EntidadeDominio {
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	private long id;
-	@Column(nullable = false, columnDefinition = "date default 'now()'")
+	@Column(nullable = true, columnDefinition = "date default 'now()'")
 	private LocalDate dataCadastro;
-	@Column(nullable = false, columnDefinition = "boolean default true")
+	@Column(nullable = true, columnDefinition = "boolean default true")
 	private boolean ativo;
 }

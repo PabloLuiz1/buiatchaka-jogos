@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Produto extends EntidadeDominio{
 	@Column(nullable = false)
 	private String nome;
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "text")
 	private String descricao;
 	@Column(nullable = false)
 	private double precoCompra;

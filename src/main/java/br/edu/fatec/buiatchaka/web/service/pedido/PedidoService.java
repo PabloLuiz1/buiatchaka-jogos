@@ -14,10 +14,13 @@ import br.edu.fatec.buiatchaka.web.service.exceptions.ObjectNotFoundException;
 @Service
 public class PedidoService {
 	@Autowired
-	PedidoRepository repo;
+	private PedidoRepository repo;
 
-	public List<Pedido> listar (Cliente cliente){
-		// Vai ter quer pegar o id do cliente para trazer os pedidos só dele 
+	public List<Pedido> listar (Cliente cliente){ 
+		return repo.findByCliente(cliente);
+	}
+	
+	public List<Pedido> listar (){
 		return repo.findAll();
 	}
 	
@@ -30,6 +33,5 @@ public class PedidoService {
 	public void salvar (Pedido pedido) {
 		repo.save(pedido);
 	}
-	
 	
 }

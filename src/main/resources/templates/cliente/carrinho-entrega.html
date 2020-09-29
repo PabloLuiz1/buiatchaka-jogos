@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html lang="pt-br" xlmns:th:="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<title>BuiaTchaKa Games</title>
+<link rel="stylesheet" th:href="@{../css/reset.css}">
+<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../css/font-awesome.min.css}">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+	integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+	crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container-fluid p-0">
+		<header>
+			<div class="container-fluid p-1 border border-dark">
+				<a href="/">BuiaTchaKa Games</a> <br>
+			</div>
+			<div class="col text-right text-dark">
+				<span th:text="'Olá ' + ${session?.cliente?.nome} ?: 'visitante'"></span>
+				<a class="text-dark" href="#"
+					th:text="${session?.cliente?.nome} ? 'Perfil' : 'Login | Cadastre-se'"></a>
+				Carrinho (vazio) </a>
+			</div>
+		</header>
+		<div class="container border">
+			<h4>Selecione um endereço para entrega:</h4>
+			<div class="card-columns mt-4">
+				<div class="card" th:each="endereco: ${session?.cliente?.enderecos}">
+					<form method="POST" action="/carrinho/pagamento"
+						modelAttribute="endereco">
+						<input type="hidden" name="id" id="id" path="id"
+							th:value="${endereco.id}">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${endereco.nome}"></h5>
+							<p class="card-text"
+								th:text="${endereco.logradouro + ', ' + endereco.numero + '. ' + endereco.bairro + ' - ' + endereco.cidade + '/' + endereco.estado}"></p>
+							<div class="text-center">
+								<input class="btn btn-primary font-weight-bold pull-right"
+									type="submit" value="Selecionar endereço"><br>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div id="accordion">
+				<div class="card">
+					<a class="card-link" data-toggle="collapse" href="#collapseOne">
+						<div class="card-header">Novo endereço</div>
+					</a>
+					<div id="collapseOne" class="collapse" data-parent="#accordion">
+						<form class="row p-2" method="POST" action="ControleEndereco">
+							<div class="col">
+								<label for="nome">Dê um nome para este endereço: </label> <input
+									class="form-control" type="text" name="nome" id="nome"
+									th:value="${endereco?.nome}" required> <br> <label
+									for="cep">CEP: </label> <input class="form-control" type="text"
+									name="cep" id="cep" th:value="${endereco?.cep}" required>
+								<br> <label for="logradouro">Logradouro: </label> <input
+									class="form-control" type="text" name="logradouro"
+									id="logradouro" th:value="${endereco?.logradouro}" required>
+								<br> <label for="numero">Número: </label> <input
+									class="form-control" type="text" name="numero" id="numero"
+									th:value="${endereco?.numero}" required> <br>
+							</div>
+							<div class="col">
+								<label for="complemento">Complemento: </label> <input
+									class="form-control" type="text" name="complemento"
+									id="complemento" th:value="${endereco?.complemento}"> <br>
+								<label for="bairro">Bairro: </label> <input class="form-control"
+									type="text" name="bairro" id="bairro"
+									th:value="${endereco?.bairro}" required> <br> <label
+									for="cidade">Cidade: </label> <input class="form-control"
+									type="text" name="cidade" id="cidade"
+									th:value="${endereco?.cidade}" required> <br> <label
+									for="estado">Estado: </label> <select class="form-control"
+									name="estado" id="estado" required>
+									<option value="">Selecione</option>
+									<option value="SP">SP</option>
+									<option value="RJ">RJ</option>
+									<option value="MG">MG</option>
+									<option>...</option>
+								</select> <br> <input type="submit" id="operacao" name="operacao"
+									class="btn btn-success pull-right font-weight-bold"
+									value="Cadastrar" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer> Footer </footer>
+	</div>
+</body>
+<script th:src="@{../js/jquery.min.js}"></script>
+<script th:src="@{../js/popper.min.js}"></script>
+<script th:src="@{../js/bootstrap.min.js}"></script>
+
+</html>

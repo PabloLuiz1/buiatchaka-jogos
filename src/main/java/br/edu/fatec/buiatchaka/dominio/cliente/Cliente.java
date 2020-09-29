@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,11 +25,9 @@ import lombok.Setter;
 public class Cliente extends Usuario {
 	@Column(nullable = false, columnDefinition = "integer default 0")
 	private int qtdPedidos;
-	@Column(nullable = false)
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos;
-	@Column(nullable = true)
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
 	private List<Cartao> cartoes;
 	@Column(nullable = true)
 	@OneToMany(mappedBy = "cliente")

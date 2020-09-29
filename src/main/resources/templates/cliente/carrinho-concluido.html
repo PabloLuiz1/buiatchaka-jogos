@@ -1,19 +1,16 @@
 <!DOCTYPE HTML>
-<html lang="pt-br" xlmns:th:="http://www.thymeleaf.org">
-
+<html lang="pt-br">
 <head>
 <meta charset="utf-8">
 <title>BuiaTchaKa Games</title>
 <link rel="stylesheet" th:href="@{../css/reset.css}">
 <link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{../css/font-awesome.min.css}">
-
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
 	integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
 	crossorigin="anonymous">
 </head>
-
 <body>
 	<div class="container-fluid p-0">
 		<header>
@@ -43,39 +40,15 @@
 			</div>
 		</header>
 		<div class="container">
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col">
-					<h4 th:text="'Produto ' + ${item?.produto.id}"></h4>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-7">
-					<div class="card">
-						<div class="card-body p-0">
-							<div class="col">
-								<img class="d-block w-50" src="Produto 1" alt="Produto 1">
-								<span th:text="${item?.produto.nome}"></span>
-								<hr>
-								<span th:text="${item?.produto.descricao}"></span>
-								<hr>
-								<span th:text="${item?.produto.categoria.descricao}"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col">
-					<h5 class="text-info" th:text="${item?.produto.precoVenda}"></h5>
-					<a class="font-weight-bold" href="#">Adicionar ao carrinho</a> <br>
-					<a class="font-weight-bold" href="cart.html">Comprar</a>
-				</div>
-			</div>
+			<h4>Pedido concluído!</h4>
+			O seu pedido agora está no status "EM PROCESSAMENTO". <br> <a class="font-weight-bold"
+				href="/">Voltar para início</a> - <a
+				class="font-weight-bold" href="/perfil">Meus pedidos</a>
 		</div>
 		<footer> Footer </footer>
 	</div>
 </body>
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script th:src="@{../js/jquery.min.js}"></script>
+<script th:src="@{../js/popper.min.js}"></script>
+<script th:src="@{../js/bootstrap.min.js}"></script>
 </html>
