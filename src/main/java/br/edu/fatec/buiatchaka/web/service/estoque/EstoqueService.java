@@ -13,7 +13,7 @@ import br.edu.fatec.buiatchaka.web.service.exceptions.ObjectNotFoundException;
 @Service
 public class EstoqueService {
 	@Autowired
-	ItemEstoqueRepository repo;
+	private ItemEstoqueRepository repo;
 	
 	public ItemEstoque consultar(Long id) {
 		Optional<ItemEstoque> item = repo.findById(id);
@@ -32,7 +32,7 @@ public class EstoqueService {
 	public ItemEstoque consultarCarrinho(Long id) {
 		Optional<ItemEstoque> item = repo.findById(id);
 		try {
-			item.get().setQuantidade(item.get().getQuantidade() - 1);
+			item.get().setQuantidade(item.get().getQuantidade());
 			repo.save(item.get());
 		} catch (Exception e) {
 			System.err.println(e.getStackTrace());
@@ -40,5 +40,4 @@ public class EstoqueService {
 		return item.orElseThrow(
 				() -> new ObjectNotFoundException("Item não encontrado. Tipo: " + ItemEstoque.class.getName())); 
 	}
-	
 }

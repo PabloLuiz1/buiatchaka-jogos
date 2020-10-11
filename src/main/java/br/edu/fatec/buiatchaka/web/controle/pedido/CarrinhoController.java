@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
@@ -14,6 +15,7 @@ import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cupom;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
 import br.edu.fatec.buiatchaka.dominio.pedido.Carrinho;
+import br.edu.fatec.buiatchaka.dominio.pedido.ItemCarrinho;
 import br.edu.fatec.buiatchaka.dominio.pedido.Pedido;
 import br.edu.fatec.buiatchaka.dominio.produto.ItemEstoque;
 import br.edu.fatec.buiatchaka.sistema.logging.Log;
@@ -47,12 +49,15 @@ public class CarrinhoController {
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public ModelAndView adicionar(@ModelAttribute ItemEstoque item) {
+	public ModelAndView adicionar(@ModelAttribute("itemEstoque") ItemEstoque item) {
 		ModelAndView mv;
 		ItemEstoque itemEstoque = estoqueService.consultar(item.getId());
-		carrinho.addItem(itemEstoque);
-		Log.loggar("Testando o objeto de PRODUTO do objeto de ITEM ESTOQUE com ID e NOME: " + carrinho.getItens().get(0).getProduto().getId()
-				+ " - " + carrinho.getItens().get(0).getProduto().getNome());
+		ItemCarrinho itemCarrinho = new ItemCarrinho(itemEstoque, 1);
+		carrinho.addItem(itemCarrinho);
+//		carrinho.retirarDoEstoque(itemCarrinho);
+		estoqueService.salvar(itemCarrinho.getItem());
+		Log.loggar("Testando o objeto de PRODUTO do objeto de ITEM ESTOQUE com ID e NOME: " + carrinho.getItens().get(0).getItem().getProduto().getId()
+				+ " - " + carrinho.getItens().get(0).getItem().getProduto().getNome());
 		mv = new ModelAndView("redirect:/carrinho", "carrinho", carrinho);
 		return mv;
 	}
@@ -60,15 +65,21 @@ public class CarrinhoController {
 	@RequestMapping(value = "/limparCarrinho", method = RequestMethod.GET)
 	public ModelAndView limparCarrinho() {
 		ModelAndView mv;
+		carrinho.getItens().forEach(carrinho::devolverEstoque);
+		for (ItemCarrinho item : carrinho.getItens()) {
+			ItemEstoque i = item.getItem();
+			estoqueService.salvar(i);
+		}
 		carrinho.limparItens();
 		mv = new ModelAndView("redirect:/carrinho");
 		return mv;
 	}
 	
 	@RequestMapping(value = "/remover", method = RequestMethod.POST)
-	public ModelAndView removerItem(@ModelAttribute ItemEstoque item) {
+	public ModelAndView removerItem(@ModelAttribute("itemCarrinho") ItemCarrinho item) {
 		ModelAndView mv;
 		carrinho.removerItem(item);
+		Log.loggar("Testando o NULLPOINTER da URI /remover - ItemID: " + item.getItem().getId());
 		mv = new ModelAndView("redirect:/carrinho", "carrinho", carrinho);
 		return mv;
 	}
@@ -117,7 +128,19 @@ public class CarrinhoController {
 	public ModelAndView adicionarCartao(@ModelAttribute("cartao") Cartao cartao) {
 		ModelAndView mv;
 		Cartao c = cartaoService.consultar(cartao.getId());
-		carrinho.adicionarCartao(c);
+		carrinho.setValorPago(carrinho.getTotal());
+		carrinho.adicionarCartao(c, carrinho.getTotal());
+		mv = new ModelAndView("redirect:/carrinho/pagamento", "carrinho", carrinho);
+		return mv;
+	}
+	
+	@RequestMapping(value = "/adicionarDoisCartoes", method = RequestMethod.POST)
+	public ModelAndView adicionarDoisCartoes(@ModelAttribute("cartao") Cartao cartao, @RequestParam(name = "valorAPagar") double valorAPagar) {
+		ModelAndView mv;
+		Cartao c = cartaoService.consultar(cartao.getId());
+		carrinho.adicionarCartao(c, valorAPagar);
+		Log.loggar("TESTANDO O ADICIONARDOISCARTOES URI DA CARRINHO CONTROLLER VALOR A PAGAR: " + valorAPagar);
+		Log.loggar("TESTANDO O VALOR A PAGAR E O VALOR TOTAL DO CARRINHO VALOR A PAGAR: " + carrinho.getValorPago() + " VALOR TOTAL: " + carrinho.getTotal());
 		mv = new ModelAndView("redirect:/carrinho/pagamento", "carrinho", carrinho);
 		return mv;
 	}
@@ -132,7 +155,7 @@ public class CarrinhoController {
 	@RequestMapping(value = "/revisar", method = RequestMethod.POST)
 	public ModelAndView revisar(@ModelAttribute("cartao") Cartao cartao) {
 		ModelAndView mv;
-		carrinho.adicionarCartao(cartao);
+//		carrinho.adicionarCartao(cartao);
 		mv = new ModelAndView("redirect:/carrinho/revisar", "carrinho", carrinho);
 		return mv;
 	}
@@ -153,4 +176,23 @@ public class CarrinhoController {
 	public String carrinhoConcluido() {
 		return "cliente/carrinho-concluido";
 	}
+	
+	@RequestMapping(value = "/quantidade", method = RequestMethod.POST)
+	public ModelAndView quantidade (@RequestParam("id") Long id, @RequestParam("quantidade") int quantidade) {
+		ModelAndView mv;
+//		item.setQuantidade(quantidade);
+		ItemCarrinho item = new ItemCarrinho();
+		item.setItem(estoqueService.consultar(id));
+		carrinho.atualizarEstoque(item, quantidade);
+		Log.loggar("TESTANDO SE A QUANTIDADE E O ID TÁ PASSANDO NA URI CARRINHO/QUANTIDADE: " + item.getQuantidade() + " / ID: " + item.getItem().getId());
+		estoqueService.salvar(item.getItem());
+//		item.setQuantidade(quantidade);
+//		Log.loggar("Testando se o ItemCarrinho existe na URI /quantidade do CARRINHO: " + item.getItem().getProduto().getNome() + "\nID DO ITEM: " + item.getItem().getId());
+//		Log.loggar("Testando se o ItemCarrinho e sua quantidade estão sendo passados via GET na URI: carrinho/quantidade: " + item.getQuantidade() + "");
+//		carrinho.retirarDoEstoque(item);
+//		estoqueService.salvar(item.getItem());
+		mv = new ModelAndView("redirect:/carrinho");
+		return mv;
+	}
+	
 }

@@ -16,7 +16,6 @@ import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cupom;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
-import br.edu.fatec.buiatchaka.dominio.produto.ItemEstoque;
 import br.edu.fatec.buiatchaka.sistema.logging.Log;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,16 +48,17 @@ public class Pedido extends EntidadeDominio {
 		this.endereco = carrinho.getEndereco();
 		this.cartoes = carrinho.getCartoes();
 		this.cupons = carrinho.getCupons();
+		this.setAtivo(true);
 		this.valorTotal = carrinho.getTotal();
 		this.setDataCadastro(LocalDate.now());
 		this.status = EnumStatusPedido.EM_PROCESSAMENTO.toString();
 		
 		Log.loggar("Logando as informações do PEDIDO no construtor da classe Pedido: ValorTotal: " + this.getValorTotal());
 		
-		for (ItemEstoque item : carrinho.getItens()) {
+		for (ItemCarrinho item : carrinho.getItens()) {
 			ItemPedido i = new ItemPedido();
-			i.setItem(item);
-			i.setQuantidade(1); // MOCK
+			i.setItem(item.getItem());
+			i.setQuantidade(item.getQuantidade());
 			itens.add(i);
 		}
 	}

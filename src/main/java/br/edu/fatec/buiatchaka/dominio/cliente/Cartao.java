@@ -3,7 +3,6 @@ package br.edu.fatec.buiatchaka.dominio.cliente;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +16,6 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "cartao", schema = "public")
 public class Cartao extends FormaPagamentoAbstract {
 	@Column(nullable = false)
 	private String numero;
@@ -31,4 +29,5 @@ public class Cartao extends FormaPagamentoAbstract {
 	private String cpfTitular;
 	@ManyToOne
 	private Cliente cliente;
+	
 }

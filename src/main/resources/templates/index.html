@@ -71,7 +71,7 @@
 			</div>
 			<div class="card-columns mt-4">
 				<div class="card" th:each="item: ${itens}">
-					<form method="POST" action="carrinho" modelAttribute="item">
+					<form method="POST" action="carrinho" modelAttribute="itemEstoque">
 					<input type="hidden" name="id" id="id" path="id" th:value="${item.id}">
 					<img class="card-img-top" src="Produto 1" alt="Produto 1">
 					<div class="card-body">

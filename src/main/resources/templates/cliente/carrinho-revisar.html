@@ -37,13 +37,14 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td th:text="${item.produto.nome}"><img class="img-thumbnail"
-							src="Produto 1" alt="Produto 1" width="200" height="200"></td>
+						<td th:text="${item.item.produto.nome}"><img
+							class="img-thumbnail" src="Produto 1" alt="Produto 1" width="200"
+							height="200"></td>
 						<td><select class="col-md-5">
 								<option th:each="i : ${#numbers.sequence(1, item.quantidade)}"
 									th:value="${i}" th:text="${i}"></option>
 						</select></td>
-						<td><span th:text="${'R$ ' + item.produto.precoVenda}"></span>
+						<td><span th:text="${'R$ ' + item.item.produto.precoVenda}"></span>
 					</tr>
 				</tbody>
 			</table>
@@ -106,8 +107,24 @@
 						</div>
 					</form>
 				</div>
+			</div>
+			<div th:if="${not #lists.isEmpty(carrinho.cupons)}">
+				<h5>Cupom:</h5>
+				<div class="card" th:each="cupom: ${carrinho?.cupons}">
+					<form method="POST" action="/carrinho/pagamento"
+						modelAttribute="cupom">
+						<input type="hidden" name="id" id="id" path="id"
+							th:value="${cupom.id}">
+						<div class="card-body">
+							<h6 th:text="'Cupom: ' + ${cupom.codigo}"></h6>
+							<span th:text="'Valor: R$ ' + ${cupom.valor}"></span>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div th:if="${carrinho.validarValorPago()}">
 				<a class="btn btn-primary pull-right font-weight-bold mt-2"
-					href="/carrinho/pedido">Confirmar pedido</a><br> <br>
+					href="/carrinho/pedido">Confirmar pedido</a>
 			</div>
 		</div>
 		<footer> Footer </footer>

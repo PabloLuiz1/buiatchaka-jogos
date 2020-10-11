@@ -13,7 +13,7 @@ import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cupom;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
-import br.edu.fatec.buiatchaka.dominio.produto.ItemEstoque;
+import br.edu.fatec.buiatchaka.sistema.logging.Log;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,12 +25,20 @@ import lombok.Setter;
 public class Carrinho extends EntidadeDominio {
 	private Cliente cliente;
 	private Endereco endereco;
-	private final List<ItemEstoque> itens = new ArrayList<ItemEstoque>();
+	private final List<ItemCarrinho> itens = new ArrayList<ItemCarrinho>();
 	private final List<Cartao> cartoes = new ArrayList<Cartao>();
 	private final List<Cupom> cupons = new ArrayList<Cupom>();
+	private double valorCartaoUm;
+	private double valorCartaoDois;
+	private double valorPago = 0;
 	private double total = 0;
-
-	public void addItem(ItemEstoque item) {
+//	private final TimerCarrinho timer = new TimerCarrinho(this);
+//	private final Timer t = new Timer();
+	public Carrinho () {
+//		t.schedule(timer, 900000, 900000);
+	}
+	
+	public void addItem(ItemCarrinho item) {
 		this.itens.add(item);
 		setTotal();
 	}
@@ -39,64 +47,83 @@ public class Carrinho extends EntidadeDominio {
 		this.itens.clear();
 		setTotal();
 	}
-	
+
 	public void limparCartoes() {
 		this.cartoes.clear();
 	}
-	
+
 	public void limparCupons() {
 		this.cupons.clear();
 	}
 
-	public void removerItem(ItemEstoque item) {
+	public void removerItem(ItemCarrinho item) {
+		devolverEstoque(item);
 		itens.remove(item);
 		setTotal();
 	}
 
 	public void setTotal() {
 		this.total = 0;
-		for (ItemEstoque i : this.itens) {
-			this.total = this.total + i.getProduto().getPrecoVenda();
+		for (ItemCarrinho i : this.itens) {
+			this.total = this.total + i.getSubtotal();
 		}
-		for (Cupom c : this.cupons) { 
+		for (Cupom c : this.cupons) {
 			this.total = this.total - c.getValor();
+			this.valorPago = c.getValor();
+			if (this.total <= 0)
+				this.total = 0;
 		}
 	}
-	
-	public void adicionarCartao(Cartao cartao) {
+
+	public void adicionarCartao(Cartao cartao, double valor) {
+		this.valorPago = this.valorPago + valor; 
 		this.cartoes.add(cartao);
 	}
-	
+
 	public void removerCartao(Cartao cartao) {
 		this.cartoes.remove(cartao);
 	}
-	
+
 	public void adicionarCupom(Cupom cupom) {
 		this.cupons.add(cupom);
 		setTotal();
 	}
-	
+
 	public void removerCupom(Cupom cupom) {
 		this.cupons.remove(cupom);
 		setTotal();
 	}
-	
+
 	public void resetarCarrinho() {
 		this.endereco = null;
+		this.itens.forEach(this::devolverEstoque);
 		this.limparItens();
 		this.limparCartoes();
 		this.limparCupons();
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null)
-			return false;
-		if (obj == this)
-			return true;
-		if (!(obj instanceof ItemEstoque))
-			return false;
-		ItemEstoque i = (ItemEstoque) obj;
-		return i.getId() == this.getId();
+	public void atualizarEstoque(ItemCarrinho item, int quantidade) {
+		if (quantidade < item.getItem().getQuantidade()) {
+			int diferenca = quantidade - item.getQuantidade();
+			Log.loggar("Teste da diferença de quantidade no método atualizarEstoque na classe Carrinho: " + diferenca);
+			item.getItem().setQuantidade(item.getItem().getQuantidade() + diferenca);
+		}
+		else {
+			item.getItem().setQuantidade(item.getItem().getQuantidade() - quantidade);
+		}
+		item.setQuantidade(quantidade);
+	}
+	
+	public void retirarDoEstoque(ItemCarrinho item) {		
+		item.getItem().setQuantidade(item.getItem().getQuantidade() - item.getQuantidade());
+		Log.loggar("TESTE DE QUANTIDADE DO ITEM NA CLASSE DE CARINHO: ITEM CARRINHO: " + item.getQuantidade() + "ITEM ESTOQUE: " + item.getItem().getQuantidade());
+	}
+	
+	public void devolverEstoque(ItemCarrinho item) {
+		item.getItem().setQuantidade(item.getItem().getQuantidade() + item.getQuantidade());
+	}
+	
+	public boolean validarValorPago() {
+		return (this.valorPago == this.total);
 	}
 }

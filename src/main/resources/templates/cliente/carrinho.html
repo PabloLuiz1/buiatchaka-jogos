@@ -42,27 +42,35 @@
 						<tr>
 							<th colspan="3">
 								<form method="POST" action="/carrinho/remover"
-									modelAttribute="item">
+									modelAttribute="itemCarrinho">
 									<input type="hidden" th:value="${item.id}" path="id"> <input
 										type="submit"
 										class="btn btn-danger pull-right font-weight-bold"
 										value="Remover
 								produto">
+								</form>
 							</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td th:text="${item.produto.nome}"><img
+							<input type="hidden" th:value="${item.item.id}" id="idItem"
+								name="idItem">
+							<td th:text="${item.item.produto.nome}"><img
 								class="img-thumbnail" src="Produto 1" alt="Produto 1"
 								width="200" height="200"></td>
-							<td><span class="font-weight-bold">Quantidade</span> <br>
-								<select class="col-md-5">
-									<option th:each="i : ${#numbers.sequence(1, item.quantidade)}"
-										th:value="${i}" th:text="${i}"></option>
-							</select></td>
+							<td>
+								<form method="POST" action="/carrinho/quantidade">
+									<input type="hidden" th:value="${item.item.id}" path="id"
+										id="id" name="id"> <span class="font-weight-bold">Quantidade</span>
+									<br> <select class="col-md-5" id="quantidade" name="quantidade">
+										<option th:each="i : ${#numbers.sequence(1, item.item.quantidade)}"
+											th:value="${i}" th:text="${i}"></option>
+									</select> <input type="submit">
+								</form>
+							</td>
 							<td><span class="font-weight-bold">Total</span> <br> <span
-								th:text="${'R$ ' + item.produto.precoVenda}"></span>
+								th:text="${'R$ ' + item.item.produto.precoVenda}"></span>
 						</tr>
 					</tbody>
 				</table>
@@ -97,14 +105,16 @@
 						</tr>
 					</tbody>
 				</table>
-				<a href="/carrinho/entrega" class="btn btn-primary font-weight-bold mb-2">Continuar para entrega</a>
+				<a href="/carrinho/entrega"
+					class="btn btn-primary font-weight-bold mb-2">Continuar para
+					entrega</a>
 			</div>
 		</div>
 		<footer> Footer </footer>
 	</div>
 </body>
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script th:src="@{../js/jquery.min.js}"></script>
+<script th:src="@{../js/popper.min.js}"></script>
+<script th:src="@{../js/bootstrap.min.js}"></script>
 
 </html>
