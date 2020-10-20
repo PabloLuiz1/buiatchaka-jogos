@@ -141,6 +141,7 @@ public class CarrinhoController {
 		carrinho.adicionarCartao(c, valorAPagar);
 		Log.loggar("TESTANDO O ADICIONARDOISCARTOES URI DA CARRINHO CONTROLLER VALOR A PAGAR: " + valorAPagar);
 		Log.loggar("TESTANDO O VALOR A PAGAR E O VALOR TOTAL DO CARRINHO VALOR A PAGAR: " + carrinho.getValorPago() + " VALOR TOTAL: " + carrinho.getTotal());
+		
 		mv = new ModelAndView("redirect:/carrinho/pagamento", "carrinho", carrinho);
 		return mv;
 	}

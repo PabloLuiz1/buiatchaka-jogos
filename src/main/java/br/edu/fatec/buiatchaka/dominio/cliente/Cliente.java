@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import br.edu.fatec.buiatchaka.dominio.Usuario;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,6 @@ import lombok.Setter;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "cliente")
 public class Cliente extends Usuario {
 	@Column(nullable = false, columnDefinition = "integer default 0")
 	private int qtdPedidos;

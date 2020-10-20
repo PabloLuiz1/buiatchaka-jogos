@@ -76,7 +76,7 @@ public class Carrinho extends EntidadeDominio {
 	}
 
 	public void adicionarCartao(Cartao cartao, double valor) {
-		this.valorPago = this.valorPago + valor; 
+		this.valorPago = this.valorPago + valor;
 		this.cartoes.add(cartao);
 	}
 
