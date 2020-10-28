@@ -2,6 +2,7 @@ package br.edu.fatec.buiatchaka.dominio.pedido;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -14,6 +15,7 @@ import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cupom;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
 import br.edu.fatec.buiatchaka.sistema.logging.Log;
+import br.edu.fatec.buiatchaka.web.util.TimerCarrinho;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,15 +29,15 @@ public class Carrinho extends EntidadeDominio {
 	private Endereco endereco;
 	private final List<ItemCarrinho> itens = new ArrayList<ItemCarrinho>();
 	private final List<Cartao> cartoes = new ArrayList<Cartao>();
-	private final List<Cupom> cupons = new ArrayList<Cupom>();
+	private final List<Cupom> cupons = new ArrayList<Cupom>(); 
 	private double valorCartaoUm;
 	private double valorCartaoDois;
 	private double valorPago = 0;
 	private double total = 0;
-//	private final TimerCarrinho timer = new TimerCarrinho(this);
-//	private final Timer t = new Timer();
+	private final TimerCarrinho timer = new TimerCarrinho(this);
+	private final Timer t = new Timer();
 	public Carrinho () {
-//		t.schedule(timer, 900000, 900000);
+		t.schedule(timer, 900000, 900000);
 	}
 	
 	public void addItem(ItemCarrinho item) {
@@ -86,7 +88,7 @@ public class Carrinho extends EntidadeDominio {
 
 	public void adicionarCupom(Cupom cupom) {
 		this.cupons.add(cupom);
-		setTotal();
+		this.valorPago += cupom.getValor();
 	}
 
 	public void removerCupom(Cupom cupom) {
@@ -95,6 +97,9 @@ public class Carrinho extends EntidadeDominio {
 	}
 
 	public void resetarCarrinho() {
+		this.valorPago = 0;
+		this.valorCartaoUm = 0;
+		this.valorCartaoDois = 0;
 		this.endereco = null;
 		this.itens.forEach(this::devolverEstoque);
 		this.limparItens();
@@ -103,24 +108,15 @@ public class Carrinho extends EntidadeDominio {
 	}
 	
 	public void atualizarEstoque(ItemCarrinho item, int quantidade) {
-		if (quantidade < item.getItem().getQuantidade()) {
-			int diferenca = quantidade - item.getQuantidade();
-			Log.loggar("Teste da diferença de quantidade no método atualizarEstoque na classe Carrinho: " + diferenca);
-			item.getItem().setQuantidade(item.getItem().getQuantidade() + diferenca);
-		}
-		else {
-			item.getItem().setQuantidade(item.getItem().getQuantidade() - quantidade);
-		}
-		item.setQuantidade(quantidade);
 	}
 	
-	public void retirarDoEstoque(ItemCarrinho item) {		
-		item.getItem().setQuantidade(item.getItem().getQuantidade() - item.getQuantidade());
-		Log.loggar("TESTE DE QUANTIDADE DO ITEM NA CLASSE DE CARINHO: ITEM CARRINHO: " + item.getQuantidade() + "ITEM ESTOQUE: " + item.getItem().getQuantidade());
+	public void retirarDoEstoque(ItemCarrinho item) {
+		item.getItem().setQuantidade(item.getQuantidadeDisponivel() - item.getQuantidade());
+		Log.loggar("RETIRANDO DO ESTOQUE\nTESTE DE QUANTIDADE DO ITEM NA CLASSE DE CARINHO: ITEM CARRINHO: " + item.getQuantidade() + " ITEM ESTOQUE: " + item.getItem().getQuantidade());
 	}
 	
 	public void devolverEstoque(ItemCarrinho item) {
-		item.getItem().setQuantidade(item.getItem().getQuantidade() + item.getQuantidade());
+		item.getItem().setQuantidade(item.getQuantidadeDisponivel());
 	}
 	
 	public boolean validarValorPago() {

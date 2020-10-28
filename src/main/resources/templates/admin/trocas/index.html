@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html lang="pt-br" xlmns:th:="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<title>BuiaTchaKa Games</title>
+<link rel="stylesheet" th:href="@{../css/reset.css}">
+<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../css/font-awesome.min.css}">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+	integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+	crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container-fluid p-0">
+		<header>
+			<div class="container-fluid p-1 border border-dark">
+				BuiaTchaKa Games | Dashboard <br>
+			</div>
+			<div class="container-fluid bg-light"></div>
+		</header>
+		<div class="container-fluid pl-0">
+			<div class="row mt-4">
+				<div class="col-md-2">
+					<div class="p-0 bg-light">
+						<h6>Fulano Cicrano Beltrano</h6>
+						<h6>fulano@gmail.com</h6>
+						<nav class="navbar bg-light">
+							<ul class="navbar-nav">
+								<li class="nav-item"><a class="nav-link" href="#">Início</a>
+								</li>
+								<li class="nav-item"><a class="nav-link" href="perfil.html">Perfil</a>
+								</li>
+								<li class="nav-item"><a class="nav-link"
+									href="produtos.html">Produtos</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="estoque.html">Estoque</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="clientes.html">Clientes</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="pedidos.html">Pedidos</a></li>
+								<li class="nav-item font-weight-bold"><a class="nav-link"
+									href="trocas.html">Trocas</a></li>
+								<li class="nav-item"><a class="nav-link" href="cupons.html">Cupons</a>
+								</li>
+								<li class="nav-item"><a class="nav-link"
+									href="usuarios.html">Usuários</a></li>
+								<li class="nav-item"><a class="nav-link" href="logs.html">Logs</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<div class="col-md-10">
+					<h6 th:text="Trocas"></h6>
+					<div class="row">
+						<div class="col-md-8">
+							<table
+								class="table table-bordered table-hover table-responsive-md text-center">
+								<thead class="thead-dark font-weight-bold">
+									<tr>
+										<th>#</th>
+										<th>Pedido</th>
+										<th>Cliente</th>
+										<th>Item</th>
+										<th>Status</th>
+										<th>Motivo</th>
+										<th>Valor</th>
+										<th>Detalhes</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="troca: ${trocas}">
+										<td th:text="${troca.id}"></td>
+										<td th:text="${troca.item.item.pedido.id}"></td>
+										<td th:text="${troca.item.item.pedido.cliente.nome}"></td>
+										<td th:text="${troca.item.item.item.produto.nome}"></td>
+										<td th:text="${troca.status}"></td>
+										<td th:text="${troca.motivo}"></td>
+										<td th:text="${'R$ ' + troca.valor}"></td>
+										<td><a th:href="${'/admin/trocas/' + troca.id}"
+											class="font-weight-bold">Ver</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col">Ações recentes</div>
+					</div>
+				</div>
+			</div>
+			<footer>Footer</footer>
+		</div>
+</body>
+<script th:src="@{../js/jquery.min.js}"></script>
+<script th:src="@{../js/popper.min.js}"></script>
+<script th:src="@{../js/bootstrap.min.js}"></script>
+
+</html>

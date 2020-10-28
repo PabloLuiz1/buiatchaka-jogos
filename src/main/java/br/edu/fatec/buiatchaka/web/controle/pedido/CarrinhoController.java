@@ -54,10 +54,8 @@ public class CarrinhoController {
 		ItemEstoque itemEstoque = estoqueService.consultar(item.getId());
 		ItemCarrinho itemCarrinho = new ItemCarrinho(itemEstoque, 1);
 		carrinho.addItem(itemCarrinho);
-//		carrinho.retirarDoEstoque(itemCarrinho);
+		carrinho.retirarDoEstoque(itemCarrinho);
 		estoqueService.salvar(itemCarrinho.getItem());
-		Log.loggar("Testando o objeto de PRODUTO do objeto de ITEM ESTOQUE com ID e NOME: " + carrinho.getItens().get(0).getItem().getProduto().getId()
-				+ " - " + carrinho.getItens().get(0).getItem().getProduto().getNome());
 		mv = new ModelAndView("redirect:/carrinho", "carrinho", carrinho);
 		return mv;
 	}
@@ -128,9 +126,8 @@ public class CarrinhoController {
 	public ModelAndView adicionarCartao(@ModelAttribute("cartao") Cartao cartao) {
 		ModelAndView mv;
 		Cartao c = cartaoService.consultar(cartao.getId());
-		carrinho.setValorPago(carrinho.getTotal());
 		carrinho.adicionarCartao(c, carrinho.getTotal());
-		mv = new ModelAndView("redirect:/carrinho/pagamento", "carrinho", carrinho);
+		mv = new ModelAndView("redirect:/carrinho/pagamento", "carrinho", carrinho); 
 		return mv;
 	}
 	
@@ -179,19 +176,18 @@ public class CarrinhoController {
 	}
 	
 	@RequestMapping(value = "/quantidade", method = RequestMethod.POST)
-	public ModelAndView quantidade (@RequestParam("id") Long id, @RequestParam("quantidade") int quantidade) {
+	public ModelAndView quantidade (@ModelAttribute("itemCarrinho") ItemCarrinho itemCarrinho, @RequestParam("id") Long id, @RequestParam("quantidade") int quantidade) {
 		ModelAndView mv;
-//		item.setQuantidade(quantidade);
-		ItemCarrinho item = new ItemCarrinho();
-		item.setItem(estoqueService.consultar(id));
-		carrinho.atualizarEstoque(item, quantidade);
-		Log.loggar("TESTANDO SE A QUANTIDADE E O ID TÁ PASSANDO NA URI CARRINHO/QUANTIDADE: " + item.getQuantidade() + " / ID: " + item.getItem().getId());
-		estoqueService.salvar(item.getItem());
-//		item.setQuantidade(quantidade);
-//		Log.loggar("Testando se o ItemCarrinho existe na URI /quantidade do CARRINHO: " + item.getItem().getProduto().getNome() + "\nID DO ITEM: " + item.getItem().getId());
-//		Log.loggar("Testando se o ItemCarrinho e sua quantidade estão sendo passados via GET na URI: carrinho/quantidade: " + item.getQuantidade() + "");
-//		carrinho.retirarDoEstoque(item);
-//		estoqueService.salvar(item.getItem());
+		ItemEstoque itemEstoque = estoqueService.consultar(id);
+		itemCarrinho.setItem(itemEstoque);
+		itemCarrinho.setQuantidade(itemCarrinho.getQuantidadeDisponivel() - 1);
+		carrinho.devolverEstoque(itemCarrinho);
+		estoqueService.salvar(itemCarrinho.getItem());
+		itemEstoque = estoqueService.consultar(id);
+		itemCarrinho.setItem(itemEstoque);
+		itemCarrinho.setQuantidade(quantidade);
+		carrinho.retirarDoEstoque(itemCarrinho);
+		estoqueService.salvar(itemCarrinho.getItem());
 		mv = new ModelAndView("redirect:/carrinho");
 		return mv;
 	}

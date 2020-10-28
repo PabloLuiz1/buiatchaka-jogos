@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+
+<head>
+<meta charset="utf-8">
+<title>Admin Dashboard | BuiaTchaKa</title>
+<link rel="stylesheet" th:href="@{../../css/reset.css}">
+<link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../../css/font-awesome.min.css}">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+	integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+	crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container-fluid p-0">
+		<header>
+			<div class="container-fluid p-1 border border-dark">
+				BuiaTchaKa Games | Dashboard <br>
+			</div>
+			<div class="container-fluid bg-light"></div>
+		</header>
+		<div class="container-fluid pl-0">
+			<div class="row mt-4">
+				<div class="col-md-2">
+					<div class="p-0 bg-light">
+						<h6 th:text="${session.admin?.nome}"></h6>
+						<h6 th:text="${session.admin?.email}"></h6>
+						<nav class="navbar bg-light">
+							<ul class="navbar-nav">
+								<li class="nav-item"><a class="nav-link" href="#">Início</a>
+								</li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/perfil">Perfil</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/produtos">Produtos</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/estoque">Estoque</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/clientes">Clientes</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">Pedidos</a></li>
+								<li class="nav-item font-weight-bold"><a class="nav-link"
+									href="admin/trocas">Trocas</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/cupons">Cupons</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/usuarios">Usuários</a></li>
+								<li class="nav-item"><a class="nav-link" href="admin/logs">Logs</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<h6
+						th:text="${'Detalhes da troca #' + troca.id + ' - ' + troca.status + ' - ' + troca.dataCadastro}"></h6>
+					<h6>Cliente:</h6>
+					<div class="row">
+						<div class="col">
+							<span class="font-weight-bold">Nome: </span> <span
+								th:text="${troca.item.item.pedido.cliente.nome}"></span> <br>
+							<span class="font-weight-bold">Email: </span> <span
+								th:text="${troca.item.item.pedido.cliente.email}"></span> <br>
+							<span class="font-weight-bold">Telefone: </span> <span
+								th:text="${troca.item.item.pedido.cliente.telefone}"></span>
+						</div>
+						<div class="col">
+							<span class="font-weight-bold">Gênero: </span> <span
+								th:text="${troca.item.item.pedido.cliente.genero}"></span> <br>
+							<span class="font-weight-bold">CPF: </span> <span
+								th:text="${troca.item.item.pedido.cliente.cpf}"></span> <br>
+							<span class="font-weight-bold">Total de pedidos: </span> <span
+								th:text="${troca.item.item.pedido.cliente.qtdPedidos}"></span>
+						</div>
+					</div>
+					<hr>
+					<h6>Endereço de entrega:</h6>
+					<div class="row">
+						<div class="col">
+							<span class="font-weight-bold">Logradouro: </span> <span
+								th:text="${troca.item.item.pedido.endereco.logradouro}"></span>
+							<br> <span class="font-weight-bold">Número: </span> <span
+								th:text="${troca.item.item.pedido.endereco.numero}"></span> <br>
+						</div>
+						<div class="col">
+							<span class="font-weight-bold">CEP: </span> <span
+								th:text="${troca.item.item.pedido.endereco.cep}"></span> <br>
+							<span class="font-weight-bold">Cidade/Estado: </span> <span
+								th:text="${troca.item.item.pedido.endereco.cidade + '/' + troca.item.item.pedido.endereco.estado}"></span>
+						</div>
+					</div>
+					<hr>
+					<h6>Itens:</h6>
+					<div class="row">
+						<div class="col">
+							<table
+								class="table table-bordered table-hover table-responsive-md text-center">
+								<thead class="thead-dark font-weight-bold">
+									<tr>
+										<th>#</th>
+										<th>Descrição</th>
+										<th>Categoria</th>
+										<th>Quantidade</th>
+										<th>Subtotal</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="item: ${troca.item.item.pedido.itens}">
+										<td th:text="${item.id}"></td>
+										<td th:text="${item.item.produto.nome}"></td>
+										<td th:text="${item.item.produto.categoria.descricao}"></td>
+										<td th:text="${item.quantidade}"></td>
+										<td th:text="${'R$ ' + item.subtotal}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<hr>
+					<h6>Forma(s) de pagamento:</h6>
+					<div class="row">
+						<div class="col">
+							<table
+								class="table table-bordered table-hover table-responsive-md text-center">
+								<thead class="thead-dark font-weight-bold">
+									<tr>
+										<th>#</th>
+										<th>Tipo</th>
+										<th>Descrição</th>
+										<th>Valor</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="cartao: ${troca.item.item.pedido.cartoes}">
+										<td th:text="${cartao.id}"></td>
+										<td>Cartão</td>
+										<td
+											th:text="${'Final: ' + #strings.substring(cartao.numero, 12) + ' - ' + cartao.bandeira}"></td>
+										<td th:text="${'R$ ' + troca.item.item.pedido.valorTotal}"></td>
+									</tr>
+									<tr th:each="cupom: ${troca.item.item.pedido.cupons}">
+										<td th:text="${cupom.id}"></td>
+										<td>Cupom</td>
+										<td th:text="${cupom.codigo}"></td>
+										<td th:text="${'R$ ' + cupom.valor}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<hr>
+					<h6>Item da troca:</h6>
+					<div class="row">
+						<div class="col">
+							<form method="POST" action="/admin/trocas/atualizarTroca"
+								modelAttribute="troca">
+								<div class="row">
+									<div class="col">
+										<input type="hidden" id="id" name="id" path="id"
+											th:value="${troca.id}"> <span
+											class="font-weight-bold">Produto: </span> <span
+											th:text="${troca.item.item.item.produto.nome + ' - ' + troca.item.item.item.produto.categoria.descricao}"></span>
+										<br> <span class="font-weight-bold">Motivo: </span> <span
+											th:text="${troca.motivo}"></span> <br> <span
+											class="font-weight-bold">Mensagem do cliente: </span> <span
+											th:text="${troca.mensagemCliente}"></span> <br> <span
+											class="font-weight-bold">Mensagem do administrador: </span> <span
+											th:text="${troca.mensagemAdmin}"></span> <br>
+									</div>
+									<div class="col">
+										<span class="font-weight-bold">Quantidade: </span> <span
+											th:text="${troca.item.quantidade}"></span> <br> <span
+											class="font-weight-bold">Subtotal: </span> <span
+											th:text="${'R$ ' + troca.item.item.item.produto.precoVenda}"></span>
+										<br> <span class="font-weight-bold">Total: </span> <span
+											th:text="${'R$ ' + troca.valor}"></span>
+									</div>
+								</div>
+								<hr>
+								<div th:if="${troca.status eq 'PENDENTE'}">
+									<label for="status" class="font-weight-bold">Aprovar/Recusar
+										troca: </label> <select class="form-control" path="status"
+										name="status" id="status" required>
+										<option value="">Selecione</option>
+										<option value="APROVADA">Aprovar</option>
+										<option value="RECUSADA">Recusar</option>
+									</select> <br> <label for="mensagemAdmin" class="font-weight-bold">Mensagem:
+									</label>
+									<textarea class="form-control" id="mensagemAdmin"
+										name="mensagemAdmin" path="mensagemAdmin" required></textarea>
+									<input type="submit"
+										class="btn btn-primary font-weight-bold pull-right mt-2 mb-2"
+										value="Salvar">
+								</div>
+								<div th:if="${troca.status eq 'APROVADA'}">
+									<input type="hidden" name="status" id="status" path="status"
+										value="ITEM_RECEBIDO">
+									<label for="devolverEstoque" class="font-weight-bold">Devolver item ao estoque?</label>
+									<br>
+									<input type="radio" class="" name="devolverEstoque" id="devolverEstoque" path="devolverEstoque" value="true" required> Sim
+									<br>
+									<input type="radio" class="" name="devolverEstoque" id="devolverEstoque" path="devolverEstoque" value="false" required checked> Não
+									<input type="submit"
+										class="btn btn-primary font-weight-bold pull-right mt-2 mb-2"
+										value="Item recebido">
+								</div>
+							</form>
+							<div th:if="${troca.status eq 'ITEM_RECEBIDO'}">
+								<h6>Gerar cupom</h6>
+								<form method="POST" action="/admin/cupons/novo" modelAttribute="cupom">
+									<label for="codigo" class="font-weight-bold">Código: </label>
+									<input type="text" class="form-control" name="codigo" id="codigo" path="codigo" required>
+									<br>
+									<label for="valor" class="font-weight-bold">Valor: </label>
+									<input type="number" class="form-control" name="valor" id="valor" path="valor" th:value="${troca.valor}" required disabled>
+									<br>
+									<input type="submit" class="btn btn-primary font-weight-bold" value="Gerar cupom">
+								</form> 
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col">Ações recentes</div>
+			</div>
+			<footer> Footer </footer>
+		</div>
+</body>
+<script>
+	$(document).ready(
+			function() {
+				$("#search").on(
+						"keyup",
+						function() {
+							var value = $(this).val().toLowerCase();
+							$("#pedidos tr").filter(
+									function() {
+										$(this).toggle(
+												$(this).text().toLowerCase()
+														.indexOf(value) > -1)
+									});
+						});
+			});
+</script>
+<script th:src="@{../../js/jquery.min.js}"></script>
+<script th:src="@{../../js/popper.min.js}"></script>
+<script th:src="@{../../js/bootstrap.min.js}"></script>
+
+</html>

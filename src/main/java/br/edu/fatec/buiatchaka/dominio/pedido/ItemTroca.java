@@ -1,6 +1,5 @@
-package br.edu.fatec.buiatchaka.dominio.produto;
+package br.edu.fatec.buiatchaka.dominio.pedido;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
@@ -12,9 +11,8 @@ import lombok.Setter;
 @Setter
 
 @Entity
-public class ItemEstoque extends EntidadeDominio {
+public class ItemTroca extends EntidadeDominio {
 	@OneToOne
-	private Produto produto;
-	@Column(nullable = false, columnDefinition = "integer default 0")
+	private ItemPedido item;
 	private int quantidade;
 }

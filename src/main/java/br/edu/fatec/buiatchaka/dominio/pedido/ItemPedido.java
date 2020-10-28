@@ -16,9 +16,15 @@ import lombok.Setter;
 @Entity
 public class ItemPedido extends EntidadeDominio {
 	@ManyToOne
-	private ItemEstoque item;
+	private ItemEstoque item; 
 	@Column(nullable = false, columnDefinition = "integer default 1")
 	private int quantidade;
 	@OneToOne
 	private Pedido pedido;
+	@Column(nullable = false)
+	private double subtotal;
+	
+	public void atualizarSubtotal() {
+		this.subtotal = quantidade * item.getProduto().getPrecoVenda();
+	}
 }

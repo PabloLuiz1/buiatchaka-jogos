@@ -25,3 +25,6 @@ INSERT INTO public.cupom(
 INSERT INTO public.cupom(
 	data_vencimento, codigo, valor, cliente_id)
 	VALUES ('2020-12-31', 'TROCA456', 19.90, 1);
+INSERT INTO public.admin(
+	cpf, data_nascimento, data_ultimo_login, email, genero, nome, rg, senha)
+	VALUES ('12344455567', '31/08/1992', now(), 'admin@gmail.com', 'MASCULINO', 'Administrador', '855321023', 'admin')

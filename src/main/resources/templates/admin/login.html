@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html lang="pt-br" xlmns:th:="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title> Admin Dashboard | BuiaTchaKa Games </title>
+<link rel="stylesheet" th:href="@{../css/reset.css}">
+<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../css/font-awesome.min.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid p-0">
+        <header>
+            <div class="container-fluid p-1 border border-dark">
+                <a href="#">BuiaTchaKa Games</a>
+                <br>
+            </div>
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="col border-right mb-4">
+                    <h3>Já tem conta?</h3>
+                    <div class="alert alert-danger" th:if="${erro ne null}">E-mail e/ou senha inválidos. </div>
+                    <form action="login" method="POST" class="col-md-10" modelAttribute="admin">
+                        <label for="email">E-mail: </label>
+                        <input class="form-control" type="email" name="email" id="email" path="email">
+                        <label for="senha">Senha: </label>
+                        <input class="form-control" type="password" name="senha" id="senha" path="senha">
+                        <a href="#">Esqueci a senha/e-mail</a>
+                        <br>
+                        <input type="submit" class="btn btn-primary font-weight-bold pull-right mt-2" value="Logar">
+                    </form>
+                </div>
+                <div class="col border-left mb-4">
+                    <h3>Não tem uma conta ainda?</h3>
+                    Entre em contato com o administrador.
+                </div>
+            </div>
+            </div>
+            <footer>
+                Footer
+            </footer>
+        </div>
+</body>
+<script th:src="@{../js/jquery.min.js}"></script>
+<script th:src="@{../js/popper.min.js}"></script>
+<script th:src="@{../js/bootstrap.min.js}"></script>
+
+</html>

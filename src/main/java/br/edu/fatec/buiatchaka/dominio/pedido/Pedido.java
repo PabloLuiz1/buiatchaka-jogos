@@ -43,7 +43,7 @@ public class Pedido extends EntidadeDominio {
 	private double valorTotal;
 	
 	public Pedido(Carrinho carrinho) {
-		itens = new ArrayList<ItemPedido>();
+		this.itens = new ArrayList<ItemPedido>();
 		this.cliente = carrinho.getCliente();
 		this.endereco = carrinho.getEndereco();
 		this.cartoes = carrinho.getCartoes();
@@ -57,8 +57,10 @@ public class Pedido extends EntidadeDominio {
 		
 		for (ItemCarrinho item : carrinho.getItens()) {
 			ItemPedido i = new ItemPedido();
+			i.setPedido(this);
 			i.setItem(item.getItem());
 			i.setQuantidade(item.getQuantidade());
+			i.setSubtotal(item.getSubtotal());
 			itens.add(i);
 		}
 	}

@@ -138,7 +138,7 @@
 								</div>
 							</div>
 							<div
-								th:if="${carrinho.valorPago eq carrinho.total or carrinho.total == 0}">
+								th:if="${carrinho.validarValorPago()}">
 								<a href="/carrinho/revisar"
 									class="btn btn-primary font-weight-bold pull-right mt-2 mb-2">Continuar</a>
 							</div>
