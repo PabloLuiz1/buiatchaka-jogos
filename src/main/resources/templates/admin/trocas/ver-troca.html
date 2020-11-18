@@ -91,7 +91,7 @@
 						</div>
 					</div>
 					<hr>
-					<h6>Itens:</h6>
+					<h6>Itens do pedido:</h6>
 					<div class="row">
 						<div class="col">
 							<table
@@ -118,7 +118,7 @@
 						</div>
 					</div>
 					<hr>
-					<h6>Forma(s) de pagamento:</h6>
+					<h6>Forma(s) de pagamento do pedido:</h6>
 					<div class="row">
 						<div class="col">
 							<table
@@ -195,28 +195,40 @@
 								</div>
 								<div th:if="${troca.status eq 'APROVADA'}">
 									<input type="hidden" name="status" id="status" path="status"
-										value="ITEM_RECEBIDO">
-									<label for="devolverEstoque" class="font-weight-bold">Devolver item ao estoque?</label>
-									<br>
-									<input type="radio" class="" name="devolverEstoque" id="devolverEstoque" path="devolverEstoque" value="true" required> Sim
-									<br>
-									<input type="radio" class="" name="devolverEstoque" id="devolverEstoque" path="devolverEstoque" value="false" required checked> Não
-									<input type="submit"
+										value="ITEM_RECEBIDO"> <label for="devolverEstoque"
+										class="font-weight-bold">Devolver item ao estoque?</label> <br>
+									<input type="radio" class="" name="devolverEstoque"
+										id="devolverEstoque" path="devolverEstoque" value="true"
+										required> Sim <br> <input type="radio" class=""
+										name="devolverEstoque" id="devolverEstoque"
+										path="devolverEstoque" value="false" required checked>
+									Não <input type="submit"
 										class="btn btn-primary font-weight-bold pull-right mt-2 mb-2"
 										value="Item recebido">
+								</div>
+								<div th:if="${troca.status eq 'CUPOM_GERADO'}">
+									<h6>Concluir troca</h6>
+									<input type="hidden" name="status" id="status" path="status"
+										value="CONCLUIDA"> <br> <input type="submit"
+										class="btn btn-primary font-weight-bold"
+										value="Concluir troca">
 								</div>
 							</form>
 							<div th:if="${troca.status eq 'ITEM_RECEBIDO'}">
 								<h6>Gerar cupom</h6>
-								<form method="POST" action="/admin/cupons/novo" modelAttribute="cupom">
-									<label for="codigo" class="font-weight-bold">Código: </label>
-									<input type="text" class="form-control" name="codigo" id="codigo" path="codigo" required>
-									<br>
-									<label for="valor" class="font-weight-bold">Valor: </label>
-									<input type="number" class="form-control" name="valor" id="valor" path="valor" th:value="${troca.valor}" required disabled>
-									<br>
-									<input type="submit" class="btn btn-primary font-weight-bold" value="Gerar cupom">
-								</form> 
+								<form method="POST" action="/admin/cupons/novo"
+									modelAttribute="cupom">
+									<input type="hidden" name="idTroca" id="idTroca"
+										th:value="${troca.id}"> <label for="codigo"
+										class="font-weight-bold">Código: </label> <input type="text"
+										class="form-control" name="codigo" id="codigo" path="codigo"
+										required> <br> <label for="valor"
+										class="font-weight-bold">Valor: </label> <input type="number"
+										class="form-control" name="valor" id="valor" path="valor"
+										th:value="${troca.valor}" required> <br>
+									<input type="submit" class="btn btn-primary font-weight-bold"
+										value="Gerar cupom">
+								</form>
 							</div>
 
 						</div>

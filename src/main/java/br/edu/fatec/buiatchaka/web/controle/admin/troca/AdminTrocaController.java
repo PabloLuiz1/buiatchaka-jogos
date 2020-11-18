@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.edu.fatec.buiatchaka.dominio.cliente.Cupom;
 import br.edu.fatec.buiatchaka.dominio.enums.EnumStatusPedido;
-import br.edu.fatec.buiatchaka.dominio.pedido.EnumStatusTroca;
+import br.edu.fatec.buiatchaka.dominio.enums.EnumStatusTroca;
 import br.edu.fatec.buiatchaka.dominio.pedido.Pedido;
 import br.edu.fatec.buiatchaka.dominio.pedido.Troca;
 import br.edu.fatec.buiatchaka.dominio.produto.ItemEstoque;
 import br.edu.fatec.buiatchaka.web.service.estoque.EstoqueService;
+import br.edu.fatec.buiatchaka.web.service.pedido.CupomService;
 import br.edu.fatec.buiatchaka.web.service.pedido.TrocaService;
 
 @Controller
@@ -27,6 +29,8 @@ public class AdminTrocaController {
 	private TrocaService service;
 	@Autowired
 	private EstoqueService estoqueService;
+	@Autowired
+	private CupomService cupomService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView trocas() {
@@ -35,7 +39,7 @@ public class AdminTrocaController {
 		mv = new ModelAndView("admin/trocas/index", "trocas", trocas);
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public ModelAndView troca(@PathVariable("id") Long id) {
 		ModelAndView mv;
@@ -43,18 +47,20 @@ public class AdminTrocaController {
 		mv = new ModelAndView("admin/trocas/ver-troca", "troca", troca);
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "atualizarTroca", method = RequestMethod.POST)
 	public ModelAndView atualizarTroca(@ModelAttribute("troca") Troca troca, HttpServletRequest request) {
 		ModelAndView mv;
 		Troca t = service.consultar(troca.getId());
 		t.setStatus(EnumStatusTroca.valueOf(troca.getStatus()).toString());
-		t.setMensagemAdmin(troca.getMensagemAdmin());
+
 		Pedido p = t.getItem().getItem().getPedido();
 		if (troca.getStatus().equals(EnumStatusTroca.valueOf("APROVADA").toString())) {
+			t.setMensagemAdmin(troca.getMensagemAdmin());
 			p.setStatus(EnumStatusPedido.valueOf("TROCA_AUTORIZADA").toString());
 		}
 		if (troca.getStatus().equals(EnumStatusTroca.valueOf("RECUSADA").toString())) {
+			t.setMensagemAdmin(troca.getMensagemAdmin());
 			p.setStatus(EnumStatusPedido.valueOf("TROCA_NAO_AUTORIZADA").toString());
 		}
 		if (troca.getStatus().equals(EnumStatusTroca.valueOf("ITEM_RECEBIDO").toString())) {
@@ -63,10 +69,13 @@ public class AdminTrocaController {
 				item.setQuantidade(item.getQuantidade() + t.getItem().getQuantidade());
 				estoqueService.salvar(item);
 			}
-			p.setStatus(EnumStatusPedido.valueOf("EM_TROCA").toString());
+			Cupom cupom = new Cupom(t);
+			cupomService.salvar(cupom);
+			p.setStatus(EnumStatusPedido.valueOf("ENTREGUE").toString());
+			t.setStatus(EnumStatusTroca.valueOf("CONCLUIDA").toString());
 		}
 		if (troca.getStatus().equals(EnumStatusTroca.valueOf("CUPOM_GERADO").toString())) {
-			p.setStatus(EnumStatusPedido.valueOf("TROCA_CONCLUIDA").toString());
+			p.setStatus(EnumStatusPedido.valueOf("ENTREGUE").toString());
 		}
 		service.salvar(t);
 		String referer = request.getHeader("Referer");

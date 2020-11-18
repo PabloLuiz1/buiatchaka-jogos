@@ -185,7 +185,7 @@
 										value="Pedido entregue">
 								</form>
 							</div>
-							<div th:if="${pedido.status eq 'EM_TROCA'}">
+							<div th:if="${pedido.status eq 'TROCA_SOLICITADA'}">
 								Foi feita uma solicitação de troca para os seguintes itens do
 								pedido:
 								<table
@@ -239,7 +239,7 @@
 							<div th:if="${pedido.status eq 'TROCA_AUTORIZADA'}">
 								Ao clicar em "Gerar cupom de troca", você gera um cupom de troca
 								para o cliente com o valor total dos itens em troca e atualiza o
-								status do pedido para "TROCA CONCLUÍDA".
+								status do pedido para "ENTREGUE".
 
 								<form class="mt-4" method="POST"
 									action="/admin/pedidos/atualizarPedido" modelAttribute="pedido">

@@ -24,7 +24,7 @@ public class ProdutoController {
 	public ModelAndView listar() {
 		ModelAndView mv;
 		List<Produto> produtos = service.listar();
-		mv = new ModelAndView("admin/produto/produtos", "produtos", produtos);
+		mv = new ModelAndView("admin/produtos/index", "produtos", produtos);
 		return mv;
 	}
 	
@@ -32,7 +32,7 @@ public class ProdutoController {
 	public ModelAndView inserir(@ModelAttribute("produto") Produto produto) {
 		ModelAndView mv;
 		service.salvar(produto);
-		mv = new ModelAndView("admin/produto/produtos", "produtos", produto);
+		mv = new ModelAndView("admin/produtos", "produtos", produto);
 		return mv;
 	}
 	
@@ -40,7 +40,7 @@ public class ProdutoController {
 	public ModelAndView find (@PathVariable Long id) {
 		ModelAndView mv;
 		Produto produto = service.consultar(id);
-		mv = new ModelAndView("admin/produto/ver-produto", "produto", produto);
+		mv = new ModelAndView("admin/produtos/ver-produto", "produto", produto);
 		return mv;
 	}
 	
@@ -48,7 +48,7 @@ public class ProdutoController {
 	public ModelAndView editar (@ModelAttribute("produto") Produto produto) {
 		ModelAndView mv;
 		service.salvar(produto);
-		mv = new ModelAndView("admin/produto/produtos", "produto", produto);
+		mv = new ModelAndView("admin/produtos/produtos", "produto", produto);
 		return mv;
 	}
 	

@@ -120,7 +120,7 @@
 										<td th:text="${item.item.produto.categoria.descricao}"></td>
 										<td th:text="${item.quantidade}"></td>
 										<td th:text="${'R$ ' + item.subtotal}"></td>
-										<td th:if="${pedido.status eq 'ENTREGUE' or pedido.status eq 'EM_TROCA'}">
+										<td th:if="${pedido.status eq 'ENTREGUE' or pedido.status eq 'EM_TROCA' or pedido.status eq 'TROCA_CONCLUIDA'}">
 												<a class="font-weight-bold" th:href="${'/troca/solicitar/' + item.id}">Solicitar troca</a>
 											</td>
 									</tr>

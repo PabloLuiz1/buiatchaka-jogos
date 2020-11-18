@@ -60,11 +60,11 @@
 								class="img-thumbnail" src="Produto 1" alt="Produto 1"
 								width="200" height="200"></td>
 							<td>
-								<form method="POST" action="/carrinho/quantidade" modelAttribute="itemCarrinho">
+								<form method="POST" action="/carrinho/quantidade">
 									<input type="hidden" th:value="${item.item.id}"
-										id="id" name="id">
+										id="idItem" name="idItem">
 										<span class="font-weight-bold">Quantidade</span>
-									<br> <select class="col-md-5" id="quantidade" name="quantidade" path="quantidade">
+									<br> <select class="col-md-5" id="quantidade" name="quantidade">
 										<option th:each="i : ${#numbers.sequence(1, item.quantidadeDisponivel - 1)}"
 											th:value="${i}" th:text="${i}"></option>
 									</select> <input type="submit">

@@ -16,6 +16,7 @@ import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cupom;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
+import br.edu.fatec.buiatchaka.dominio.enums.EnumStatusPedido;
 import br.edu.fatec.buiatchaka.sistema.logging.Log;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,6 +63,10 @@ public class Pedido extends EntidadeDominio {
 			i.setQuantidade(item.getQuantidade());
 			i.setSubtotal(item.getSubtotal());
 			itens.add(i);
+		}
+		
+		for (int i = 0; i < this.cupons.size(); i++) {
+			this.cupons.get(i).setAtivo(false);
 		}
 	}
 }

@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
 import br.edu.fatec.buiatchaka.dominio.EntidadeDominio;
+import br.edu.fatec.buiatchaka.dominio.enums.EnumStatusTroca;
 import lombok.Getter;
 import lombok.Setter;
 

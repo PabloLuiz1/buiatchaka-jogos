@@ -18,6 +18,24 @@ public class Produto extends EntidadeDominio{
 	@Column(nullable = false, columnDefinition = "text")
 	private String descricao;
 	@Column(nullable = false)
+	private String plataforma;
+	@Column(nullable = false)
+	private String genero;
+	@Column(nullable = false)
+	private int faixaEtaria;
+	@Column(nullable = false)
+	private int jogadoresOffline;
+	@Column(nullable = false)
+	private int jogadoresOnline;
+	@Column(nullable = false)
+	private String marca;
+	@Column(nullable = false)
+	private String tipoDeMidia;
+	@Column(nullable = false)
+	private double grupoPrecificacao;
+	@Column(nullable = false)
+	private String codigoDeBarras;
+	@Column(nullable = false)
 	private double precoCompra;
 	@Column(nullable = false)
 	private double precoVenda;

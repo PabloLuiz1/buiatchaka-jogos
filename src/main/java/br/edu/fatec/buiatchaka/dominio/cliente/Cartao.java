@@ -2,7 +2,6 @@ package br.edu.fatec.buiatchaka.dominio.cliente;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +26,4 @@ public class Cartao extends FormaPagamentoAbstract {
 	private String codigo;
 	@Column(nullable = false)
 	private String cpfTitular;
-	@ManyToOne
-	private Cliente cliente;
-	
 }

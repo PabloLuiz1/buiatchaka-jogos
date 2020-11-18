@@ -176,14 +176,19 @@ public class CarrinhoController {
 	}
 	
 	@RequestMapping(value = "/quantidade", method = RequestMethod.POST)
-	public ModelAndView quantidade (@ModelAttribute("itemCarrinho") ItemCarrinho itemCarrinho, @RequestParam("id") Long id, @RequestParam("quantidade") int quantidade) {
+	public ModelAndView quantidade (@RequestParam("idItem") Long idItem, @RequestParam("quantidade") int quantidade) {
 		ModelAndView mv;
-		ItemEstoque itemEstoque = estoqueService.consultar(id);
+		ItemEstoque itemEstoque = estoqueService.consultar(idItem);
+		ItemCarrinho itemCarrinho = null;
+		for (ItemCarrinho i : this.carrinho.getItens()) {
+			if (i.getItem().getId() == idItem)
+				itemCarrinho = i;
+		}
 		itemCarrinho.setItem(itemEstoque);
-		itemCarrinho.setQuantidade(itemCarrinho.getQuantidadeDisponivel() - 1);
+		itemCarrinho.setQuantidade(quantidade);
 		carrinho.devolverEstoque(itemCarrinho);
 		estoqueService.salvar(itemCarrinho.getItem());
-		itemEstoque = estoqueService.consultar(id);
+		itemEstoque = estoqueService.consultar(idItem);
 		itemCarrinho.setItem(itemEstoque);
 		itemCarrinho.setQuantidade(quantidade);
 		carrinho.retirarDoEstoque(itemCarrinho);
@@ -191,5 +196,4 @@ public class CarrinhoController {
 		mv = new ModelAndView("redirect:/carrinho");
 		return mv;
 	}
-	
 }

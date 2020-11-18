@@ -111,12 +111,12 @@ public class Carrinho extends EntidadeDominio {
 	}
 	
 	public void retirarDoEstoque(ItemCarrinho item) {
-		item.getItem().setQuantidade(item.getQuantidadeDisponivel() - item.getQuantidade());
+		item.getItem().setQuantidade(item.getItem().getQuantidade() - item.getQuantidade());
 		Log.loggar("RETIRANDO DO ESTOQUE\nTESTE DE QUANTIDADE DO ITEM NA CLASSE DE CARINHO: ITEM CARRINHO: " + item.getQuantidade() + " ITEM ESTOQUE: " + item.getItem().getQuantidade());
 	}
 	
 	public void devolverEstoque(ItemCarrinho item) {
-		item.getItem().setQuantidade(item.getQuantidadeDisponivel());
+		item.getItem().setQuantidade(item.getItem().getQuantidade() + item.getQuantidade());
 	}
 	
 	public boolean validarValorPago() {

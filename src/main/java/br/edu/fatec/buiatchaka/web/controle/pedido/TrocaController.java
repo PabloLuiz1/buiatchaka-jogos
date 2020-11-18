@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.edu.fatec.buiatchaka.dominio.pedido.EnumMotivoTroca;
+import br.edu.fatec.buiatchaka.dominio.enums.EnumMotivoTroca;
+import br.edu.fatec.buiatchaka.dominio.enums.EnumStatusPedido;
 import br.edu.fatec.buiatchaka.dominio.pedido.ItemPedido;
 import br.edu.fatec.buiatchaka.dominio.pedido.ItemTroca;
 import br.edu.fatec.buiatchaka.dominio.pedido.Troca;
@@ -33,7 +34,7 @@ public class TrocaController {
 			@RequestParam("mensagemCliente") String mensagemCliente) {
 		ModelAndView mv = null;
 		item.setPedido(pedidoService.consultar(idPedido));
-		item.getPedido().setStatus("EM_TROCA");
+		item.getPedido().setStatus(EnumStatusPedido.valueOf("TROCA_SOLICITADA").toString());
 		for (ItemPedido i : item.getPedido().getItens()) {
 			if (i.getId() == item.getId())
 				item = i;

@@ -1,5 +1,0 @@
-package br.edu.fatec.buiatchaka.dominio.pedido;
-
-public enum EnumStatusPedido {
-	EM_PROCESSAMENTO, EM_TRANSITO, ENTREGUE, TROCA_SOLICITADA, EM_TROCA, TROCA_AUTORIZADA, TROCA_NAO_AUTORIZADA, TROCA_CONCLUIDA;
-}
