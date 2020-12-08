@@ -25,39 +25,39 @@
       <div class="row mt-4">
         <div class="col-md-2">
           <div class="p-0 bg-light">
-            <h6>Fulano Cicrano Beltrano</h6>
-            <h6>fulano@gmail.com</h6>
+            <h6 th:text="${session?.admin?.nome}"></h6>
+            <h6 th:text="${session?.admin?.email}"></h6>
             <nav class="navbar bg-light">
               <ul class="navbar-nav">
                 <li class="nav-item">
                   <a class="nav-link" href="#">Início</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="perfil.html">Perfil</a>
+                  <a class="nav-link" href="admin/perfil">Perfil</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="produtos.html">Produtos</a>
+                  <a class="nav-link" href="admin/produtos">Produtos</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="estoque.html">Estoque</a>
+                  <a class="nav-link" href="admin/estoque">Estoque</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="clientes.html">Clientes</a>
+                  <a class="nav-link" href="admin/clientes">Clientes</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="pedidos.html">Pedidos</a>
+                  <a class="nav-link" href="admin/pedidos">Pedidos</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="trocas.html">Trocas</a>
+                  <a class="nav-link" href="admin/trocas">Trocas</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="cupons.html">Cupons</a>
+                  <a class="nav-link" href="admin/cupons">Cupons</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="usuarios.html">Usuários</a>
+                  <a class="nav-link" href="admin/usuarios">Usuários</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="logs.html">Logs</a>
+                  <a class="nav-link" href="admin/logs">Logs</a>
                 </li>
               </ul>
             </nav>

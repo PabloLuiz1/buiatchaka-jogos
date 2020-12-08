@@ -132,11 +132,14 @@ public class CarrinhoController {
 	}
 	
 	@RequestMapping(value = "/adicionarDoisCartoes", method = RequestMethod.POST)
-	public ModelAndView adicionarDoisCartoes(@ModelAttribute("cartao") Cartao cartao, @RequestParam(name = "valorAPagar") double valorAPagar) {
+	public ModelAndView adicionarDoisCartoes(@RequestParam("cartaoUm") Long idCartaoUm, @RequestParam("valorCartaoUm") double valorCartaoUm,
+											 @RequestParam("cartaoDois") Long idCartaoDois, @RequestParam("valorCartaoDois") double valorCartaoDois) {
 		ModelAndView mv;
-		Cartao c = cartaoService.consultar(cartao.getId());
-		carrinho.adicionarCartao(c, valorAPagar);
-		Log.loggar("TESTANDO O ADICIONARDOISCARTOES URI DA CARRINHO CONTROLLER VALOR A PAGAR: " + valorAPagar);
+		Cartao cartaoUm = cartaoService.consultar(idCartaoUm);
+		Cartao cartaoDois = cartaoService.consultar(idCartaoDois);
+		carrinho.adicionarCartao(cartaoUm, valorCartaoUm);
+		carrinho.adicionarCartao(cartaoDois, valorCartaoDois);
+		Log.loggar("TESTANDO O ADICIONARDOISCARTOES URI DA CARRINHO CONTROLLER VALOR A PAGAR: " + (valorCartaoUm + valorCartaoDois));
 		Log.loggar("TESTANDO O VALOR A PAGAR E O VALOR TOTAL DO CARRINHO VALOR A PAGAR: " + carrinho.getValorPago() + " VALOR TOTAL: " + carrinho.getTotal());
 		
 		mv = new ModelAndView("redirect:/carrinho/pagamento", "carrinho", carrinho);

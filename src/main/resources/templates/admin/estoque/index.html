@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
-<html lang="pt-br" xlmns:th:="http://www.thymeleaf.org">
+<html lang="pt-br">
 
 <head>
 <meta charset="utf-8">
 <title>BuiaTchaKa Games</title>
-<link rel="stylesheet" th:href="@{../css/reset.css}">
-<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{../css/font-awesome.min.css}">
+<link rel="stylesheet" th:href="@{../../css/reset.css}">
+<link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../../css/font-awesome.min.css}">
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
 	integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
@@ -34,12 +34,12 @@
 								<li class="nav-item"><a class="nav-link"
 									href="admin/perfil">Perfil</a></li>
 								<li class="nav-item"><a class="nav-link font-weight-bold"
-									href="#">Produtos</a></li>
+									href="admin/produtos">Produtos</a></li>
 								<li class="nav-item"><a class="nav-link"
 									href="admin/estoque">Estoque</a></li>
 								<li class="nav-item"><a class="nav-link"
 									href="admin/clientes">Clientes</a></li>
-								<li class="nav-item"><a class="nav-link" href="admin/pedidos">Pedidos</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">Pedidos</a></li>
 								<li class="nav-item"><a class="nav-link"
 									href="admin/trocas">Trocas</a></li>
 								<li class="nav-item"><a class="nav-link"
@@ -52,63 +52,37 @@
 						</nav>
 					</div>
 				</div>
-				<div class="col-md-8">
-					<form class="form-inline p-0 col-md-6 mb-2">
-						<input type="text" class="form-control col-md-6 form-control-sm"
-							placeholder="Pesquisar" id="search"> <input
-							type="checkbox" class="form-check-input ml-4" value="">Mostrar
-						inativos
-					</form>
+				<div class="col">
 					<table
 						class="table table-bordered table-hover table-responsive-md text-center">
 						<thead class="thead-dark font-weight-bold">
 							<th>#</th>
-							<th>Descrição</th>
-							<th>Plataforma</th>
+							<th>Produto</th>
 							<th>Categoria</th>
 							<th>Status</th>
-							<th>Detalhes</th>
-							<th>Editar</th>
-							<th>Excluir</th>
+							<th>Quantidade</th>
+							<th>Atualizar</th>
 						</thead>
-						<tbody id="produtos">
-							<tr th:each="produto: ${produtos}">
-								<td th:text="${produto.id}"></td>
-								<td th:text="${produto.nome}"></td>
-								<td th:text="${produto.plataforma}"></td>
-								<td th:text="${produto.categoria}"></td>
-								<td th:text="${produto.ativo}"></td>
-								<td><a class="font-weight-bold" th:href="${'/admin/produtos/' + produto.id}">Ver</a></td>
-								<td><a class="font-weight-bold" href="ver-produto.html">Editar</a></td>
-								<td><a class="font-weight-bold" href="ver-produto.html">Excluir</a></td>
+						<tbody id="itens">
+							<tr th:each="item: ${estoque}">
+								<td th:text="${item.id}"></td>
+								<td th:text="${item.produto.nome}"></td>
+								<td th:text="${item.produto.categoria}"></td>
+								<td th:text="${item.produto.ativo}"></td>
+								<td th:text="${item.quantidade}"></td>
+								<td><a class="font-weight-bold" th:href="${'estoque/' + item.id}">Atualizar</a></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-				<div class="col">
-					Ações recentes
-				</div>
+				<div class="col">Ações recentes</div>
 			</div>
 			<footer> Footer </footer>
 		</div>
+	</div>
 </body>
-<script src="../js/jquery.min.js"></script>
-<script src="../js/popper.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script>
-	$(document).ready(
-			function() {
-				$("#search").on(
-						"keyup",
-						function() {
-							var value = $(this).val().toLowerCase();
-							$("#produtos tr").filter(
-									function() {
-										$(this).toggle(
-												$(this).text().toLowerCase()
-														.indexOf(value) > -1)
-									});
-						});
-			});
-</script>
+<script th:src="@{../js/jquery.min.js}"></script>
+<script th:src="@{../js/popper.min.js}"></script>
+<script th:src="@{../js/bootstrap.min.js}"></script>
+
 </html>

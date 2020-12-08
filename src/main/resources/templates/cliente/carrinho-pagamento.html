@@ -147,7 +147,7 @@
 				</div>
 				<div
 					th:if="${not carrinho.validarValorPago()}">
-					<h4>Escolha a forma de pagamento</h4>
+					<h4>Escolha a forma de pagamento - Ainda falta <span th:text="'R$ ' + ${carrinho.total - carrinho.valorPago}"></span></h4>
 					<div class="row">
 						<div class="col-2">
 							<div class="nav flex-column nav-pills" id="v-pills-tab"
@@ -213,28 +213,32 @@
 										</div>
 										<div class="tab-pane container fade" id="menu1">
 											<h4>Selecione dois cartões:</h4>
-											<div class="card-columns">
-												<div class="card"
-													th:each="cartao: ${session?.cliente?.cartoes}">
-													<form method="POST" action="/carrinho/adicionarDoisCartoes"
-														modelAttribute="cartao">
-														<input type="hidden" name="id" id="id" path="id"
-															th:value="${cartao.id}">
-														<div class="card-body">
-															<h5 class="card-title"
-																th:text="'Final: ' + ${#strings.substring(cartao.numero, 12)} + ' - ' + ${cartao.bandeira}"></h5>
-															<div class="text-center">
-																<label for="valorAPagar">Valor a pagar: </label> <input
-																	type="number" name="valorAPagar" id="valorAPagar"
-																	class="form-control mb-2" min="10" step="0.1" required> <input
-																	class="btn btn-primary font-weight-bold pull-right"
-																	type="submit" value="Selecionar cartão"><br>
-															</div>
-														</div>
-													</form>
+											<form class="" method="POST" action="adicionarDoisCartoes">
+											<div class="row">
+												<div class="col">
+													<label for="cartaoUm" class="font-weight-bold">Cartão #1</label>
+													<select class="form-control" name="cartaoUm" id="cartaoUm">
+														<option th:each="cartao: ${session?.cliente?.cartoes}" th:value="${cartao.id}" 
+														th:text="'Final: ' + ${#strings.substring(cartao.numero, 12)} + ' - ' + ${cartao.bandeira}">
+													</select>
+													<label for="valorCartaoUm" class="font-weight-bold">Valor #1</label>
+													<input type="number" class="form-control" name="valorCartaoUm" id="valorCartaoUm" min="10" step="0.1"> 
 												</div>
 											</div>
-
+											<hr>
+											<div class="row">
+												<div class="col">
+													<label for="cartaoDois" class="font-weight-bold">Cartão #2</label>
+													<select class="form-control" name="cartaoDois" id="cartaoDois">
+														<option th:each="cartao: ${session?.cliente?.cartoes}" th:value="${cartao.id}" 
+														th:text="'Final: ' + ${#strings.substring(cartao.numero, 12)} + ' - ' + ${cartao.bandeira}">
+													</select>
+													<label for="valorCartaoDois" class="font-weight-bold">Valor #2</label>
+													<input type="number" class="form-control" name="valorCartaoDois" id="valorCartaoDois" min="10" step="0.1"> 
+												</div>
+											</div>
+											<input type="submit" class="font-weight-bold btn btn-primary mt-2 pull-right" value="Continuar">
+											</form>
 											<br>
 										</div>
 										<!-- 								<h4>Selecione um cartão:</h4> -->

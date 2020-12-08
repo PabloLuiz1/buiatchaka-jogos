@@ -14,4 +14,9 @@ import lombok.Setter;
 public class Categoria extends EntidadeDominio{
 	@Column(nullable = false)
 	private String descricao;
+	
+	@Override
+	public String toString() {
+		return descricao;
+	}
 }

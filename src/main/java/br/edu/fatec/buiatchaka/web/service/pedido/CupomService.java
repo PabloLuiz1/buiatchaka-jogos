@@ -32,6 +32,10 @@ public class CupomService {
 		return repo.findByCliente(cliente);
 	}
 	
+	public List<Cupom> listar(){
+		return repo.findAll();
+	}
+	
 	public void salvar (Cupom cupom) {
 		repo.save(cupom);
 	}

@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+
+<head>
+<meta charset="utf-8">
+<title>BuiaTchaKa Games</title>
+<link rel="stylesheet" th:href="@{../css/reset.css}">
+<link rel="stylesheet" th:href="@{../css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{../css/font-awesome.min.css}">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+	integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+	crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container-fluid p-0">
+		<header>
+			<div class="container-fluid p-1 border border-dark">
+				BuiaTchaKa Games | Dashboard <br>
+			</div>
+			<div class="container-fluid bg-light"></div>
+		</header>
+		<div class="container-fluid pl-0">
+			<div class="row mt-4">
+				<div class="col-md-2">
+					<div class="p-0 bg-light">
+						<h6 th:text="${session.admin?.nome}"></h6>
+						<h6 th:text="${session.admin?.email}"></h6>
+						<nav class="navbar bg-light">
+							<ul class="navbar-nav">
+								<li class="nav-item"><a class="nav-link" href="#">Início</a>
+								</li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/perfil">Perfil</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="#">Produtos</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/estoque">Estoque</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/clientes">Clientes</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/pedidos">Pedidos</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/trocas">Trocas</a></li>
+								<li class="nav-item"><a class="nav-link font-weight-bold"
+									href="#">Cupons</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="admin/usuarios">Usuários</a></li>
+								<li class="nav-item"><a class="nav-link" href="admin/logs">Logs</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<div class="col">
+					<table class="table table-bordered">
+						<thead class="thead thead-dark font-weight-bold bg-light">
+							<tr>
+								<th>#</th>
+								<th>Código</th>
+								<th>Data Vencimento</th>
+								<th>Valor</th>
+								<th>Detalhes</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="cupom: ${cupons}">
+								<td th:text="${cupom.id}"></td>
+								<td th:text="${cupom.codigo}"></td>
+								<td th:text="${cupom.dataVencimento}"></td>
+								<td th:text="${'R$ ' + cupom.valor}"></td>
+								<td><a class="font-weight-bold"
+									th:href="${'/perfil/cupons/' + cupom.id}">Detalhes</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col">Ações recentes</div>
+			</div>
+			<footer> Footer </footer>
+		</div>
+</body>
+<script th:src="@{../js/jquery.min.js}"></script>
+<script th:src="@{../js/popper.min.js}"></script>
+<script th:src="@{../js/bootstrap.min.js}"></script>
+</html>

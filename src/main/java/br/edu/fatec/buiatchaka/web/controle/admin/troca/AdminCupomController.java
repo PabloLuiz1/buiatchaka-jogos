@@ -1,5 +1,7 @@
 package br.edu.fatec.buiatchaka.web.controle.admin.troca;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,14 @@ public class AdminCupomController {
 		pedidoService.salvar(pedido);
 		String referer = request.getHeader("Referer");
 		mv = new ModelAndView("redirect:" + referer);
+		return mv;
+	}
+	
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public ModelAndView listar() {
+		ModelAndView mv;
+		List<Cupom> cupons = cupomService.listar();
+		mv = new ModelAndView("admin/cupons/index", "cupons", cupons);
 		return mv;
 	}
 }

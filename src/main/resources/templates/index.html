@@ -19,7 +19,7 @@
 			</div>
 			<div class="col text-right text-dark">
 				<span th:text="'Olá ' + ${session?.cliente?.nome} ?: 'visitante'"></span>
-				<a class="text-dark" href="#"
+				<a class="text-dark" href="/login"
 					th:text="${session?.cliente?.nome} ? 'Perfil' : 'Login | Cadastre-se'"></a> Carrinho
 					(vazio) </a>
 			</div>

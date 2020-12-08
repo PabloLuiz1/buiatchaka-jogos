@@ -13,7 +13,7 @@ import br.edu.fatec.buiatchaka.web.service.exceptions.ObjectNotFoundException;
 @Service
 public class ProdutoService {
 	@Autowired
-	ProdutoRepository repo;
+	private ProdutoRepository repo;
 	
 	public Produto consultar(Long id) {
 		Optional<Produto> produto = repo.findById(id);
@@ -27,5 +27,9 @@ public class ProdutoService {
 	
 	public List<Produto> listar(){
 		return repo.findAll();
+	}
+	
+	public void ativar (Produto produto) {
+		repo.ativarProduto(produto.isAtivo(), produto.getId());
 	}
 }

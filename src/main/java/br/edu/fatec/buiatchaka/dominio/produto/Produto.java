@@ -35,6 +35,7 @@ public class Produto extends EntidadeDominio{
 	private double grupoPrecificacao;
 	@Column(nullable = false)
 	private String codigoDeBarras;
+	private String razaoInativo;
 	@Column(nullable = false)
 	private double precoCompra;
 	@Column(nullable = false)
