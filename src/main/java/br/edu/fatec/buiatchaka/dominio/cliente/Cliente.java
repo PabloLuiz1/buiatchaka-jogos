@@ -2,10 +2,13 @@ package br.edu.fatec.buiatchaka.dominio.cliente;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import br.edu.fatec.buiatchaka.dominio.Usuario;
 import lombok.AllArgsConstructor;
@@ -23,12 +26,15 @@ import lombok.Setter;
 public class Cliente extends Usuario {
 	@Column(nullable = false, columnDefinition = "integer default 0")
 	private int qtdPedidos;
-	@OneToMany(mappedBy = "cliente")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos;
-	@OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Cartao> cartoes;
 	@Column(nullable = true)
-	@OneToMany(mappedBy = "cliente")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Cupom> cupons;
 	@Column(nullable = false)
 	private String telefone;

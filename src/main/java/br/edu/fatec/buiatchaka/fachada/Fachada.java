@@ -256,8 +256,8 @@ public class Fachada implements IFachada {
 			try {
 				dao.excluir(endereco);
 				System.out.println("Excluindo do banco");
-				consultar(endereco.getCliente()).getEntidades().get(0);
-				resultado.addEntidades(consultar(endereco.getCliente()).getEntidades().get(0));
+//				consultar(endereco.getCliente()).getEntidades().get(0);
+//				resultado.addEntidades(consultar(endereco.getCliente()).getEntidades().get(0));
 			} catch (Exception e) {
 				e.printStackTrace();
 				resultado.setMsg("Não foi possível realizar a consulta...");

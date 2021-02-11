@@ -27,6 +27,6 @@ public class CartaoService {
 	}
 	
 	public List<Cartao> listar(Cliente cliente) {
-		return repo.findAll();
+		return repo.findAll(cliente);
 	}
 }

@@ -52,6 +52,7 @@ public class EnderecoVH implements IViewHelper {
 		endereco.setEstado(request.getParameter("estado"));
 		Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
 		endereco.setCliente(cliente);
+		endereco.setAtivo(true);
 		return endereco;
 	}
 	
@@ -99,8 +100,8 @@ public class EnderecoVH implements IViewHelper {
 		if (resultado.getMsg() == "" || resultado.getMsg() == null) {
 			List<Endereco> enderecos = new ArrayList<Endereco>();
 			Cliente cliente = (Cliente) request.getSession().getAttribute("cliente");
-			request.getSession().setAttribute("cliente", resultado.getEntidades().get(0));
-			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
+//			request.getSession().setAttribute("cliente", resultado.getEntidades().get(0));
+//			request.setAttribute("endereco", (Endereco) resultado.getEntidades().get(0));
 			if (operacao.equals("SALVAR")) {
 				d = request.getRequestDispatcher("perfil");
 			}

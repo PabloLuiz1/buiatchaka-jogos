@@ -56,11 +56,13 @@
 				<div class="col-md-8">
 					<hr> 
 					<h3>Item no estoque: </h3>
+					<hr>
+					<h3>Produto: </h3>
 					<form class="row p-0" action="" method="POST" modelAttribute="produto">
 					<div class="col-md-6">
 						<input type="hidden" id="id" name="id" th:value="${item.produto.id}">
 						<label for="codigoDeBarras">Código de barras: </label>
-						<input type="text" class="form-control" id="codigoDeBarras" name="codigoDeBarras" path="codigoDeBarras" required>
+						<input type="text" class="form-control" id="codigoDeBarras" name="codigoDeBarras" path="codigoDeBarras" th:value="${item.produto.codigoDeBarras}" required>
 						<label for="nome">Nome: </label>
 						<input type="text" class="form-control" id="nome" name="nome" path="nome" th:value="${item.produto.nome}" required>
 						<label for="descricao">Descrição: </label>
@@ -68,73 +70,77 @@
 						<label for="plataforma">Plataforma: </label>
 						<select class="form-control" name="plataforma" id="plataforma" path="plataforma" required>
 							<option value="">Selecione</option>
-							<option value="PS4">PS4</option>
-							<option value="XBOX One">XBOX One</option>
-							<option value="PC">PC</option>
+							<option value="PS4" th:selected="${#strings.equalsIgnoreCase('PS4', item.produto.plataforma)}">PS4</option>
+							<option value="XBOX One" th:selected="${#strings.equalsIgnoreCase('XBOX One', item.produto.plataforma)}">XBOX One</option>
+							<option value="PC" th:selected="${#strings.equalsIgnoreCase('PC', item.produto.plataforma)}">PC</option>
 						</select>
 						<label for="genero">Gênero: </label>
 						<select class="form-control" name="genero" id="genero" path="genero" required>
 							<option value="">Selecione</option>
-							<option value="ACAO">Ação</option>
-							<option value="AVENTURA">Aventura</option>
-							<option value="SIMULADOR">Simulador</option>
-							<option value="CORRIDA">Corrida</option>
-							<option value="FPS">FPS</option>
+							<option value="ACAO" th:selected="${#strings.equalsIgnoreCase('Acao', item.produto.genero)}">Ação</option>
+							<option value="AVENTURA" th:selected="${#strings.equalsIgnoreCase('Aventura', item.produto.genero)}">Aventura</option>
+							<option value="SIMULADOR" th:selected="${#strings.equalsIgnoreCase('Simulador', item.produto.genero)}">Simulador</option>
+							<option value="CORRIDA" th:selected="${#strings.equalsIgnoreCase('Corrida', item.produto.genero)}">Corrida</option>
+							<option value="FPS" th:selected="${#strings.equalsIgnoreCase('FPS', item.produto.genero)}">FPS</option>
 						</select>
 						<label for="faixaEtaria">Faixa etária: </label>
 						<select class="form-control" name="faixaEtaria" id="faixaEtaria" path="faixaEtaria" required>
 							<option value="">Selecione</option>
-							<option value="0">Livre</option>
-							<option value="10">10 anos</option>
-							<option value="14">14 anos</option>
-							<option value="18">18 anos</option>
+							<option value="0" th:selected="${#strings.equalsIgnoreCase('0', item.produto.faixaEtaria)}">Livre</option>
+							<option value="10" th:selected="${#strings.equalsIgnoreCase('10', item.produto.faixaEtaria)}">10 anos</option>
+							<option value="14" th:selected="${#strings.equalsIgnoreCase('14', item.produto.faixaEtaria)}">14 anos</option>
+							<option value="18" th:selected="${#strings.equalsIgnoreCase('18', item.produto.faixaEtaria)}">18 anos</option>
 						</select>
 						<label for="jogadoresOffline">Nº jogadores offline: </label>
-						<input type="number" class="form-control" name="jogadoresOffline" id="jogadoresOffline" path="jogadoresOffline" min="1" max="300" required>
+						<input type="number" class="form-control" name="jogadoresOffline" id="jogadoresOffline" path="jogadoresOffline" min="1" max="300" th:value="${item.produto.jogadoresOffline}" required>
 						<label for="jogadoresOnline">Nº jogadores online: </label>
-						<input type="number" class="form-control" name="jogadoresOnline" id="jogadoresOnline" path="jogadoresOnline" min="0" max="300" required>
+						<input type="number" class="form-control" name="jogadoresOnline" id="jogadoresOnline" path="jogadoresOnline" min="0" max="300" th:value="${item.produto.jogadoresOnline}" required>
 					</div>
 					<div class="col-md-6">
 						<label for="marca">Marca/estúdio: </label>
 						<select class="form-control" name="marca" id="marca" path="marca" required>
 							<option value="">Selecione</option>
-							<option value="ROCKSTAR">Rockstar</option>
-							<option value="CODEMASTERS">Codemasters</option>
-							<option value="ELETRONIC ARTS">Eletronic Arts</option>
-							<option value="SONY">Sony</option>
-							<option value="VALVE">Valve</option>
-							<option value="SCS SOFTWARE">SCS Software</option>
-							<option value="SQUARE ENIX">Square Enix</option>
+							<option value="Rockstar" th:selected="${#strings.equalsIgnoreCase('Rockstar', item.produto.marca)}">Rockstar</option>
+							<option value="Codemasters" th:selected="${#strings.equalsIgnoreCase('Codemasters', item.produto.marca)}">Codemasters</option>
+							<option value="Eletronic Arts" th:selected="${#strings.equalsIgnoreCase('Eletronic Arts', item.produto.marca)}">Eletronic Arts</option>
+							<option value="Sony" th:selected="${#strings.equalsIgnoreCase('Sony', item.produto.marca)}">Sony</option>
+							<option value="Valve" th:selected="${#strings.equalsIgnoreCase('Valve', item.produto.marca)}">Valve</option>
+							<option value="SCS Software" th:selected="${#strings.equalsIgnoreCase('SCS Software', item.produto.marca)}">SCS Software</option>
+							<option value="Square Enix" th:selected="${#strings.equalsIgnoreCase('Square Enix', item.produto.marca)}">Square Enix</option>
 						</select>
 						<label for="categoria">Categoria: </label>
 						<select class="form-control" name="categoria" id="categoria" path="categoria" required>
 							<option value="">Selecione</option>
-							<option value="Jogos para PS4">Jogos para PS4</option>
-							<option value="Jogos para PC">Jogos para PC</option>
-							<option value="Jogos para XBOX One">Jogos para XBOX One</option>
+							<option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria}" th:selected="${categoria.id==item.produto.categoria.id}"></option>
 						</select>
 						<label for="tipoDeMidia">Tipo de mídia: </label>
 						<select class="form-control" name="tipoDeMidia" id="tipoDeMidia" path="tipoDeMidia" required>
 							<option value="">Selecione</option>
-							<option value="CD">CD</option>
-							<option value="DVD">DVD</option>
-							<option value="BLURAY">DVD-BLURAY</option>
+							<option value="CD" th:selected="${#strings.equalsIgnoreCase('CD', item.produto.tipoDeMidia)}">CD</option>
+							<option value="DVD" th:selected="${#strings.equalsIgnoreCase('DVD', item.produto.tipoDeMidia)}">DVD</option>
+							<option value="BLURAY" th:selected="${#strings.equalsIgnoreCase('BLURAY', item.produto.tipoDeMidia)}">DVD-BLURAY</option>
 						</select>
 						<label for="precoCompra">Preço de compra: </label>
-						<input type="number" class="form-control" id="precoCompra" name="precoCompra" path="precoCompra" th:value="${produto.precoCompra}" required>
-						<label for="precificacao">Precificação: </label>
-						<input type="number" class="form-control" name="precificacao" id="precificacao" path="precificacao" max="300" min="1" step="0.01" required>
+						<input type="number" class="form-control" id="precoCompra" name="precoCompra" path="precoCompra" th:value="${item.produto.precoCompra}" required>
+						<label for="grupoPrecificacao">Precificação: </label>
+						<input type="number" class="form-control" name="grupoPrecificacao" id="grupoPrecificacao" path="grupoPrecificacao" max="300" min="1" step="0.01" th:value="${item.produto.grupoPrecificacao}" required>
 						<label for="precoVenda">Preço de venda: </label>
-						<input type="number" class="form-control" id="precoVenda" name="precoVenda" path="precoVenda" th:value="${produto.precoVenda}" required disabled>
+						<input type="number" class="form-control" id="precoVenda" name="precoVenda" path="precoVenda" th:value="${item.produto.precoVenda}" required disabled>
 						<label for="ativo">Ativo: </label>
 						<select class="form-control" id="ativo" name="ativo" path="ativo" required>
 							<option value="">Selecione</option>
-							<option value="true">Sim</option>
-							<option value="false">Não</option>
+							<option value="true" th:selected="${item.produto.ativo}">Sim</option>
+							<option value="false" th:selected="${!item.produto.ativo}">Não</option>
 						</select>
 						<br>
-						<input type="submit" class="btn btn-success font-weight-bold pull-right" value="Salvar">
 					</div>
+					</form>
+					<hr>
+					<h3>Quantidade: </h3>
+					<form class="" method="POST" action="">
+						<input type="hidden" name="idItem" id="idItem" th:value="${item.id}">
+						<input type="number" name="quantidade" id="quantidade" class="form-control" th:value="${item.quantidade}">
+						<input type="submit" class="btn btn-success font-weight-bold pull-right mt-2" value="Salvar">
 					</form>
 				</div>
 				<div class="col">

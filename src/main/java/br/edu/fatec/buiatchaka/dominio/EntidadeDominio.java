@@ -22,6 +22,6 @@ public class EntidadeDominio {
 	@Column(nullable = true, columnDefinition = "date default 'now()'")
 	private LocalDate dataCadastro = LocalDate.now();
 	@Column(nullable = true, columnDefinition = "boolean default true")
-	private boolean ativo;
+	private boolean ativo = true;
 
 }

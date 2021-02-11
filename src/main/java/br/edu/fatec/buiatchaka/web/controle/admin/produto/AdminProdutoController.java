@@ -70,6 +70,8 @@ public class AdminProdutoController {
 	@RequestMapping(value = "{id}", method = RequestMethod.POST)
 	public ModelAndView alterar (@ModelAttribute Produto produto) {
 		ModelAndView mv;
+		double precoVenda = (produto.getPrecoCompra() * 2) + produto.getGrupoPrecificacao();
+		produto.setPrecoVenda(precoVenda);
 		produtoService.salvar(produto);
 		Produto p = produtoService.consultar(produto.getId());
 		List<Categoria> categorias = categoriaService.listar();

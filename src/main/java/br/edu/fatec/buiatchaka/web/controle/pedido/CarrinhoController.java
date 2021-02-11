@@ -43,7 +43,6 @@ public class CarrinhoController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public ModelAndView carrinho () {
 		ModelAndView mv;
-		Log.loggar("O carrinho tá vazio? RESPOSTA: " + carrinho.getItens().isEmpty());
 		mv = new ModelAndView("cliente/carrinho", "carrinho", carrinho);
 		return mv;
 	}
@@ -77,7 +76,6 @@ public class CarrinhoController {
 	public ModelAndView removerItem(@ModelAttribute("itemCarrinho") ItemCarrinho item) {
 		ModelAndView mv;
 		carrinho.removerItem(item);
-		Log.loggar("Testando o NULLPOINTER da URI /remover - ItemID: " + item.getItem().getId());
 		mv = new ModelAndView("redirect:/carrinho", "carrinho", carrinho);
 		return mv;
 	}
@@ -99,7 +97,6 @@ public class CarrinhoController {
 	
 	@RequestMapping(value = "/entrega", method = RequestMethod.POST)
 	public ModelAndView processarEntrega(@ModelAttribute("endereco") Endereco endereco) {
-		Log.loggar("Passando o ID do endereço: ID: " + endereco.getId());
 		Endereco e = enderecoService.consultar(endereco.getId());
 		carrinho.setEndereco(e);
 		ModelAndView mv;
@@ -139,9 +136,6 @@ public class CarrinhoController {
 		Cartao cartaoDois = cartaoService.consultar(idCartaoDois);
 		carrinho.adicionarCartao(cartaoUm, valorCartaoUm);
 		carrinho.adicionarCartao(cartaoDois, valorCartaoDois);
-		Log.loggar("TESTANDO O ADICIONARDOISCARTOES URI DA CARRINHO CONTROLLER VALOR A PAGAR: " + (valorCartaoUm + valorCartaoDois));
-		Log.loggar("TESTANDO O VALOR A PAGAR E O VALOR TOTAL DO CARRINHO VALOR A PAGAR: " + carrinho.getValorPago() + " VALOR TOTAL: " + carrinho.getTotal());
-		
 		mv = new ModelAndView("redirect:/carrinho/pagamento", "carrinho", carrinho);
 		return mv;
 	}

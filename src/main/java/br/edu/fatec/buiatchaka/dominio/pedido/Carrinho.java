@@ -14,7 +14,6 @@ import br.edu.fatec.buiatchaka.dominio.cliente.Cartao;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cliente;
 import br.edu.fatec.buiatchaka.dominio.cliente.Cupom;
 import br.edu.fatec.buiatchaka.dominio.cliente.Endereco;
-import br.edu.fatec.buiatchaka.sistema.logging.Log;
 import br.edu.fatec.buiatchaka.web.util.TimerCarrinho;
 import lombok.Getter;
 import lombok.Setter;
@@ -112,8 +111,7 @@ public class Carrinho extends EntidadeDominio {
 	
 	public void retirarDoEstoque(ItemCarrinho item) {
 		item.getItem().setQuantidade(item.getItem().getQuantidade() - item.getQuantidade());
-		Log.loggar("RETIRANDO DO ESTOQUE\nTESTE DE QUANTIDADE DO ITEM NA CLASSE DE CARINHO: ITEM CARRINHO: " + item.getQuantidade() + " ITEM ESTOQUE: " + item.getItem().getQuantidade());
-	}
+	} 
 	
 	public void devolverEstoque(ItemCarrinho item) {
 		item.getItem().setQuantidade(item.getItem().getQuantidade() + item.getQuantidade());

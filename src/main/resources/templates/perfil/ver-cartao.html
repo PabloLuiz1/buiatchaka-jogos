@@ -59,13 +59,6 @@
 					</nav>
 				</div>
 				<div class="col-md-10">
-					<h4>Você tem XX pontos. Seu nível é: XX.</h4>
-					<!-- Nav pills -->
-					<ul class="nav nav-pills">
-						<li class="nav-item"><a class="nav-link active"
-							data-toggle="pill" href="#menu2">Alterar endereço</a></li>
-					</ul>
-
 					<!-- Tab panes -->
 					<div class="tab-content">
 						<div class="row">
@@ -76,20 +69,21 @@
 								</div>
 							</div>
 						</div>
-						<form class="row" method="POST" action="ControleCartao" modelAttribute="cartao">
+						<form class="row" method="POST" action="" modelAttribute="cartao">
+							<input type="hidden" name="id" id="id" path="id" th:value="${cartao.id}">
 							<div class="col-md-6">
-								<label for="numeroCartao">Número do cartão: </label> <input
-									type="text" name="numeroCartao" class="form-control"
-									th:value="${cartao?.numero}"> <br> <label
+								<label for="numero">Número do cartão: </label> <input
+									type="text" name="numero" id="numero" class="form-control"
+									th:value="${cartao?.numero}" path="numero" required> <br> <label
 									for="bandeira">Bandeira: </label> <select class="form-control"
-									id="bandeira" name="bandeira" required>
+									id="bandeira" name="bandeira" path="bandeira" required>
 									<option value="">Selecione</option>
 									<option value="MASTERCARD">MasterCard</option>
 									<option value="VISA">VISA</option>
 									<option value="AMERICANEXPRESS">American Express</option>
 								</select> <label for="nomeTitular">Nome do titular (como escrito
 									no cartão):</label> <input type="text" name="nomeTitular"
-									class="form-control" th:value="${cartao?.nomeTitular}" required>
+									class="form-control" th:value="${cartao?.nomeTitular}" path="nomeTitular" required>
 								<br> <label for="dataVencimento">Data de vencimento
 									(Mês/Ano):</label> <br> <select class="col-md-2" id="mes"
 									name="mes" required>
@@ -119,13 +113,12 @@
 									<option value="2030">30</option>
 								</select> <br> <br> <label for="cvv">Código de
 									segurança: </label> <input type="text" name="codigo" id="codigo"
-									class="form-control col-md-4" th:value="${cartao?.codigo}"
+									class="form-control col-md-4" th:value="${cartao?.codigo}" path="codigo"
 									required> <br> <label for="cpfTitular">CPF
 									do titular: </label> <input type="text" name="cpfTitular"
-									id="cpfTitular" class="form-control" th:value="${cartao?.cpf}"
-									required> <br> <input type="submit" id="operacao"
-									name="operacao"
-									class="btn btn-success font-weight-bold pull-left"
+									id="cpfTitular" class="form-control" th:value="${cartao?.cpfTitular}" path="cpfTitular"
+									required> <br> 
+									<input type="submit" class="btn btn-success font-weight-bold pull-left"
 									value="SALVAR" />
 							</div>
 						</form>

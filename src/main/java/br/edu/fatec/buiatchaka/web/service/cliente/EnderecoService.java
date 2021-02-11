@@ -23,12 +23,18 @@ public class EnderecoService {
 				() -> new ObjectNotFoundException("Item não encontrado. Tipo: " + Endereco.class.getName()));
 	}
 	
+	public void excluir (Long id) {
+		Endereco endereco = consultar(id);
+		endereco.setAtivo(false);
+		repo.save(endereco);
+	}
+	
 	public void salvar(Endereco endereco) {
 		repo.save(endereco);
 	}
 	
 	public List<Endereco> listar(Cliente cliente) {
-		return repo.findAll();
+		return repo.findAll(cliente);
 	}
 
 }

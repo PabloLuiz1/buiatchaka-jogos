@@ -84,35 +84,32 @@
 									</div>
 								</div>
 							</div>
-							<form class="row" method="POST" action="ControleCliente">
+							<form class="row" method="POST" action="" modelAttribute="cliente">
+								<input type="hidden" name="id" id="id" th:value="${session.cliente?.id}" path="id">
 								<div class="col">
 									<label for="nome">Nome completo:</label> <input type="text"
 										class="form-control" name="nome" id="nome"
-										th:value="${session.cliente?.nome}" required /> <br> <label
+										th:value="${session.cliente?.nome}" path="nome" required /> <br> <label
 										for="cpf">RG: </label> <input class="form-control" type="text"
-										name="rg" id="rg" th:value="${session.cliente?.rg}" required>
-									<br> <label for="cpf">CPF: </label> <input
-										class="form-control" type="text" name="cpf" id="cpf"
-										th:value="${session.cliente?.cpf}" required> <br>
+										name="rg" id="rg" th:value="${session.cliente?.rg}" path="rg" required>
+									<br> <label for="cpf">CPF: </label> <span th:text="${session.cliente?.cpf}" path="cpf"></span> <br>
 									<label for="telefone">Telefone: </label> <input type="tel"
 										class="form-control" name="telefone" id="telefone"
-										th:value="${session.cliente?.telefone}" required> <br>
-									<label for="dataNascimento">Data de nascimento: </label> <input
-										type="date" class="form-control" max="2020-08-31"
-										min="1900-01-01" name="dataNascimento" id="dataNascimento"
-										th:value="${session.cliente?.dataNascimento}" required>
+										th:value="${session.cliente?.telefone}" path="telefone" required> <br>
+									<label for="dataNascimento">Data de nascimento: </label> <span
+										th:text="${session.cliente?.dataNascimento}" path="dataNascimento"></span>
 								</div>
 								<div class="col">
 									<label for="genero">Gênero: </label> <select
-										class="form-control" name="genero" id="genero" required>
+										class="form-control" name="genero" id="genero" path="genero" required>
 										<option value="MASCULINO">Masculino</option>
 										<option value="FEMININO">Feminino</option>
 									</select> <br> <label for="email">E-mail: </label> <input
 										class="form-control" type="email" name="email" id="email"
-										th:value="${session.cliente?.email}" required> <br>
+										th:value="${session.cliente?.email}" path="email" required> <br>
 									<input type="submit"
 										class="btn btn-success pull-right font-weight-bold"
-										name="operacao" id="operacao" value="ALTERAR">
+										name="operacao" id="operacao" value="SALVAR">
 								</div>
 							</form>
 						</div>
@@ -125,14 +122,15 @@
 									</div>
 								</div>
 							</div>
-							<form class="row" method="POST" action="ControleCliente">
+							<form class="row" method="POST" action="/perfil/atualizarSenha">
+							<input type="hidden" name="id" id="id" th:value="${session.cliente?.id}">
 								<div class="col-md-6">
-									<label for="senhaatual">Senha atual:</label> <br> <input
-										type="password" name="senhaatual" class="form-control"
-										required> <label for="novasenha">Nova senha:</label> <br>
-									<input type="password" name="novasenha" class="form-control"
+									<label for="senhaAtual">Senha atual:</label> <br> <input
+										type="password" id="senhaAtual" name="senhaAtual" class="form-control"
+										 required> <label for="senhaNova">Nova senha:</label> <br>
+									<input type="password" id="senhaNova" name="senhaNova" class="form-control"
 										required> <label for="confirmarsenha">Confirmar
-										senha:</label> <br> <input type="password" name="confirmarsenha"
+										senha:</label> <br> <input type="password" id="confirmarSenha" name="confirmarSenha"
 										class="form-control" required> <br> <input
 										type="submit"
 										class="btn btn-success pull-right font-weight-bold"
@@ -153,15 +151,14 @@
 										+ ${end.cep} + ' - ' + ${end.cidade} + ', ' + ${end.estado}">
 										</div>
 										<div class="card-footer">
-											<form method="POST" action="ControleEndereco">
+											<form method="POST" action="/perfil/enderecos/excluir">
 												<input type="hidden" th:value="${end.id}" id="endereco"
 													name="endereco"> <input type="submit"
 													class="btn btn-danger pull-left font-weight-bold"
-													id="operacao" name="operacao" value="EXCLUIR"> <input
-													type="hidden" th:value="${end.id}" id="endereco"
-													name="endereco"> <input type="submit"
+													id="operacao" name="operacao" value="EXCLUIR">
+													<a th:href="${'/perfil/enderecos/' + end.id}" 
 													class="btn btn-info pull-right font-weight-bold" id="operacao" name="operacao"
-													value="CONSULTAR">
+													>CONSULTAR</a>
 											</form>
 										</div>
 									</div>
@@ -176,32 +173,32 @@
 									</div>
 								</div>
 							</div>
-							<form class="row" method="POST" action="ControleEndereco">
+							<form class="row" method="POST" action="/perfil/enderecos/novo" modelAttribute="endereco">
 								<div class="col">
 									<label for="nome">Dê um nome para este endereço: </label> <input
 										class="form-control" type="text" name="nome" id="nome"
-										th:value="${endereco?.nome}" required> <br> <label
+										th:value="${endereco?.nome}" path="nome" required> <br> <label
 										for="cep">CEP: </label> <input class="form-control"
 										type="text" name="cep" id="cep" th:value="${endereco?.cep}"
-										required> <br> <label for="logradouro">Logradouro:
+										path="cep" required> <br> <label for="logradouro">Logradouro:
 									</label> <input class="form-control" type="text" name="logradouro"
-										id="logradouro" th:value="${endereco?.logradouro}" required>
+										id="logradouro" th:value="${endereco?.logradouro}" path="logradouro" required>
 									<br> <label for="numero">Número: </label> <input
 										class="form-control" type="text" name="numero" id="numero"
-										th:value="${endereco?.numero}" required> <br>
+										th:value="${endereco?.numero}" path="numero" required> <br>
 								</div>
 								<div class="col">
 									<label for="complemento">Complemento: </label> <input
 										class="form-control" type="text" name="complemento"
-										id="complemento" th:value="${endereco?.complemento}">
+										id="complemento" th:value="${endereco?.complemento}" path="complemento">
 									<br> <label for="bairro">Bairro: </label> <input
 										class="form-control" type="text" name="bairro" id="bairro"
-										th:value="${endereco?.bairro}" required> <br> <label
+										th:value="${endereco?.bairro}" path="bairro" required> <br> <label
 										for="cidade">Cidade: </label> <input class="form-control"
 										type="text" name="cidade" id="cidade"
-										th:value="${endereco?.cidade}" required> <br> <label
+										th:value="${endereco?.cidade}" path="cidade" required> <br> <label
 										for="estado">Estado: </label> <select class="form-control"
-										name="estado" id="estado" required>
+										name="estado" id="estado" path="estado" required>
 										<option value="">Selecione</option>
 										<option value="SP">SP</option>
 										<option value="RJ">RJ</option>
@@ -222,14 +219,12 @@
 										<div class="card-body"
 											th:text="'Final: ' + ${#strings.substring(cartao.numero, 12)} + ' - ' + ${cartao.bandeira}"></div>
 										<div class="card-footer">
-											<form method="POST" action="ControleCartao">
+											<form method="POST" action="/perfil/cartoes/excluir">
 												<input type="hidden" name="cartao" id="cartao"
 													th:value="${cartao.id}"> <input type="submit"
 													class="btn btn-danger pull-left font-weight-bold"
-													id="operacao" name="operacao" value="EXCLUIR"> <input
-													type="submit"
-													class="btn btn-info pull-right font-weight-bold"
-													id="operacao" name="operacao" value="EDITAR">
+													id="operacao" name="operacao" value="EXCLUIR"> <a th:href="${'/perfil/cartoes/' + cartao.id}"
+													class="btn btn-info pull-right font-weight-bold">CONSULTAR</a>
 											</form>
 										</div>
 									</div>
@@ -245,20 +240,20 @@
 									</div>
 								</div>
 							</div>
-							<form class="row" method="POST" action="ControleCartao">
+							<form class="row" method="POST" action="/perfil/cartoes/novo" modelAttribute="cartao">
 								<div class="col-md-6">
-									<label for="numeroCartao">Número do cartão: </label> <input
-										type="text" name="numeroCartao" class="form-control"
+									<label for="numero">Número do cartão: </label> <input
+										type="text" id="numero" name="numero" path="numero" class="form-control"
 										th:value="${cartao?.numero}"> <br> <label
 										for="bandeira">Bandeira: </label> <select class="form-control"
-										id="bandeira" name="bandeira" required>
+										id="bandeira" name="bandeira" path="bandeira" required>
 										<option value="">Selecione</option>
 										<option value="MASTERCARD">MasterCard</option>
 										<option value="VISA">VISA</option>
 										<option value="AMERICANEXPRESS">American Express</option>
 									</select> <label for="nomeTitular">Nome do titular (como escrito
 										no cartão):</label> <input type="text" name="nomeTitular"
-										class="form-control" th:value="${cartao?.titular}" required>
+										class="form-control" th:value="${cartao?.titular}" path="nomeTitular" required>
 									<br> <label for="dataVencimento">Data de
 										vencimento (Mês/Ano):</label> <br> <select class="col-md-2"
 										id="mes" name="mes" required>
@@ -288,10 +283,10 @@
 										<option value="2030">30</option>
 									</select> <br> <br> <label for="cvv">Código de
 										segurança: </label> <input type="text" name="codigo" id="codigo"
-										class="form-control col-md-4" th:value="${cartao?.codigo}"
+										class="form-control col-md-4" th:value="${cartao?.codigo}" path="codigo"
 										required> <br> <label for="cpfTitular">CPF
 										do titular: </label> <input type="text" name="cpfTitular"
-										id="cpfTitular" class="form-control" th:value="${cartao?.cpf}"
+										id="cpfTitular" class="form-control" th:value="${cartao?.cpf}" path="cpf"
 										required> <br> <input type="submit" id="operacao"
 										name="operacao"
 										class="btn btn-success font-weight-bold pull-left"
